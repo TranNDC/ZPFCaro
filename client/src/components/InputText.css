@@ -1,36 +1,34 @@
 @import url(//db.onlinewebfonts.com/c/623c7118249e082fe87a78e08506cb4b?family=Segoe+UI);
 
-.input-text{
-    width: 450px;
-    height: 70px;
+.input-text {
+    width: 350px;
+    height: 60px;
 }
-.input-text .input-group-prepend{
+
+.input-group-text {
+    margin-right: -1px;
+    padding: 0px 10px;
     text-align: center;
 }
-.input-text .input-group-prepend span{
-    width: 80px;    
+ 
+.input-text .input-group-prepend span {
+    width: 60px;    
     text-align: center; 
-    font-size: 35px;
-    display: flex;
-    align-items: center;  
-    justify-content: center;
     border-radius: 0;
     border-color: #F98D0F;
     background: white;
     color: #323232
-    /* margin-left: auto; */
-    /* margin-right: auto; */
-}
-.input-text input{
-    height: 70px;
-    border-radius: 0;
-    border-color: #F98D0F;
-    font-size: 24px;
-    font-family: 'Segoe UI' !important;
-    
 }
 
-.input-text input:focus{
+.input-text input {
+    height: 60px;
+    border-radius: 0;
+    border-color: #F98D0F;
+    font-size: 18px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.input-text input:focus  {
     box-shadow:0 0 0 0.2rem rgba(255, 158, 48, 0.425);
     border-color: #F98D0F;
 }

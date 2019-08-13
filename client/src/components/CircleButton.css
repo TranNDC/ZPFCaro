@@ -1,26 +1,32 @@
-.circleButton{
-    width: 60px;
-    height: 60px;
+.circleButton {
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     border: 3px solid #F98D0F;
     background: white;
     transition: 0.3s;
     color: #F98D0F;
+
 }
 
-.circleButton:hover,.circleButton:focus{
+.circleButton:hover,
+.circleButton:focus {
     background: rgb(230, 230, 230);
     background: #F98D0F;
     border: 3px solid #F98D0F;
-
     outline: none;
 }
 
-.circleButton:hover i,.circleButton:focus i{
+.circleButton:hover i,
+.circleButton:focus i {
     color:white;
 }
 
-.circleButton i{
+.circleButton i {
     color: #F98D0F;
     font-size: 35px;
+    width: 40px;
+    height: 40px;
+    margin-left: -10px;
+    margin-top: -4px
 }

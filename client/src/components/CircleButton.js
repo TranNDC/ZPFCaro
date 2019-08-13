@@ -1,46 +1,48 @@
 import React from 'react';
-
 import './CircleButton.css';
-
 import { Button } from 'react-bootstrap';
 
-class CircleButton extends React.Component{
+class CircleButton extends React.Component {
 
-    constructor(props){
-      super(props);
-    //   this.handleClick = this.handleClick.bind(this);
+    constructor(props) {
+        super(props);
+        // this.handleClick = this.handleClick.bind(this);
     }
   
-    handleClick = function(e){
-    //this.props.onChangeValue(e.target.value);
+    handleClick = function(e) {
+        //this.props.onChangeValue(e.target.value);
     }
   
-    render(){
+    render() {
         let classes = "circleButton";
-        let icon;
+        let icon = null;
+
         switch (this.props.type) {
-            case 'settings':
-                icon = <i class="fa fa-cog"></i>;
-                break;
             case 'profile':
                 icon = <i class="fa fa-user"></i>;
-                break;
-            case 'logout':
-                icon = <i class="material-icons">exit_to_app</i>;
-                break;
-            case 'info':
-                icon = <i class="fa fa-info"></i>;
                 break;
             case 'rules':
                 icon = <i class="fa fa-book"></i>;
                 break;
+            case 'info':
+                icon = <i class="fa fa-info"></i>;
+                break;
+            case "settings":
+                icon = <i class="fa fa-cog"></i>;
+                break;
+            case 'logout':
+                icon = <i class="material-icons">exit_to_app</i>;
+                break;
             default:
                 break;
         }
-      return (<Button className={classes}>
-       {this.props.icon}
-      </Button>);
-  }
+
+      return (
+        <Button className={classes}>
+            {icon}
+        </Button>
+      );
+    }
 }
 
 export default CircleButton;

@@ -2,23 +2,25 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './style.css';
 
-// import './index.css';
 import RectButton from './components/RectButton.js';
 import CircleButton from './components/CircleButton.js';
 import InputText from './components/InputText.js';
-// import * as serviceWorker from './serviceWorker';
 
-// ReactDOM.render(<RectButton text="button" textColor="black" background="gray" />, document.getElementById('root'));
+// -------------------------------
+// TEST RECTBUTTON
+// -------------------------------
+// ReactDOM.render(<RectButton text="button" background="gray" textColor="black" />, document.getElementById('root'));
+// background="gray" => Nếu không có background sẽ là màu cam
+// textColor="black" => Nếu không có chữ sẽ mang màu trắng
 
-// let iconSetting = <i class="fa fa-cog"></i>;
-// let iconUser = <i class="fa fa-user"></i>;
-// let iconLogout = <i class="material-icons">exit_to_app</i>;
-// let iconInfo = <i class="fa fa-info"></i>;
-// let iconInstruction = <i class="fa fa-book"></i>;
+// -------------------------------
+// TEST INPUTTEXT
+// -------------------------------
+// import IconUser from './media/icon-user.png';
+// ReactDOM.render(<InputText icon={IconUser} alt="icon-user" type="text" placeholder="Username" />, document.getElementById('root'));
 
+// -------------------------------
+// TEST HEADINGICON
+// -------------------------------
+ReactDOM.render(<CircleButton type="profile" />, document.getElementById('root'));
 
-// ReactDOM.render(<CircleButton icon={iconLogout} />, document.getElementById('root'));
-
-let iconUser = <i class='fa fa-user-o'></i>;
-
-ReactDOM.render(<InputText icon={iconUser} type="text" placeholder="Username" />, document.getElementById('root'));

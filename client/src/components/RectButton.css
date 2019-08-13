@@ -1,36 +1,37 @@
 @import url(//db.onlinewebfonts.com/c/623c7118249e082fe87a78e08506cb4b?family=Segoe+UI);
 
 .rect-btn {
-    width: 450px;
-    height: 70px;
+    width: 350px;
+    height: 60px;
     color: white;
     background-color: #F98D0F;
-    font-family: 'Segoe UI';
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     border: none;
     font-size: 24px;
     text-transform: uppercase;
+    margin-right: 10px;
 }
 
-.rect-btn:hover,.rect-btn:focus{
+.rect-btn:hover,
+.rect-btn:focus {
     background-color: rgb(204, 119, 21);
     outline-color: rgba(243, 148, 40, 0.575) !important;
 }
 
-
-
-.rect-btn.text-black{
+.rect-btn.text-black {
     color: black;
 }
 
-.rect-btn.background-gray{
+.rect-btn.background-gray {
     background: #E5E5E5;
 }
 
-.rect-btn.small-width{
-    width: 220px;
+.rect-btn.small-width {
+    width: 170px;
 }
 
-.rect-btn.background-gray:hover,.rect-btn.background-gray:focus{
+.rect-btn.background-gray:hover,
+.rect-btn.background-gray:focus {
     background-color: rgb(204, 204, 204);
     outline-color: rgba(229, 229, 229, 0.747) !important;
 }

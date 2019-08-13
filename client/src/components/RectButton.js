@@ -1,27 +1,27 @@
 import React from 'react';
-
 import './RectButton.css';
-
 import { Button } from 'react-bootstrap';
 
 class RectButton extends React.Component{
 
-    constructor(props){
+    constructor(props) {
       super(props);
-    //   this.handleClick = this.handleClick.bind(this);
+      // this.handleClick = this.handleClick.bind(this);
     }
   
-    handleClick = function(e){
-    //this.props.onChangeValue(e.target.value);
+    handleClick = function(e) {
+      // this.props.onChangeValue(e.target.value);
     }
-  
-    render(){
+
+    render() {
       let classes = "rect-btn";
-      if (this.props.textColor == 'black'){
-        classes+=" text-black small-width";
+      
+      if (this.props.textColor == 'black') {
+        classes += " text-black small-width";
       }
-      if (this.props.background == 'gray'){
-        classes+=" background-gray";
+
+      if (this.props.background == 'gray') {
+        classes += " background-gray";
       }
 
       return <Button className={classes}>{this.props.text}</Button>;
