@@ -1,0 +1,26 @@
+.circleButton{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid #F98D0F;
+    background: white;
+    transition: 0.3s;
+    color: #F98D0F;
+}
+
+.circleButton:hover,.circleButton:focus{
+    background: rgb(230, 230, 230);
+    background: #F98D0F;
+    border: 3px solid #F98D0F;
+
+    outline: none;
+}
+
+.circleButton:hover i,.circleButton:focus i{
+    color:white;
+}
+
+.circleButton i{
+    color: #F98D0F;
+    font-size: 35px;
+}
