@@ -1,6 +1,6 @@
 import React from 'react';
 import './InputText.css';
-import { InputGroup, FormControl, Button, Form, Container } from 'react-bootstrap';
+import { InputGroup, FormControl } from 'react-bootstrap';
 
 class InputText extends React.Component {
 
