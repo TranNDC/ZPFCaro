@@ -102,10 +102,10 @@ class InputText extends React.Component {
           type={type}
           pattern={pattern}
           title={title}
-          onChange={this.handleClick}
           required={required}
           min={minpts}
           max={maxpts}
+          onChange={this.handleClick}
         />
       </InputGroup>
     );  
