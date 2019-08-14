@@ -16,11 +16,12 @@ import InputText from './components/InputText.js';
 // -------------------------------
 // TEST INPUTTEXT
 // -------------------------------
-// import IconUser from './media/icon-user.png';
-// ReactDOM.render(<InputText icon={IconUser} alt="icon-user" type="text" placeholder="Username" />, document.getElementById('root'));
+// type: username | password | confirmedpassword | email | displayedname | roompassword | betpoints | roomname
+ReactDOM.render(<InputText type="username" />, document.getElementById('root'));
 
 // -------------------------------
 // TEST HEADINGICON
 // -------------------------------
-ReactDOM.render(<CircleButton type="profile" />, document.getElementById('root'));
+// type: profile | rules | info | settings | logout
+// ReactDOM.render(<CircleButton type="profile" />, document.getElementById('root'));
 

@@ -20,6 +20,11 @@
     color: #323232
 }
 
+.input-text .input-group-prepend span img {
+    width: 38px;    
+    height: 40px;
+}
+
 .input-text input {
     height: 60px;
     border-radius: 0;
@@ -31,4 +36,17 @@
 .input-text input:focus  {
     box-shadow:0 0 0 0.2rem rgba(255, 158, 48, 0.425);
     border-color: #F98D0F;
+}
+
+/* Hide scroll of input type number */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+/* Hide scroll of input type number */
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
 }

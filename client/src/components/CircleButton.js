@@ -15,7 +15,7 @@ class CircleButton extends React.Component {
   
     render() {
         let classes = "circleButton";
-        let icon = null;
+        let icon;
 
         switch (this.props.type) {
             case 'profile':
