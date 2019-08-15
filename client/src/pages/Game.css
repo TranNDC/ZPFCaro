@@ -1,0 +1,8 @@
+.border{
+    border: 1px solid white;
+    padding: 16px;
+}
+
+.user-info-container{
+    display: flex;
+}

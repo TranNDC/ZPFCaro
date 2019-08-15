@@ -7,7 +7,12 @@ import CircleButton from './components/CircleButton.js';
 import InputText from './components/InputText.js';
 import LogoTitle from './components/LogoTitle.js';
 import EditText from './components/EditText.js';
+import Slider from './components/Slider.js'
+import Message from './components/Message.js'
+import ChatFrame from './components/ChatFrame.js'
+import GameAvatar from './components/GameAvatar.js'
 
+import Game from './pages/Game.js'
 
 // -------------------------------
 // TEST RECTBUTTON
@@ -21,7 +26,7 @@ import EditText from './components/EditText.js';
 // TEST INPUTTEXT
 // -------------------------------
 // type: username | password | confirmedpassword | email | displayedname | roompassword | betpoints | roomname
-// ReactDOM.render(<InputText type="confirmedpassword" />, document.getElementById('root'));
+// ReactDOM.render(<InputText type="username" />, document.getElementById('root'));
 
 
 // -------------------------------
@@ -31,7 +36,7 @@ import EditText from './components/EditText.js';
 // ReactDOM.render(<EditText type="email" email="Kienquoctran08@gmail.com" />, document.getElementById('root'));
 // ReactDOM.render(<EditText type="displayedname" displayedname="Trần Kiến Quốc" />, document.getElementById('root'));
 // ReactDOM.render(<EditText type="password" />, document.getElementById('root'));
-ReactDOM.render(<EditText type="newpassword" />, document.getElementById('root'));
+// ReactDOM.render(<EditText type="newpassword" />, document.getElementById('root'));
 
 
 // -------------------------------
@@ -47,8 +52,60 @@ ReactDOM.render(<EditText type="newpassword" />, document.getElementById('root')
 // ReactDOM.render(<LogoTitle text="ZPF Caro" />, document.getElementById('root'));
 
 
-//.....
+// -------------------------------
+// SLIDER
+// -------------------------------
+// type: | sounds | media | 
+// ReactDOM.render(<Slider type="Media" />, document.getElementById('root'));
 
 
 
+// -------------------------------
+// MESSAGE
+// -------------------------------
+// type: | response | recieve | 
+// avatar: {avatarlink}
+// message
+// let avatar = require("./media/avatar.png")
+// ReactDOM.render(<Message type="response" avatar={avatar} message="Chị hiểu hông?" />, document.getElementById('root'));
+
+
+// -------------------------------
+// CHAT FRAME
+// -------------------------------
+// opponent {avatar, username,isHost}
+// messages {type, avatar, message}
+// let avatar = require("./media/avatar.png")
+
+// let opponent = {
+//     'avatar': {avatar},
+//     'username': 'Trann Nguyen',
+//     'isHost': 0
+// }
+
+// let messages = [
+//     {
+//         'type':'response',
+//         'avatar':avatar,
+//         'message':"hello What are you doing mannnn??"
+//     },
+//     {
+//         'type':'resquest',
+//         'avatar':avatar,
+//         'message':"hello What the heooo mann??ahoifshoiahfsoiahfsssssssss"
+//     }
+// ]
+
+// ReactDOM.render(<ChatFrame opponent={opponent} messages={messages} />, document.getElementById('root'));
+
+
+// -------------------------------
+// GAME AVATAR
+// -------------------------------
+// type: active
+// avatar
+// pattern
+// let avatar = require("./media/avatar.png")
+
+// ReactDOM.render(<GameAvatar type="active" avatar={avatar} pattern='x' />, document.getElementById('root'));
 

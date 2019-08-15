@@ -1,0 +1,39 @@
+.message-container{
+    position: relative;
+    display: flex;
+    margin: 8px 16px;
+}
+
+.avatar-div{
+    background: rgba(255, 255, 255, .25);
+    display: inline-block;
+    border-radius: 8px;
+    width: 60px !important;
+    height: 60px !important;
+}
+
+
+.message-div{
+    background: rgba(255, 255, 255, .25);
+    display: inline-block;
+    padding: 16px;
+    border-radius: 8px;
+    margin: 0px 8px;
+}
+.message-div p{
+    display: inline;
+    color: white;
+}
+
+.message-div p::first-letter{
+    text-transform: capitalize;
+}
+
+
+.message-container.response{
+    flex-direction: row-reverse;
+}
+
+.response .avatar-div,.response .message-div{
+    background: rgba(255, 255, 255, .45)
+}
