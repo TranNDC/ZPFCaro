@@ -2,15 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './style.css';
 
-import RectButton from './components/RectButton.js';
-import CircleButton from './components/CircleButton.js';
-import InputText from './components/InputText.js';
-import LogoTitle from './components/LogoTitle.js';
-import EditText from './components/EditText.js';
-import Slider from './components/Slider.js'
-import Message from './components/Message.js'
-import ChatFrame from './components/ChatFrame.js'
-import GameAvatar from './components/GameAvatar.js'
+import RectButton from './subcomponents/RectButton.js';
+import CircleButton from './subcomponents/CircleButton.js';
+import InputText from './subcomponents/InputText.js';
+import LogoTitle from './subcomponents/LogoTitle.js';
+import EditText from './subcomponents/EditText.js';
+import Slider from './subcomponents/Slider.js'
+import Message from './subcomponents/Message.js'
+import ChatFrame from './subcomponents/ChatFrame.js'
+import GameAvatar from './subcomponents/GameAvatar.js'
 
 import Game from './pages/Game.js'
 
@@ -57,7 +57,6 @@ import Game from './pages/Game.js'
 // -------------------------------
 // type: | sounds | media | 
 // ReactDOM.render(<Slider type="Media" />, document.getElementById('root'));
-
 
 
 // -------------------------------
@@ -108,4 +107,14 @@ import Game from './pages/Game.js'
 // let avatar = require("./media/avatar.png")
 
 // ReactDOM.render(<GameAvatar type="active" avatar={avatar} pattern='x' />, document.getElementById('root'));
+
+
+
+
+
+
+
+
+
+
 

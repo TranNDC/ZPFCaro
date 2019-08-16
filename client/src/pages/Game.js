@@ -1,6 +1,6 @@
-import ChatFrame from '../components/ChatFrame.js'
-import GameAvatar from '../components/GameAvatar.js'
-import Message from '../components/Message.js'
+import ChatFrame from '../subcomponents/ChatFrame.js'
+import GameAvatar from '../subcomponents/GameAvatar.js'
+import Message from '../subcomponents/Message.js'
 
 import './Game.css'
 
