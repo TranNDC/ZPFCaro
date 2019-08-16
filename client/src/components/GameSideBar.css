@@ -7,9 +7,6 @@
     display: flex;
 }
 
-.gsb-game-size-bar{
-    width: 30%;
-}
 
 .gsb-game-ava-container{
     width: 100%;
@@ -27,7 +24,7 @@
 
 .gsb-user-info-container .row{
     width: 100%;
-    height: 200px;
+    height: 160px;
 }
 
 .gsb-left{
@@ -36,4 +33,16 @@
 
 .gsb-right{
     margin-left: 8px;
+}
+
+.gsb-game-size-bar>.row{
+    margin:16px 0px !important;
+}
+
+.cfr-chat-frame .form-group{
+    margin:0;
+}
+
+.gsb-chat-container {
+    height: 460px !important;
 }

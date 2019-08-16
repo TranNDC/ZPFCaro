@@ -10,7 +10,7 @@ class ChatInput extends React.Component{
     render(){
         return(
             <FormGroup controlId="formBasicEmail">
-                <FormControl type="text" placeholder="Type a message..." />
+                <FormControl className="m-0" type="text" placeholder="Type a message..." />
             </FormGroup>
         );
     }

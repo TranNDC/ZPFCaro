@@ -1,6 +1,5 @@
-import ChatFrame from '../components/ChatFrame'
-import GameAvatar from '../subcomponents/GameAvatar.js'
-import Message from '../subcomponents/Message.js'
+import GameSideBar from '../components/GameSideBar'
+import GameBoard from '../components/GameBoard'
 
 import './Game.css'
 
@@ -36,38 +35,14 @@ let messages = [
 
 
         return (
-            <Container className="game " fluid={true}>
+            <Container className="game mt-5" fluid={true}>
                 <Row className="justify-content-center">
-                    <Col className="game-container border" xs={7}>
-
+                    <Col className="game-container border p-2" xs={8}>
+                        <GameBoard width={32} height={22}/>
                     </Col>
 
                     <Col className="info-container border" xs={3}>
-                        <div className="countdown-exitbtn"></div>
-                        <div className="betpoints"></div>
-                        <Container className="user-info-container">
-                            <Row>
-                                <Col sx={6}>
-                                    <GameAvatar
-                                        type="active"
-                                        avatar={avatar}
-                                        pattern='x' 
-                                    />
-                                </Col>
-                                <Col sx={6}>
-                                    <GameAvatar
-                                        avatar={avatar}
-                                        pattern='o' 
-                                    />
-                                </Col>
-                            </Row>
-                        </Container>
-                        <div className="chat-containter">
-                            <ChatFrame
-                                opponent={opponent}
-                                messages={messages} 
-                            />
-                        </div>
+                        <GameSideBar avatar={avatar} />
                     </Col>
                 </Row>
             </Container>

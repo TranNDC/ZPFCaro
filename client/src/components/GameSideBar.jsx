@@ -30,30 +30,47 @@ class GameSideBar extends React.Component {
         type: "resquest",
         avatar: avatar,
         message: "hello What the heooo mann??ahoifshoiahfsoiahfsssssssss"
+      },
+      {
+        type: "resquest",
+        avatar: avatar,
+        message: "hello What the heooo mann??ahoifshoiahfsoiahfsssssssss"
+      },
+      {
+        type: "response",
+        avatar: avatar,
+        message: "hello What are you doing mannnn??"
       }
     ];
     return (
-      <Container fluid={true} className="gsb-game-size-bar gsb-border" xs={3}>
-        <div className="row m-0 gsb-countdown-exitbtn w-100 flex-nowrap justify-content-center ">
-			<GameTime className="d-block gsb-left" value="10:00"/>
-			<BlackButton className="pl-3 pr-3 d-inline-block gsb-right" text="Exit"/>
-		</div>
+      <Container fluid={true} className="gsb-game-size-bar" xs={3}>
+        <div className="row gsb-countdown-exitbtn w-100 flex-nowrap justify-content-center ">
+          <GameTime className="d-block gsb-left" value="10:00" />
+          <BlackButton
+            className="pl-3 pr-3 d-inline-block gsb-right"
+            text="Exit"
+          />
+        </div>
+
         <div className="row betpoints">
-			<BetPoints value="1000 pts"/>
-		</div>
-		{/* //------------------------------------------ */}
-        <Container fluid={true} className="justify-content-center p-0 m-0 row gsb-user-info-container">
-          <Row className="d-flex m-0 justify-content-center">
+          <BetPoints value="1,000,000 pts" />
+        </div>
+
+        <Container
+          fluid={true}
+          className="justify-content-center p-0 row gsb-user-info-container"
+        >
+          <Row className="d-flex justify-content-center">
             <Col className="gsb-game-ava-container p-0 left" sx={6}>
-              <GameAvatar  type="active" avatar={avatar} pattern="x" />
+              <GameAvatar type="active" avatar={avatar} pattern="x" />
             </Col>
             <Col className="gsb-game-ava-container p-0 right" sx={6}>
               <GameAvatar avatar={avatar} pattern="o" />
             </Col>
           </Row>
         </Container>
-		{/* //------------------------------------------- */}
-        <div className="gsb-chat-containter">
+
+        <div className="gsb-chat-container">
           <ChatFrame opponent={opponent} messages={messages} />
         </div>
       </Container>

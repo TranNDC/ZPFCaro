@@ -1,0 +1,19 @@
+.gc-game-cell{
+    width: 36px;
+    height: 36px;
+    background: rgba(128, 119, 153, 0.438);
+    position: relative;
+}
+@import url('https://fonts.googleapis.com/css?family=Allerta+Stencil&display=swap');
+.gc-game-cell a{
+    align-content: center;
+    font-family: 'Allerta Stencil', sans-serif;
+    font-size: 48px;
+    position: absolute;
+    top:-24px;
+}
+
+
+.gc-game-cell.o{
+    color: white;
+}

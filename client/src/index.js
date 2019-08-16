@@ -9,12 +9,11 @@ import LogoTitle from './subcomponents/LogoTitle.js';
 import EditText from './subcomponents/EditText.js';
 import Slider from './subcomponents/Slider.js'
 import Message from './subcomponents/Message.js'
-<<<<<<< Updated upstream
-=======
 import ChatFrame from './components/ChatFrame'
->>>>>>> Stashed changes
-import GameAvatar from './subcomponents/GameAvatar.js'
+import GameAvatar from './subcomponents/GameAvatar'
+import GameCell from './subcomponents/GameCell'
 import Header from './components/Header'
+import GameBoard from './components/GameBoard'
 
 import GameSideBar from './components/GameSideBar';
 import Game from './pages/Game.js'
@@ -127,15 +126,32 @@ ReactDOM.render(<GameSideBar avatar={avatar} />, document.getElementById('root')
 
 
 
+// -------------------------------
+// GAME CELL
+// -------------------------------
+// patter: x | o
+
+// ReactDOM.render(<GameCell pattern='o' />, document.getElementById('root'));
 
 
 
+// -------------------------------
+// GAME BOARD
+// -------------------------------
+// patter: x | o
+
+ReactDOM.render(<GameBoard width={20} height={20} />, document.getElementById('root'));
 
 
+// -------------------------------
+// GAME 
+// -------------------------------
+
+ReactDOM.render(<Game  avatar={avatar}/>, document.getElementById('root'));
 
 
 
 // -------------------------------
 // TEST HEADER
 // -------------------------------
-ReactDOM.render(<Header />, document.getElementById('root'));
+// ReactDOM.render(<Header />, document.getElementById('root'));
