@@ -14,33 +14,30 @@ class CircleButton extends React.Component {
     }
   
     render() {
-        let classes = "circleButton";
-        let icon;
+        let classes = this.props.className + " circleButton ";
 
         switch (this.props.type) {
             case 'profile':
-                icon = <i class="fa fa-user"></i>;
+                classes += "fa fa-user";
                 break;
             case 'rules':
-                icon = <i class="fa fa-book"></i>;
+                classes += "fa fa-book";
                 break;
             case 'info':
-                icon = <i class="fa fa-info"></i>;
+                classes += "fa fa-info";
                 break;
             case "settings":
-                icon = <i class="fa fa-cog"></i>;
+                classes += "fa fa-cog";
                 break;
             case 'logout':
-                icon = <i class="material-icons">exit_to_app</i>;
+                classes += "fa fa-sign-out";
                 break;
             default:
                 break;
         }
 
       return (
-        <Button className={classes}>
-            {icon}
-        </Button>
+        <Button className={classes}></Button>
       );
     }
 }

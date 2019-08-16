@@ -1,0 +1,13 @@
+.headerLogo {
+    padding: 0px 0px 0px 25px;
+}
+
+.headerIcon {
+    padding: 0px 25px 0px 0px;
+    text-align: right !important;
+    padding-top: 5px;
+}
+
+.icon {
+    margin: 0px 8px;
+}

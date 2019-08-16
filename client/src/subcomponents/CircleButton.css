@@ -6,27 +6,21 @@
     background: white;
     transition: 0.3s;
     color: #F98D0F;
-
+    padding: 0;
 }
 
 .circleButton:hover,
-.circleButton:focus {
-    background: rgb(230, 230, 230);
-    background: #F98D0F;
-    border: 3px solid #F98D0F;
-    outline: none;
+.circleButton:focus,
+.circleButton:active {
+    background-color: rgb(249, 141, 15, .2) !important;
+    border: 3px solid #F98D0F !important;
+    box-shadow: 0 0 0 0.2rem rgba(249, 141, 15, .2) !important;
 }
 
-.circleButton:hover i,
-.circleButton:focus i {
-    color:white;
-}
-
-.circleButton i {
+.circleButton:before {
     color: #F98D0F;
-    font-size: 35px;
+    font-size: 25px;
+    margin-left: 1px;
     width: 40px;
     height: 40px;
-    margin-left: -10px;
-    margin-top: -4px
 }

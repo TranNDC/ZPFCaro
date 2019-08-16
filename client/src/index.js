@@ -9,10 +9,9 @@ import LogoTitle from './subcomponents/LogoTitle.js';
 import EditText from './subcomponents/EditText.js';
 import Slider from './subcomponents/Slider.js'
 import Message from './subcomponents/Message.js'
-import ChatFrame from './subcomponents/ChatFrame.js'
 import GameAvatar from './subcomponents/GameAvatar.js'
+import Header from './components/Header'
 
-import Game from './pages/Game.js'
 
 // -------------------------------
 // TEST RECTBUTTON
@@ -118,3 +117,7 @@ import Game from './pages/Game.js'
 
 
 
+// -------------------------------
+// TEST HEADER
+// -------------------------------
+ReactDOM.render(<Header />, document.getElementById('root'));
