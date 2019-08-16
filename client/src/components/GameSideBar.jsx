@@ -1,6 +1,9 @@
-import ChatFrame from "../subcomponents/ChatFrame";
+import ChatFrame from "./ChatFrame";
 import GameAvatar from "../subcomponents/GameAvatar";
 import Message from "../subcomponents/Message";
+import GameTime from "../subcomponents/GameTime";
+import BlackButton from "../subcomponents/BlackButton";
+import BetPoints from "../subcomponents/BetPoints";
 
 import "./GameSideBar.css";
 
@@ -31,9 +34,14 @@ class GameSideBar extends React.Component {
     ];
     return (
       <Container fluid={true} className="gsb-game-size-bar gsb-border" xs={3}>
-        <div className="row countdown-exitbtn" />
-        <div className="row betpoints" />
-		//------------------------------------------
+        <div className="row m-0 gsb-countdown-exitbtn w-100 flex-nowrap justify-content-center ">
+			<GameTime className="d-block gsb-left" value="10:00"/>
+			<BlackButton className="pl-3 pr-3 d-inline-block gsb-right" text="Exit"/>
+		</div>
+        <div className="row betpoints">
+			<BetPoints value="1000 pts"/>
+		</div>
+		{/* //------------------------------------------ */}
         <Container fluid={true} className="justify-content-center p-0 m-0 row gsb-user-info-container">
           <Row className="d-flex m-0 justify-content-center">
             <Col className="gsb-game-ava-container p-0 left" sx={6}>
@@ -44,7 +52,7 @@ class GameSideBar extends React.Component {
             </Col>
           </Row>
         </Container>
-		//-------------------------------------------
+		{/* //------------------------------------------- */}
         <div className="gsb-chat-containter">
           <ChatFrame opponent={opponent} messages={messages} />
         </div>

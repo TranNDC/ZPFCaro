@@ -9,6 +9,10 @@ import LogoTitle from './subcomponents/LogoTitle.js';
 import EditText from './subcomponents/EditText.js';
 import Slider from './subcomponents/Slider.js'
 import Message from './subcomponents/Message.js'
+<<<<<<< Updated upstream
+=======
+import ChatFrame from './components/ChatFrame'
+>>>>>>> Stashed changes
 import GameAvatar from './subcomponents/GameAvatar.js'
 import Header from './components/Header'
 

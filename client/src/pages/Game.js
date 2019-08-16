@@ -1,4 +1,4 @@
-import ChatFrame from '../subcomponents/ChatFrame.js'
+import ChatFrame from '../components/ChatFrame'
 import GameAvatar from '../subcomponents/GameAvatar.js'
 import Message from '../subcomponents/Message.js'
 

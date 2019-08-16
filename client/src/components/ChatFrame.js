@@ -1,5 +1,5 @@
-import Message from './Message.js'
-import BlackButton from './BlackButton.js'
+import Message from '../subcomponents/Message.js'
+import BlackButton from '../subcomponents/BlackButton.js'
 import React from 'react';
 import { FormGroup, FormControl } from 'react-bootstrap';
 
