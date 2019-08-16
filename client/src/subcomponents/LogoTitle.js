@@ -10,10 +10,10 @@ class LogoTitle extends React.Component {
 
     render() {
         return (
-            <div className="logo-title">
-                <img src={require("../media/logo.png")} alt="ZPF Caro Logo" />                
-                <div className="content-div">
-                    <span className="content">{this.props.text}</span>
+            <div className="lt-logotitle">
+                <img className="lt-img" src={require("../media/logo.png")} alt="ZPF Caro Logo" />                
+                <div className="lt-contentdiv">
+                    <span className="lt-content">{this.props.text}</span>
                 </div>
             </div>
         );
