@@ -12,6 +12,7 @@ import Message from './subcomponents/Message.js'
 import ChatFrame from './subcomponents/ChatFrame.js'
 import GameAvatar from './subcomponents/GameAvatar.js'
 
+import GameSideBar from './components/GameSideBar';
 import Game from './pages/Game.js'
 
 // -------------------------------
@@ -107,6 +108,18 @@ import Game from './pages/Game.js'
 // let avatar = require("./media/avatar.png")
 
 // ReactDOM.render(<GameAvatar type="active" avatar={avatar} pattern='x' />, document.getElementById('root'));
+
+
+
+// -------------------------------
+// GAME SIDE BAR
+// -------------------------------
+// type: active
+// avatar
+// pattern
+let avatar = require("./media/avatar.png")
+
+ReactDOM.render(<GameSideBar avatar={avatar} />, document.getElementById('root'));
 
 
 

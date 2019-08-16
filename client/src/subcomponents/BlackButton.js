@@ -14,7 +14,7 @@ class BlackButton extends React.Component {
     }
   
     render() {
-        let classes = "black-button";
+        let classes = "black-button " + this.props.className;
 
       return (
         <Button className={classes}>

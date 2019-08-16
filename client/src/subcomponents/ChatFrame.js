@@ -18,15 +18,18 @@ class ChatInput extends React.Component{
 
 
 class ChatFrame extends React.Component{
+    constructor(props) {
+        super(props);
+      }
 
     render() {
         return (
-            <div className='chat-frame'>
-                <div className="display-frame">
-                    <div className='title'>
+            <div className='cfr-chat-frame'>
+                <div className="cfr-display-frame">
+                    <div className='cfr-title'>
                         {this.props.opponent.username}
                     </div>
-                    <div className='message-frame'>
+                    <div className='cfr-message-frame'>
                         {this.props.messages.map((message,inderx) => {
                             return <Message
                             type={message.type}
@@ -36,9 +39,9 @@ class ChatFrame extends React.Component{
                         })}
                     </div>
                 </div>
-                <div className='input-frame'>
-                    <ChatInput/>
-                    <BlackButton text='>'/>
+                <div className='cfr-input-frame'>
+                    <ChatInput className="cfr-input"/>
+                    <BlackButton className="cfr-btn" text='>'/>
                 </div>
             </div>
         )
