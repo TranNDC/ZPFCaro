@@ -1,22 +1,22 @@
-.logo-title {
+.lt-logotitle {
     display: block;
     width: fit-content;
     height: 60px;
 }
 
-div img {
+.lt-img {
     width: 60px;
     height: 60px;
     float: left;
 }
 
-.content-div {
+.lt-contentdiv {
     height: 60px;
     vertical-align:middle;    
     display:table-cell;
 }
 
-.content {
+.lt-content {
     margin-left: 10px;
     height: 60px;
     font-size: 32px;

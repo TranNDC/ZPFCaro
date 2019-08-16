@@ -7,17 +7,15 @@ import CircleButton from './subcomponents/CircleButton.js';
 import InputText from './subcomponents/InputText.js';
 import LogoTitle from './subcomponents/LogoTitle.js';
 import EditText from './subcomponents/EditText.js';
-import Slider from './subcomponents/Slider.js'
-import Message from './subcomponents/Message.js'
-<<<<<<< Updated upstream
-=======
-import ChatFrame from './components/ChatFrame'
->>>>>>> Stashed changes
-import GameAvatar from './subcomponents/GameAvatar.js'
-import Header from './components/Header'
-
+import Slider from './subcomponents/Slider.js';
+import Message from './subcomponents/Message.js';
+import TableTitle from './subcomponents/TableTitle.js';
+import ChatFrame from './components/ChatFrame';
+import GameAvatar from './subcomponents/GameAvatar.js';
+import LeaderBoardInfoRow from './subcomponents/LeaderBoardInfoRow.js';
+import Header from './components/Header';
 import GameSideBar from './components/GameSideBar';
-import Game from './pages/Game.js'
+import Game from './pages/Game.js';
 
 // -------------------------------
 // TEST RECTBUTTON
@@ -121,9 +119,8 @@ import Game from './pages/Game.js'
 // type: active
 // avatar
 // pattern
-let avatar = require("./media/avatar.png")
-
-ReactDOM.render(<GameSideBar avatar={avatar} />, document.getElementById('root'));
+// let avatar = require("./media/avatar.png")
+// ReactDOM.render(<GameSideBar avatar={avatar} />, document.getElementById('root'));
 
 
 
@@ -138,4 +135,16 @@ ReactDOM.render(<GameSideBar avatar={avatar} />, document.getElementById('root')
 // -------------------------------
 // TEST HEADER
 // -------------------------------
-ReactDOM.render(<Header />, document.getElementById('root'));
+// ReactDOM.render(<Header />, document.getElementById('root'));
+
+
+// -------------------------------
+// TEST TABLETITLE
+// -------------------------------
+// ReactDOM.render(<TableTitle text="GAMEROOM" />, document.getElementById('root'));
+
+
+// -------------------------------
+// TEST LEADERBOARDINFOROW
+// -------------------------------
+ReactDOM.render(<LeaderBoardInfoRow rank="6" displayedname="Trần Kiến Quốc" points="600000" />, document.getElementById('root'));

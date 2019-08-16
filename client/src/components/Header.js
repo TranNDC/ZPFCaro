@@ -14,15 +14,15 @@ class Header extends React.Component {
         return (
             <Container fluid={true}>
                 <Row className="justify-content-center">
-                    <Col className="headerLogo" lg={3} md={3}>
+                    <Col className="h-logo" xs={3}>
                         <LogoTitle text="ZPF Caro" />
                     </Col>
-                    <Col className="headerIcon" lg={7} md={7}>
-                        <CircleButton type="profile" className="icon" />
-                        <CircleButton type="rules" className="icon" />
-                        <CircleButton type="info" className="icon" />
-                        <CircleButton type="settings" className="icon" />
-                        <CircleButton type="logout" className="icon" />
+                    <Col className="h-iconCol" xs={8}>
+                        <CircleButton type="profile" className="h-icon" />
+                        <CircleButton type="rules" className="h-icon" />
+                        <CircleButton type="info" className="h-icon" />
+                        <CircleButton type="settings" className="h-icon" />
+                        <CircleButton type="logout" className="h-icon" />
                     </Col>
                 </Row>
             </Container>
