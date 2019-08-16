@@ -1,10 +1,10 @@
-.message-container{
+.msg-message-container{
     position: relative;
     display: flex;
     margin: 8px 16px;
 }
 
-.avatar-div{
+.msg-avatar-div{
     background: rgba(255, 255, 255, .25);
     display: inline-block;
     border-radius: 8px;
@@ -13,27 +13,27 @@
 }
 
 
-.message-div{
+.msg-message-div{
     background: rgba(255, 255, 255, .25);
     display: inline-block;
     padding: 16px;
     border-radius: 8px;
     margin: 0px 8px;
 }
-.message-div p{
+.msg-message-div p{
     display: inline;
     color: white;
 }
 
-.message-div p::first-letter{
+.msg-message-div p::first-letter{
     text-transform: capitalize;
 }
 
 
-.message-container.response{
+.msg-message-container.response{
     flex-direction: row-reverse;
 }
 
-.response .avatar-div,.response .message-div{
+.response .msg-avatar-div,.response .msg-message-div{
     background: rgba(255, 255, 255, .45)
 }

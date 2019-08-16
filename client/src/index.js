@@ -12,6 +12,8 @@ import Message from './subcomponents/Message.js'
 import GameAvatar from './subcomponents/GameAvatar.js'
 import Header from './components/Header'
 
+import GameSideBar from './components/GameSideBar';
+import Game from './pages/Game.js'
 
 // -------------------------------
 // TEST RECTBUTTON
@@ -106,6 +108,18 @@ import Header from './components/Header'
 // let avatar = require("./media/avatar.png")
 
 // ReactDOM.render(<GameAvatar type="active" avatar={avatar} pattern='x' />, document.getElementById('root'));
+
+
+
+// -------------------------------
+// GAME SIDE BAR
+// -------------------------------
+// type: active
+// avatar
+// pattern
+let avatar = require("./media/avatar.png")
+
+ReactDOM.render(<GameSideBar avatar={avatar} />, document.getElementById('root'));
 
 
 

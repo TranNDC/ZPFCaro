@@ -68,7 +68,6 @@ let messages = [
                                 messages={messages} 
                             />
                         </div>
-
                     </Col>
                 </Row>
             </Container>

@@ -1,4 +1,4 @@
-.display-frame{
+.cfr-display-frame{
     background: rgba(0, 0, 0, 0.7);
     border-radius: 8px;
     color: white !important;
@@ -8,11 +8,11 @@
 
 }
 
-.message-frame{
+.cfr-message-frame{
     overflow-y: auto;
 }
 
-.title{
+.cfr-title{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: white;
     font-size: 32px;
@@ -21,20 +21,20 @@
     padding: 8px;
 }
 
-.input-frame{
+.cfr-input-frame{
     display: flex;
     width: 100% !important;
     margin-top: 8px;
 
 }
 
-.input-frame .form-group{
+.cfr-input-frame .form-group{
     width: 100%;
 }
 
 @import url('https://fonts.googleapis.com/css?family=Ruslan+Display&display=swap');
 
-.btn{
+.cfr-btn{
     float: right !important;
     height: 60px;
     width: 60px !important;
@@ -44,7 +44,7 @@
     
 }
 
-input{
+.cfr-input-frame input{
     background: rgba(0, 0, 0, 0.7) !important;
     font-size: 18px;
     border-color: white;
@@ -55,7 +55,7 @@ input{
 }
 
 
-input:focus{
+.cfr-input-frame input:focus{
     border-color: rgba(255,255, 255, 0.7) !important;
     box-shadow: 0 0 0 0.2rem rgba(255,255,255,.7)
 }

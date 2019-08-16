@@ -16,7 +16,7 @@ class RectButton extends React.Component{
       render() {
         return (
             <div>
-                <span className="label">{this.props.type}</span>
+                <span className="sd-label">{this.props.type}</span>
                 <InputRange
                     maxValue={100}
                     minValue={0}

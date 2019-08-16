@@ -5,12 +5,12 @@ import './GameAvatar.css';
 
 class GameAvatar extends React.Component{
     render(){
-        let classes = 'game-avatar-container '+this.props.type;
+        let classes = 'gameava-game-avatar-container '+this.props.type+' '+this.props.className;
         return(
             <div className={classes}>
-                <span className="overlay"></span>
-                <img className="game-avatar" src={this.props.avatar} alt={this.props.username}/>
-                <span class="pattern">{this.props.pattern}</span>
+                <span className="gameava-overlay"></span>
+                <img className="gameava-game-avatar" src={this.props.avatar} alt={this.props.username}/>
+                <span class="gameava-pattern">{this.props.pattern}</span>
             </div>        
         )
 
