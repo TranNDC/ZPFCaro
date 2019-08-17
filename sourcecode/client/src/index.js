@@ -2,24 +2,28 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './style.css';
 
-import RectButton from './subcomponents/RectButton.js';
-import CircleButton from './subcomponents/CircleButton.js';
-import InputText from './subcomponents/InputText.js';
-import LogoTitle from './subcomponents/LogoTitle.js';
-import EditText from './subcomponents/EditText.js';
+import RectButton from './subcomponents/RectButton';
+import CircleButton from './subcomponents/CircleButton';
+import InputText from './subcomponents/InputText';
+import LogoTitle from './subcomponents/LogoTitle';
+import EditText from './subcomponents/EditText';
 
-import GameCell from './subcomponents/GameCell'
-import GameBoard from './components/GameBoard'
+import GameCell from './subcomponents/GameCell';
+import GameBoard from './components/GameBoard';
 
-import Slider from './subcomponents/Slider.js';
-import Message from './subcomponents/Message.js';
-import TableTitle from './subcomponents/TableTitle.js';
+import Slider from './subcomponents/Slider';
+import Message from './subcomponents/Message';
+import TableTitle from './subcomponents/TableTitle';
 import ChatFrame from './components/ChatFrame';
-import GameAvatar from './subcomponents/GameAvatar.js';
-import LeaderBoardInfoRow from './subcomponents/LeaderBoardInfoRow.js';
+import GameAvatar from './subcomponents/GameAvatar';
+import LeaderBoardInfoRow from './subcomponents/LeaderBoardInfoRow';
+import UserAvatar from './subcomponents/UserAvatar';
+import UserInfoRow from './subcomponents/UserInfoRow';
 import Header from './components/Header';
 import GameSideBar from './components/GameSideBar';
-import Game from './pages/Game.js';
+import LeaderBoard from './components/LeaderBoard';
+import UserInfo from './components/UserInfo';
+import Game from './pages/Game';
 
 // -------------------------------
 // TEST RECTBUTTON
@@ -62,7 +66,7 @@ import Game from './pages/Game.js';
 // -------------------------------
 // SLIDER
 // -------------------------------
-// type: | sounds | media | 
+// type: sounds | media | 
 // ReactDOM.render(<Slider type="Media" />, document.getElementById('root'));
 
 
@@ -123,7 +127,7 @@ import Game from './pages/Game.js';
 // type: active
 // avatar
 // pattern
-let avatar = require("./media/avatar.png")
+// let avatar = require("./media/avatar.png")
 // ReactDOM.render(<GameSideBar avatar={avatar} />, document.getElementById('root'));
 
 
@@ -148,8 +152,8 @@ let avatar = require("./media/avatar.png")
 // -------------------------------
 // GAME 
 // -------------------------------
-
-ReactDOM.render(<Game  avatar={avatar}/>, document.getElementById('root'));
+// let avatar = require("./media/avatar.png")
+// ReactDOM.render(<Game  avatar={avatar}/>, document.getElementById('root'));
 
 
 
@@ -170,3 +174,35 @@ ReactDOM.render(<Game  avatar={avatar}/>, document.getElementById('root'));
 // TEST LEADERBOARDINFOROW
 // -------------------------------
 // ReactDOM.render(<LeaderBoardInfoRow rank="6" displayedname="Trần Kiến Quốc" points="600000" />, document.getElementById('root'));
+
+
+// -------------------------------
+// TEST LEADERBOARD
+// -------------------------------
+// ReactDOM.render(<LeaderBoard />, document.getElementById('root'));
+
+
+// -------------------------------
+// TEST USERAVATAR
+// -------------------------------
+// ReactDOM.render(<UserAvatar avatar={require("./media/avatar.png")} />, document.getElementById('root'));
+
+
+// -------------------------------
+// TEST USERINFOROW
+// -------------------------------
+// type: username | displayedname | points | winningrate | ranking | windrawlose
+// ReactDOM.render(<UserInfoRow type="username" username="quoctk08" />, document.getElementById('root'));
+// ReactDOM.render(<UserInfoRow type="displayedname" displayedname="Trần Kiến Quốc" />, document.getElementById('root'));
+// ReactDOM.render(<UserInfoRow type="points" points="800000" />, document.getElementById('root'));
+// ReactDOM.render(<UserInfoRow type="winningrate" winningrate="68" />, document.getElementById('root'));
+// ReactDOM.render(<UserInfoRow type="ranking" ranking="172" />, document.getElementById('root'));
+// ReactDOM.render(<UserInfoRow type="windrawlose" wins="81315" draws="41123" loses="10092" />, document.getElementById('root'));
+
+
+// -------------------------------
+// TEST USERINFO
+// -------------------------------
+// Notice: UserInfo component must have 4 UserInfoRow types with their values
+ReactDOM.render(<UserInfo avatar={require("./media/avatar.png")} type1="displayedname" displayedname="Trần Kiến Quốc" type2="points" points="800000" type3="winningrate" winningrate="68" type4="windrawlose" wins="81315" draws="41123" loses="10092" />, document.getElementById('root'));
+

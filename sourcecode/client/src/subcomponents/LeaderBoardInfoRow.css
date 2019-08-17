@@ -18,21 +18,70 @@
 .lbir-img {
     width: 45px;
     height: 40px;
-    margin-left: 10px;
-    margin-right: 10px;
     filter: drop-shadow(2px 2px 2px rgb(0, 0, 0, .5));
 }
 
 .lbir-label {
-    width: 240px;
-    max-width: 240px;
+    width: 220px;
     margin: 0px 10px 0px 0px;
 }
 
 .lbir-points {
     width: 140px;
-    max-width: 140px;
     font-weight: bold;
     text-align: right;
     margin: 0px 10px 0px 0px;
+}
+
+/* ----------------------------------------- 
+    EFFECT SHINE FOR RANKING
+   ----------------------------------------- */
+
+.shine {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 65px;
+    justify-content: center;
+    margin-bottom: 1px;
+}
+
+.shine:after {
+    animation: shine 3s ease-in-out infinite alternate;
+    animation-fill-mode: forwards;  
+    content: "";
+    position: absolute;
+    top: -110%;
+    left: -210%;
+    width: 200%;
+    height: 200%;
+    opacity: 0;
+    transform: rotate(30deg);
+
+    background: linear-gradient(
+    to right, 
+    rgba(255, 255, 255, 0.13) 0%,
+    rgba(255, 255, 255, 0.13) 77%,
+    rgba(255, 255, 255, 0.8) 92%,
+    rgba(255, 255, 255, 0.0) 100%
+    );
+}
+
+.icon:active:after {
+    opacity: 0;
+  }
+
+@keyframes shine {
+    to {
+        opacity: 1;
+        top: -30%;
+        left: -30%;
+        transition-property: left, top, opacity;
+        transition-duration: 0.7s, 0.7s, 0.15s;
+        transition-timing-function: ease;
+    }
 }

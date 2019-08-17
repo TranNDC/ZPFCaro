@@ -1,6 +1,5 @@
 import React from 'react';
 import './Slider.css';
-import { InputGroup, FormControl, FormLabel } from 'react-bootstrap';
 import InputRange from 'react-input-range';
 
 class RectButton extends React.Component{

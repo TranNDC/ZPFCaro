@@ -7,8 +7,9 @@ class TableTitle extends React.Component {
     }
 
     render() {
+        let className = this.props.className + " tt-title";
         return (
-            <div className="tt-title">
+            <div className={className}>
                 <label className="tt-label">{this.props.text}</label> 
             </div>
         );

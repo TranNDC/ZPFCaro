@@ -1,4 +1,3 @@
-
 import "./BetPoints.css";
 
 import React from "react";
