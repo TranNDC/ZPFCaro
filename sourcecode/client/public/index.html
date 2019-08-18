@@ -13,9 +13,39 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <title>ZPF Caro</title>
+
+    <style>
+      .body-style {
+        background: url(%PUBLIC_URL%/space-background.png) no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        
+        /* Hide scrollbar if zoomin : IE 10+ */
+        -ms-overflow-style: none;
+        /* Hide scrollbar if zoomin : Firefox */
+        scrollbar-width: none;
+
+        /* Ref: https://stackoverflow.com/questions/45873659/how-can-i-make-the-background-image-scale-to-fit-the-entire-window-when-resizing */
+      }
+
+      /* Hide scrollbar if zoomin : Chrome, Safari */
+      .body-style::-webkit-scrollbar { 
+        width: 0 !important;
+      } 
+
+      .vertical-center {
+        min-height: 100vh; 
+        display: flex;
+        align-items: center;
+        
+        /* Ref: https://stackoverflow.com/questions/39574546/bootstrap-center-a-container-fluid-vertically */
+      }
+    </style>
   </head>
-  <body style="background-image: url(%PUBLIC_URL%/space-background.png); background-repeat: repeat; background-size: 100%; overflow: auto;">
-    <div id="root">
+  <body class="body-style">
+    <div id="root" class="vertical-center">
       <!-- RENDER TEMPLATE WILL BE HERE -->
     </div>
   </body>

@@ -45,8 +45,8 @@ class LeaderBoardInfoRow extends React.Component {
             <div className={className}>
                 <div className="lbir-title">
                     <a className="shine"><img className="lbir-img" src={imgicon} alt={alt}/></a>
-                    <label className="lbir-label">{this.props.displayedname}</label>
-                    <label className="lbir-points">{points} pts</label>
+                    <div className="lbir-displayedname"><label className="lbir-label">{this.props.displayedname}</label></div>
+                    <div className="lbir-points"><label className="lbir-label">{points} pts</label></div>
                 </div>
             </div>
         );

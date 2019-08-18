@@ -1,0 +1,83 @@
+.rir-row {
+    border: 2px solid #F98D0F;
+    height: 60px;
+    background: white; 
+    width: 100%;
+    margin: 0;
+}
+
+.rir-row:hover  {
+    background: rgb(249, 141, 15, .2);
+}
+
+.rir-row:hover .rir-labelRoomName {
+    color: white;
+}
+
+.rir-row:hover .rir-labelDisplayedName {
+    color: white;
+}
+
+.rir-rID {
+    border-right: 2px solid #F98D0F;   
+    padding: 0px 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rir-labelRID {
+    margin: 0;
+    font-weight: bold;
+    font-size: 18px;
+    color: #F98D0F;
+}
+
+.rir-name {
+    padding: 2px 20px;
+}
+
+.rir-labelRoomName {
+    margin: 0;
+    font-weight: bold;
+    font-size: 18px;
+    color: black;
+    width: 100%;
+}
+
+.rir-labelDisplayedName {
+    margin: 0;
+    font-weight: bold;
+    font-size: 14px;
+    color: black;
+    width: 100%;
+}
+
+.rir-points {
+    display: flex;
+    align-items: center;
+}
+
+.rir-imgRupee {
+    width: 40px;
+    height: 40px;
+}
+
+.rir-labelPoints {
+    margin: 0px;
+    color: #F98D0F;
+    font-weight: bold;
+    font-size: 18px;
+    padding-left: 5px;
+}
+
+.rir-password {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rir-imgPassword {
+    width: 40px;
+    height: 40px;
+}

@@ -24,6 +24,9 @@ import GameSideBar from './components/GameSideBar';
 import LeaderBoard from './components/LeaderBoard';
 import UserInfo from './components/UserInfo';
 import Game from './pages/Game';
+import RoomInfoRow from './subcomponents/RoomInfoRow';
+import GameRooms from './components/GameRooms';
+import Homepage from './pages/Homepage';
 
 // -------------------------------
 // TEST RECTBUTTON
@@ -161,7 +164,6 @@ import Game from './pages/Game';
 // TEST HEADER
 // -------------------------------
 // ReactDOM.render(<Header />, document.getElementById('root'));
-// ReactDOM.render(<Header />, document.getElementById('root'));
 
 
 // -------------------------------
@@ -204,5 +206,23 @@ import Game from './pages/Game';
 // TEST USERINFO
 // -------------------------------
 // Notice: UserInfo component must have 4 UserInfoRow types with their values
-ReactDOM.render(<UserInfo avatar={require("./media/avatar.png")} type1="displayedname" displayedname="Trần Kiến Quốc" type2="points" points="800000" type3="winningrate" winningrate="68" type4="windrawlose" wins="81315" draws="41123" loses="10092" />, document.getElementById('root'));
+// ReactDOM.render(<UserInfo avatar={require("./media/avatar.png")} type1="displayedname" displayedname="Trần Kiến Quốc" type2="points" points="800000" type3="winningrate" winningrate="68" type4="windrawlose" wins="81315" draws="41123" loses="10092" />, document.getElementById('root'));
+
+
+// -------------------------------
+// TEST ROOMINFOROW
+// -------------------------------
+// ReactDOM.render(<RoomInfoRow roomid="R101" roomname="Vao day solo nhe anh em" displayedname="Trần Kiến Quốc" betpoints="500000" password="true" />, document.getElementById('root'));
+
+
+// -------------------------------
+// TEST GAMEROOMS
+// -------------------------------
+// ReactDOM.render(<GameRooms />, document.getElementById('root'));
+
+
+// -------------------------------
+// TEST HOMEPAGE
+// -------------------------------
+ReactDOM.render(<Homepage />, document.getElementById('root'));
 

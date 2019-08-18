@@ -22,14 +22,17 @@
 }
 
 .lbir-label {
-    width: 220px;
+    margin: 0;
+}
+
+.lbir-displayedname {
     margin: 0px 10px 0px 0px;
 }
 
 .lbir-points {
-    width: 140px;
-    font-weight: bold;
+    flex-grow: 1;
     text-align: right;
+    font-weight: bold;
     margin: 0px 10px 0px 0px;
 }
 

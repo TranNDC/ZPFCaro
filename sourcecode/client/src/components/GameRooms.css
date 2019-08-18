@@ -1,0 +1,17 @@
+.spacing {
+    margin: 2px 0px;
+}
+
+.gr-spacing-bottom {
+    margin-bottom: 2px;
+}
+
+.gr-row {
+    overflow-y: scroll;
+    margin: 0;
+    height: 705px; 
+}
+
+.gr-row::-webkit-scrollbar {
+    display: none;
+}

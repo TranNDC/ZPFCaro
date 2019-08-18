@@ -13,11 +13,11 @@ class Header extends React.Component {
     render() {
         return (
             <Container fluid={true}>
-                <Row className="justify-content-center">
+                <Row className="justify-content-center" className="head-row">
                     <Col className="h-logo" xs={3}>
                         <LogoTitle text="ZPF Caro" />
                     </Col>
-                    <Col className="h-iconCol" xs={8}>
+                    <Col className="h-iconCol" xs={9}>
                         <CircleButton type="profile" className="h-icon" />
                         <CircleButton type="rules" className="h-icon" />
                         <CircleButton type="info" className="h-icon" />

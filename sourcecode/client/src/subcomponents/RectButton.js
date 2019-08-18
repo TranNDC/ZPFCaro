@@ -14,7 +14,7 @@ class RectButton extends React.Component{
     }
 
     render() {
-      let classes = "rect-btn";
+      let classes = this.props.className + " rect-btn";
       
       if (this.props.textColor == 'black') {
         classes += " text-black small-width";
