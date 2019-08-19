@@ -1,11 +1,38 @@
-.game-container{
+/* .game-container{
     overflow: hidden;
-    display: table; /* Make the container element behave like a table */
-    width: 100%; /* Set full-width to expand the whole page */
+    display: table; 
+    width: 100%; 
 }
 
 .game{
     height: 80vh;
+}
+
+/* .game-container,.info-container{
+    display: table-cell;
+} */ 
+
+
+/* .hp-padRight {
+    padding-right: 70px !important;
+}
+
+.hp-padLeft {
+    padding-left: 30px !important;
+}
+
+.hp-margintop {
+    margin-top: 30px !important;
+} */
+
+.g-game-col{
+    border: 1px solid white !important;
+}
+
+.game-container{
+    overflow: hidden;
+    display: table; 
+    width: 100%; 
 }
 
 .game-container,.info-container{

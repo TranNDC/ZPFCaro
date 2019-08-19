@@ -151,8 +151,8 @@ import CreateRoom from './components/CreateRoom';
 // -------------------------------
 // GAME 
 // -------------------------------
-// let avatar = require("./media/avatar.png")
-// ReactDOM.render(<Game  avatar={avatar}/>, document.getElementById('root'));
+let avatar = require("./media/avatar.png")
+ReactDOM.render(<Game  avatar={avatar}/>, document.getElementById('root'));
 
 
 // -------------------------------

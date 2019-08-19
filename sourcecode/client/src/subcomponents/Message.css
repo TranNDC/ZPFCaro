@@ -5,10 +5,11 @@
 }
 
 .msg-avatar-div{
-    background: rgba(163, 208, 230, 0.25);
+    background: rgba(143, 134, 165, 0.116);
     display: inline-block;
     border-radius: 8px;
-    width: 60px !important;
+    min-width: 60px !important;
+    max-width: 60px !important;
     height: 60px !important;
 }
 
@@ -17,7 +18,7 @@
 }
 
 .msg-message-div{
-    background: rgba(163, 208, 230, 0.25);
+    background: rgba(143, 134, 165, 0.116);;
     display: inline-block;
     padding: 16px;
     border-radius: 8px;
@@ -38,6 +39,6 @@
 }
 
 .response .msg-avatar-div,.response .msg-message-div{
-    background: rgba(128, 119, 153, 0.438);
+    background: rgba(71, 86, 130, 0.4);
 
 }
