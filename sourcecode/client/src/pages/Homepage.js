@@ -13,8 +13,10 @@ class Homepage extends React.Component {
     }
 
     render() {
+        let className = this.props.className;
+        
         return (
-            <Container fluid={true}>
+            <Container fluid={true} className={className}>
                 <Header />
                 <Row className="hp-row">
                     <Col xs="8" className="hp-padRight">

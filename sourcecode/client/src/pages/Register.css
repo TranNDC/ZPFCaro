@@ -1,0 +1,23 @@
+.register-container {
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+}
+
+.register-modal {
+    background: white;
+    border-radius: 10px;
+    width: 450px;
+    height: 690px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.register-marginbot {
+    margin-bottom: 30px;
+}
+
+.register-margintop {
+    margin-top: 30px;
+}
