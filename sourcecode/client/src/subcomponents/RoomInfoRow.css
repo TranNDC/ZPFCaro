@@ -1,13 +1,13 @@
 .rir-row {
     border: 2px solid #F98D0F;
     height: 60px;
-    background: white; 
+    background: #ececec; 
     width: 100%;
     margin: 0;
 }
 
 .rir-row:hover  {
-    background: rgb(249, 141, 15, .2);
+    background: rgb(71, 86, 130, .2);
 }
 
 .rir-row:hover .rir-labelRoomName {
