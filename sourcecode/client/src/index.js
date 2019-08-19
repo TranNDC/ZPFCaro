@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './style.css';
 
-import RectButton from './subcomponents/RectButton';
 import CircleButton from './subcomponents/CircleButton';
 import InputText from './subcomponents/InputText';
 import LogoTitle from './subcomponents/LogoTitle';
@@ -29,13 +28,8 @@ import GameRooms from './components/GameRooms';
 import Homepage from './pages/Homepage';
 import Login from './pages/Login';
 import Register from './pages/Register';
-
-// -------------------------------
-// TEST RECTBUTTON
-// -------------------------------
-// ReactDOM.render(<RectButton text="button" background="gray" textColor="black" />, document.getElementById('root'));
-// background="gray" => Nếu không có background sẽ là màu cam
-// textColor="black" => Nếu không có chữ sẽ mang màu trắng
+import RequestChangePassword from './pages/RequestChangePassword';
+import CreateRoom from './components/CreateRoom';
 
 
 // -------------------------------
@@ -225,7 +219,7 @@ import Register from './pages/Register';
 // -------------------------------
 // TEST HOMEPAGE
 // -------------------------------
-// ReactDOM.render(<Homepage />, document.getElementById('root'));
+ReactDOM.render(<Homepage />, document.getElementById('root'));
 
 
 // -------------------------------
@@ -237,7 +231,16 @@ import Register from './pages/Register';
 // -------------------------------
 // TEST REGISTER
 // -------------------------------
-ReactDOM.render(<Register />, document.getElementById('root'));
+// ReactDOM.render(<Register />, document.getElementById('root'));
 
 
+// -------------------------------
+// TEST REQUESTCHANGEPASSWORD
+// -------------------------------
+// ReactDOM.render(<RequestChangePassword />, document.getElementById('root'));
 
+
+// -------------------------------
+// TEST CREATEROOM
+// -------------------------------
+// ReactDOM.render(<CreateRoom />, document.getElementById('root'));

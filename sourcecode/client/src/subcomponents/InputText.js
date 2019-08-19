@@ -62,7 +62,7 @@ class InputText extends React.Component {
           required = "required";
           break;
       case 'roompassword':
-          icon = require("../media/icon-room-password.png");
+          icon = require("../media/icon-room-password-black.png");
           alt = "icon-room-password";
           type = "password";
           pattern = ".{2,}";

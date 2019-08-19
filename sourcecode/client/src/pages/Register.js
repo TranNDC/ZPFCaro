@@ -1,9 +1,9 @@
 import React from 'react';
 import './Register.css';
+import '../subcomponents/RectButton.css';
 import LogoTitle from "../subcomponents/LogoTitle";
 import InputText from "../subcomponents/InputText";
-import RectButton from "../subcomponents/RectButton";
-import { Container } from 'react-bootstrap';
+import { Container, Button } from 'react-bootstrap';
 
 class Register extends React.Component {
     constructor(props) {
@@ -35,7 +35,7 @@ class Register extends React.Component {
                         <InputText type="displayedname" />
                     </div>
                     <div>
-                        <RectButton text="register" />
+                        <Button className="rect-btn">register</Button>
                     </div>
                 </div>
             </Container>
