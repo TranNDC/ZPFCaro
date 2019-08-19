@@ -7,7 +7,7 @@
 }
 
 .rir-row:hover  {
-    background: rgb(71, 86, 130, .2);
+    background: rgb(0, 0, 0, 0);
 }
 
 .rir-row:hover .rir-labelRoomName {
