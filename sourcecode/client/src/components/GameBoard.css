@@ -1,0 +1,9 @@
+.gb-game-board{
+    /* border-collapse: separate !important; */
+    border-spacing:0; 
+}
+
+.gb-game-board td, .gb-game-board tr{
+    padding: 0;
+}
+

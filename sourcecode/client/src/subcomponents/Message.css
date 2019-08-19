@@ -12,6 +12,9 @@
     height: 60px !important;
 }
 
+.msg-avatar-div img{
+    width: 100%;
+}
 
 .msg-message-div{
     background: rgba(163, 208, 230, 0.25);

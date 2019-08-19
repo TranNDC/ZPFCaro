@@ -2,6 +2,7 @@
 
 .cfr-chat-frame{
     height: 100%;
+    width: 100%;
     display: inline-block;
 }
 
@@ -12,7 +13,7 @@
     color: white !important;
     border: 1px solid white !important;
     padding-bottom: 16px;
-    height: 80%;
+    height: 88%;
     /* overflow: auto; */
 }
 

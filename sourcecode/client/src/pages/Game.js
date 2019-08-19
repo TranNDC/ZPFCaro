@@ -30,6 +30,11 @@ let messages = [
         'type':'resquest',
         'avatar':avatar,
         'message':"hello What the heooo mann??ahoifshoiahfsoiahfsssssssss"
+    },
+    {
+        'type':'resquest',
+        'avatar':avatar,
+        'message':"hello What the heooo mann??ahoifshoiahfsoiahfsssssssss"
     }
 ]
 
@@ -37,8 +42,8 @@ let messages = [
         return (
             <Container className="game mt-5" fluid={true}>
                 <Row className="justify-content-center">
-                    <Col className="game-container border p-2" xs={8}>
-                        <GameBoard width={32} height={22}/>
+                    <Col className="game-container border align-content-center justify-content-center pt-3 pb-3" xs={8}>
+                        <GameBoard width={25} height={20}/>
                     </Col>
 
                     <Col className="info-container border" xs={3}>

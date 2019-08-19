@@ -155,8 +155,8 @@ import Homepage from './pages/Homepage';
 // -------------------------------
 // GAME 
 // -------------------------------
-// let avatar = require("./media/avatar.png")
-// ReactDOM.render(<Game  avatar={avatar}/>, document.getElementById('root'));
+let avatar = require("./media/avatar.png")
+ReactDOM.render(<Game  avatar={avatar}/>, document.getElementById('root'));
 
 
 
@@ -224,5 +224,5 @@ import Homepage from './pages/Homepage';
 // -------------------------------
 // TEST HOMEPAGE
 // -------------------------------
-ReactDOM.render(<Homepage />, document.getElementById('root'));
+// ReactDOM.render(<Homepage />, document.getElementById('root'));
 

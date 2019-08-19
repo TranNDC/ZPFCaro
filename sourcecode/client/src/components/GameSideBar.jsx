@@ -43,7 +43,7 @@ class GameSideBar extends React.Component {
       }
     ];
     return (
-      <Container fluid={true} className="gsb-game-size-bar" xs={3}>
+      <Container  className="gsb-game-size-bar w-100 p-0" xs={3}>
         <div className="row gsb-countdown-exitbtn w-100 flex-nowrap justify-content-center ">
           <GameTime className="d-block gsb-left" value="10:00" />
           <BlackButton
@@ -57,7 +57,6 @@ class GameSideBar extends React.Component {
         </div>
 
         <Container
-          fluid={true}
           className="justify-content-center p-0 row gsb-user-info-container"
         >
           <Row className="d-flex justify-content-center">

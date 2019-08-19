@@ -16,7 +16,7 @@ class GameRow extends React.Component {
         
         
         return (
-            <tr>
+            <tr className="gb-row">
                 {cells}
             </tr>
         );

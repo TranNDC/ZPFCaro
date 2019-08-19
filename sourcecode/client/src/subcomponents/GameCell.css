@@ -1,8 +1,10 @@
 .gc-game-cell{
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     background: rgba(128, 119, 153, 0.438);
     position: relative;
+    padding: 0px !important;
+    margin: 1px;
 }
 @import url('https://fonts.googleapis.com/css?family=Allerta+Stencil&display=swap');
 .gc-game-cell a{
