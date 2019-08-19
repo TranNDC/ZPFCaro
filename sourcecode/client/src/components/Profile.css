@@ -1,0 +1,58 @@
+.modal-dialog {
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-self: auto;
+    align-items: center;
+}
+
+.prof-heightmodal .modal-content {
+    width: 450px !important;
+    height: 710px !important;
+    border-radius: 10px !important;
+    border: none;
+    align-items: center;
+}
+
+.prof-windrawlose {
+    border: 2px solid #F98D0F;
+    padding: 0px 3px;
+    width: 307px;
+    height: 30px;
+    text-align: center;
+}
+
+.prof-marginbot {
+    margin-bottom: 25px;
+}
+
+.prof-margintop {
+    margin-top: 25px;
+}
+
+.prof-marginRight {
+    margin-right: 10px;
+}
+
+.prof-btnlabel  {
+    color: #F98D0F;
+}
+
+.prof-btnlabel:hover {
+    color: #ca7718;
+}
+
+.prof-label {
+    margin: 0;
+    height: 30px;
+}
+
+.prof-changepassword {
+    width: 350px;
+}
+
+.updateHeightModal .modal-content {
+    height: 880px !important;
+}

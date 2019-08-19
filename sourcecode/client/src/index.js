@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './style.css';
 
-import CircleButton from './subcomponents/CircleButton';
 import InputText from './subcomponents/InputText';
 import LogoTitle from './subcomponents/LogoTitle';
 import EditText from './subcomponents/EditText';
@@ -47,13 +46,6 @@ import CreateRoom from './components/CreateRoom';
 // ReactDOM.render(<EditText type="displayedname" displayedname="Trần Kiến Quốc" />, document.getElementById('root'));
 // ReactDOM.render(<EditText type="password" />, document.getElementById('root'));
 // ReactDOM.render(<EditText type="newpassword" />, document.getElementById('root'));
-
-
-// -------------------------------
-// TEST HEADINGICON
-// -------------------------------
-// type: profile | rules | info | settings | logout
-// ReactDOM.render(<CircleButton type="profile" />, document.getElementById('root'));
 
 
 // -------------------------------
@@ -151,8 +143,8 @@ import CreateRoom from './components/CreateRoom';
 // -------------------------------
 // GAME 
 // -------------------------------
-let avatar = require("./media/avatar.png")
-ReactDOM.render(<Game  avatar={avatar}/>, document.getElementById('root'));
+// let avatar = require("./media/avatar.png")
+// ReactDOM.render(<Game  avatar={avatar}/>, document.getElementById('root'));
 
 
 // -------------------------------

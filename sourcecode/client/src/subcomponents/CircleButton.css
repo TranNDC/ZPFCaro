@@ -9,8 +9,11 @@
     padding: 0;
 }
 
+.circleButton:focus {
+    box-shadow: none !important;
+}
+
 .circleButton:hover,
-.circleButton:focus,
 .circleButton:active {
     background-color: rgb(249, 141, 15, .2) !important;
     border: 3px solid #F98D0F !important;

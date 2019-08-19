@@ -1,3 +1,11 @@
+.sliderdiv {
+  margin: 0px 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+}
+
 .input-range__slider {
     appearance: none;
     background: #F98D0F;
@@ -103,15 +111,15 @@
   .input-range {
     height: 8px;
     position: relative;
-    width: 290px !important;
+    width: 270px !important;
     display: inline-block;
   }
 
   .sd-label{
       display: inline-block;
-      width: 120px;
+      width: 80px;
       color: #000;
-      font-size: 24px;
+      font-size: 18px;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       text-transform: capitalize;
       

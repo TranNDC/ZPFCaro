@@ -27,7 +27,7 @@ class CreateRoom extends React.Component {
             <>
                 <Button className="hp-margintop hp-rectbtn rect-btn" onClick={this.openModal}>create new</Button>
 
-                <Modal show={this.state.showCRModal} onHide={this.closeModal}>
+                <Modal show={this.state.showCRModal} onHide={this.closeModal} className="cr-heightmodal">
                     <div className="cr-marginbot cr-margintop">
                         <LogoTitle text="CREATE ROOM" />
                     </div>
