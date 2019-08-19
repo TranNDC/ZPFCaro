@@ -27,6 +27,8 @@ import Game from './pages/Game';
 import RoomInfoRow from './subcomponents/RoomInfoRow';
 import GameRooms from './components/GameRooms';
 import Homepage from './pages/Homepage';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 // -------------------------------
 // TEST RECTBUTTON
@@ -223,5 +225,19 @@ import Homepage from './pages/Homepage';
 // -------------------------------
 // TEST HOMEPAGE
 // -------------------------------
-ReactDOM.render(<Homepage />, document.getElementById('root'));
+// ReactDOM.render(<Homepage />, document.getElementById('root'));
+
+
+// -------------------------------
+// TEST LOGIN
+// -------------------------------
+// ReactDOM.render(<Login />, document.getElementById('root'));
+
+
+// -------------------------------
+// TEST REGISTER
+// -------------------------------
+ReactDOM.render(<Register />, document.getElementById('root'));
+
+
 
