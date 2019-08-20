@@ -1,17 +1,34 @@
 const express = require('express')
 const app = express()
 let repository = require('./repository/repository');
+let service = require('./service/service');
+
+// Use body-parser
+let bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/test', async (req, res) => {
    res.send('testing... !')
 
+   /* --------------------------------------------------------------
+                  HOW TO USE API OF MONGODB REPOSITORY 
+   ----------------------------------------------------------------- */
+
    // console.log(await repository.getAllUsers())
 
-   // console.log(await repository.getUserByUsername("quoctk"))
+   // var bcrypt = require('bcrypt')
+   // userInfo = await repository.getUserByUsername("quoctk08")
+   // var val = false
+   // if (userInfo != null) val = await bcrypt.compare("1234567", userInfo.password)
+   // console.log(val) // result : true or false
 
    // console.log(await repository.getUserByEmail("Kienquoctran08@gmail.com"))
 
-   // newUser = '{"username" : "ndctran98", "password" : "123456", "email" : "tranndc@vng.com.vn", "displayedname" : "Nguyễn Đỗ Cát Trân"}'
+   // var bcrypt = require('bcrypt')
+   // pass = "123456"
+   // hashpass = await bcrypt.hash(pass, 12)
+   // newUser = '{"username" : "ndctran98", "password" : "' + hashpass + '", "email" : "tranndc@vng.com.vn", "displayedname" : "Nguyễn Đỗ Cát Trân"}'
    // newUser = JSON.parse(newUser);
    // repository.addUser(newUser)
 
@@ -40,13 +57,42 @@ app.get('/test', async (req, res) => {
    // userInfo = '{"password" : "098098", "email" : "quoctk@vng.com.vn", "display_name" : "Kiến Quốc Trần", "avatar" : "D://asdasd.....", "points" : 45, "win_num" : 12, "draw_num" : 64, "lose_num" : 21}'
    // userInfo = JSON.parse(userInfo);
    // repository.updateUserInfo("quoctk08", userInfo)
+
+   /* --------------------------------------------------------------
+                  HOW TO USE API OF REDIS REPOSITORY 
+   ----------------------------------------------------------------- */
+
+
 })
 
-app.get('/', async (req, res) => {
-   res.send('hello from server!')
+app.get('/verify', async (req, res) => {
+   token = req.headers.authorization
+
+   result = await service.verifyJWT(token) 
+   
+   if (result != false) {
+      res.json({statusCode: 200, JWTMsg: "Verify JWT successfully"})
+   }
+   else {
+      res.json({statusCode: 404, errorMsg: "Verify JWT fail because of invalid token"})
+   }
+}) 
+
+app.post('/login', async (req, res) => {
+   username = req.body.username
+   password = req.body.password;
+
+   result = await service.checkLogin(username, password)
+   
+   if (result != false) {
+      res.json({statusCode: 200, token: result})
+   }
+   else {
+      res.json({statusCode: 404, errorMsg: "Username or password is wrong"})
+   }
 })
  
 app.listen(5000, () => {
    repository.connectMongoDB()
-   console.log('App listening on port 5000')
+   console.log("App is listening on port 5000...")
 })
