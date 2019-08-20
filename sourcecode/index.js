@@ -27,6 +27,19 @@ app.get('/test', async (req, res) => {
    // }
 
    // console.log(await repository.getGameByID("ASDASD123"))
+
+   // repository.updateNameOfUser("quoctk08", "Trần Kiến Quốc")
+   // repository.updateEmailOfUser("quoctk08", "quoctk@vng.com.vn")
+   // repository.updatePasswordOfUser("quoctk08", "123321")
+   // repository.updateAvatarOfUser("quoctk08", "C://.......")
+   // repository.updatePointsOfUser("quoctk08", 412)
+   // repository.updateWinNumOfUser("quoctk08", 41)
+   // repository.updateDrawNumOfUser("quoctk08", 86)
+   // repository.updateLoseNumOfUser("quoctk08", 12)
+
+   // userInfo = '{"password" : "098098", "email" : "quoctk@vng.com.vn", "display_name" : "Kiến Quốc Trần", "avatar" : "D://asdasd.....", "points" : 45, "win_num" : 12, "draw_num" : 64, "lose_num" : 21}'
+   // userInfo = JSON.parse(userInfo);
+   // repository.updateUserInfo("quoctk08", userInfo)
 })
 
 app.get('/', async (req, res) => {
