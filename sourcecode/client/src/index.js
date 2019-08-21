@@ -1,7 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './style.css';
 
+import React from "react";
+import ReactDOM from "react-dom";
+import "./style.css";
+import gameReducer from "./reducers";
+import {Provider} from "react-redux";
+import {clearStorage} from "./utils/utils";
+import {createStore} from "redux";
 import InputText from './subcomponents/InputText';
 import LogoTitle from './subcomponents/LogoTitle';
 import EditText from './subcomponents/EditText';
@@ -30,13 +34,11 @@ import Register from './pages/Register';
 import RequestChangePassword from './pages/RequestChangePassword';
 import CreateRoom from './components/CreateRoom';
 
-
 // -------------------------------
 // TEST INPUTTEXT
 // -------------------------------
 // type: username | password | confirmedpassword | email | displayedname | roompassword | betpoints | roomname
 // ReactDOM.render(<InputText type="username" />, document.getElementById('root'));
-
 
 // -------------------------------
 // TEST EDITTEXT
@@ -47,29 +49,26 @@ import CreateRoom from './components/CreateRoom';
 // ReactDOM.render(<EditText type="password" />, document.getElementById('root'));
 // ReactDOM.render(<EditText type="newpassword" />, document.getElementById('root'));
 
-
 // -------------------------------
+
 // TEST LOGOTITLE
 // -------------------------------
 // ReactDOM.render(<LogoTitle text="ZPF Caro" />, document.getElementById('root'));
 
-
 // -------------------------------
 // SLIDER
 // -------------------------------
-// type: sounds | media | 
+// type: sounds | media |
 // ReactDOM.render(<Slider type="Media" />, document.getElementById('root'));
-
 
 // -------------------------------
 // MESSAGE
 // -------------------------------
-// type: | response | recieve | 
+// type: | response | recieve |
 // avatar: {avatarlink}
 // message
 // let avatar = require("./media/avatar.png")
 // ReactDOM.render(<Message type="response" avatar={avatar} message="Chị hiểu hông?" />, document.getElementById('root'));
-
 
 // -------------------------------
 // CHAT FRAME
@@ -99,7 +98,6 @@ import CreateRoom from './components/CreateRoom';
 
 // ReactDOM.render(<ChatFrame opponent={opponent} messages={messages} />, document.getElementById('root'));
 
-
 // -------------------------------
 // GAME AVATAR
 // -------------------------------
@@ -110,8 +108,6 @@ import CreateRoom from './components/CreateRoom';
 
 // ReactDOM.render(<GameAvatar type="active" avatar={avatar} pattern='x' />, document.getElementById('root'));
 
-
-
 // -------------------------------
 // GAME SIDE BAR
 // -------------------------------
@@ -121,16 +117,12 @@ import CreateRoom from './components/CreateRoom';
 // let avatar = require("./media/avatar.png")
 // ReactDOM.render(<GameSideBar avatar={avatar} />, document.getElementById('root'));
 
-
-
 // -------------------------------
 // GAME CELL
 // -------------------------------
 // patter: x | o
 
 // ReactDOM.render(<GameCell pattern='o' />, document.getElementById('root'));
-
-
 
 // -------------------------------
 // GAME BOARD
@@ -139,43 +131,47 @@ import CreateRoom from './components/CreateRoom';
 
 // ReactDOM.render(<GameBoard width={20} height={20} />, document.getElementById('root'));
 
-
 // -------------------------------
-// GAME 
+// GAME
 // -------------------------------
 // let avatar = require("./media/avatar.png")
 // ReactDOM.render(<Game  avatar={avatar}/>, document.getElementById('root'));
 
+
+export const store = createStore(gameReducer);
+
+let avatar = require("./media/avatar.png");
+ReactDOM.render(
+  <Provider store={store}>
+    <Game avatar={avatar} />
+  </Provider>,
+  document.getElementById("root")
+);
 
 // -------------------------------
 // TEST HEADER
 // -------------------------------
 // ReactDOM.render(<Header />, document.getElementById('root'));
 
-
 // -------------------------------
 // TEST TABLETITLE
 // -------------------------------
 // ReactDOM.render(<TableTitle text="GAMEROOM" />, document.getElementById('root'));
-
 
 // -------------------------------
 // TEST LEADERBOARDINFOROW
 // -------------------------------
 // ReactDOM.render(<LeaderBoardInfoRow rank="6" displayedname="Trần Kiến Quốc" points="600000" />, document.getElementById('root'));
 
-
 // -------------------------------
 // TEST LEADERBOARD
 // -------------------------------
 // ReactDOM.render(<LeaderBoard />, document.getElementById('root'));
 
-
 // -------------------------------
 // TEST USERAVATAR
 // -------------------------------
 // ReactDOM.render(<UserAvatar avatar={require("./media/avatar.png")} />, document.getElementById('root'));
-
 
 // -------------------------------
 // TEST USERINFOROW
@@ -188,43 +184,36 @@ import CreateRoom from './components/CreateRoom';
 // ReactDOM.render(<UserInfoRow type="ranking" ranking="172" />, document.getElementById('root'));
 // ReactDOM.render(<UserInfoRow type="windrawlose" wins="81315" draws="41123" loses="10092" />, document.getElementById('root'));
 
-
 // -------------------------------
 // TEST USERINFO
 // -------------------------------
 // Notice: UserInfo component must have 4 UserInfoRow types with their values
 // ReactDOM.render(<UserInfo avatar={require("./media/avatar.png")} type1="displayedname" displayedname="Trần Kiến Quốc" type2="points" points="800000" type3="winningrate" winningrate="68" type4="windrawlose" wins="81315" draws="41123" loses="10092" />, document.getElementById('root'));
 
-
 // -------------------------------
 // TEST ROOMINFOROW
 // -------------------------------
 // ReactDOM.render(<RoomInfoRow roomid="R101" roomname="Vao day solo nhe anh em" displayedname="Trần Kiến Quốc" betpoints="500000" password="true" />, document.getElementById('root'));
-
 
 // -------------------------------
 // TEST GAMEROOMS
 // -------------------------------
 // ReactDOM.render(<GameRooms />, document.getElementById('root'));
 
-
 // -------------------------------
 // TEST HOMEPAGE
 // -------------------------------
-ReactDOM.render(<Homepage />, document.getElementById('root'));
-
+// ReactDOM.render(<Homepage />, document.getElementById('root'));
 
 // -------------------------------
 // TEST LOGIN
 // -------------------------------
 // ReactDOM.render(<Login />, document.getElementById('root'));
 
-
 // -------------------------------
 // TEST REGISTER
 // -------------------------------
 // ReactDOM.render(<Register />, document.getElementById('root'));
-
 
 // -------------------------------
 // TEST REQUESTCHANGEPASSWORD
@@ -236,4 +225,3 @@ ReactDOM.render(<Homepage />, document.getElementById('root'));
 // TEST CREATEROOM
 // -------------------------------
 // ReactDOM.render(<CreateRoom />, document.getElementById('root'));
-

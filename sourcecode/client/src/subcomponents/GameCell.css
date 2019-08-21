@@ -13,11 +13,12 @@
     font-size: 48px;
     position: absolute;
     top:-24px;
+    color: #F98D0F !important;
 }
 
 
-.gc-game-cell.o{
-    color: white;
+.gc-game-cell.o a{
+    color: white !important;
 }
 
 .gc-game-cell:hover{
