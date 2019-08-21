@@ -12,7 +12,7 @@ class GameCell extends React.Component {
         let classes = 'gc-game-cell d-flex justify-content-center align-content-center'+ this.props.className + ' ' + this.props.pattern;
         return (
             <div className={classes}>
-                <a>
+                <a className="text-decoration-none">
                     {this.props.pattern}
                 </a>
             </div>
