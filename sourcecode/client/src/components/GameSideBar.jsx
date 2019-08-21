@@ -20,32 +20,32 @@ class GameSideBar extends React.Component {
       isHost: 0
     };
 
-    let messages = [
-      {
-        type: "response",
-        avatar: avatar,
-        message: "hello What are you doing mannnn??"
-      },
-      {
-        type: "resquest",
-        avatar: avatar,
-        message: "hello What the heooo mann??ahoifshoiahfsoiahfsssssssss"
-      },
-      {
-        type: "resquest",
-        avatar: avatar,
-        message: "hello What the heooo mann??ahoifshoiahfsoiahfsssssssss"
-      },
-      {
-        type: "response",
-        avatar: avatar,
-        message: "hello What are you doing mannnn??"
-      }
-    ];
+    // let messages = [
+    //   {
+    //     type: "response",
+    //     avatar: avatar,
+    //     message: "hello What are you doing mannnn??"
+    //   },
+    //   {
+    //     type: "resquest",
+    //     avatar: avatar,
+    //     message: "hello What the heooo mann??ahoifshoiahfsoiahfsssssssss"
+    //   },
+    //   {
+    //     type: "resquest",
+    //     avatar: avatar,
+    //     message: "hello What the heooo mann??ahoifshoiahfsoiahfsssssssss"
+    //   },
+    //   {
+    //     type: "response",
+    //     avatar: avatar,
+    //     message: "hello What are you doing mannnn??"
+    //   }
+    // ];
     return (
       <Container  className="gsb-game-size-bar w-100 p-0" xs={3}>
         <div className="row gsb-countdown-exitbtn w-100 flex-nowrap justify-content-center ">
-          <GameTime className="d-block gsb-left" value="10:00" />
+          <GameTime className="d-block gsb-left" />
           <BlackButton
             className="pl-3 pr-3 d-inline-block gsb-right"
             text="Exit"
@@ -70,7 +70,7 @@ class GameSideBar extends React.Component {
         </Container>
 
         <div className="gsb-chat-container">
-          <ChatFrame opponent={opponent} messages={messages} />
+          <ChatFrame opponent={opponent} />
         </div>
       </Container>
     );

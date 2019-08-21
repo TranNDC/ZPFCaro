@@ -1,38 +1,37 @@
-
 import React from "react";
 import ReactDOM from "react-dom";
 import "./style.css";
-import gameReducer from "./reducers";
-import {Provider} from "react-redux";
-import {clearStorage} from "./utils/utils";
-import {createStore} from "redux";
-import InputText from './subcomponents/InputText';
-import LogoTitle from './subcomponents/LogoTitle';
-import EditText from './subcomponents/EditText';
+import rootReducer from "./reducers/index";
+import { Provider } from "react-redux";
+import { clearStorage } from "./utils/gameUtils";
+import { createStore } from "redux";
+import InputText from "./subcomponents/InputText";
+import LogoTitle from "./subcomponents/LogoTitle";
+import EditText from "./subcomponents/EditText";
 
-import GameCell from './subcomponents/GameCell';
-import GameBoard from './components/GameBoard';
+import GameCell from "./subcomponents/GameCell";
+import GameBoard from "./components/GameBoard";
 
-import Slider from './subcomponents/Slider';
-import Message from './subcomponents/Message';
-import TableTitle from './subcomponents/TableTitle';
-import ChatFrame from './components/ChatFrame';
-import GameAvatar from './subcomponents/GameAvatar';
-import LeaderBoardInfoRow from './subcomponents/LeaderBoardInfoRow';
-import UserAvatar from './subcomponents/UserAvatar';
-import UserInfoRow from './subcomponents/UserInfoRow';
-import Header from './components/Header';
-import GameSideBar from './components/GameSideBar';
-import LeaderBoard from './components/LeaderBoard';
-import UserInfo from './components/UserInfo';
-import Game from './pages/Game';
-import RoomInfoRow from './subcomponents/RoomInfoRow';
-import GameRooms from './components/GameRooms';
-import Homepage from './pages/Homepage';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import RequestChangePassword from './pages/RequestChangePassword';
-import CreateRoom from './components/CreateRoom';
+import Slider from "./subcomponents/Slider";
+import Message from "./subcomponents/Message";
+import TableTitle from "./subcomponents/TableTitle";
+import ChatFrame from "./components/ChatFrame";
+import GameAvatar from "./subcomponents/GameAvatar";
+import LeaderBoardInfoRow from "./subcomponents/LeaderBoardInfoRow";
+import UserAvatar from "./subcomponents/UserAvatar";
+import UserInfoRow from "./subcomponents/UserInfoRow";
+import Header from "./components/Header";
+import GameSideBar from "./components/GameSideBar";
+import LeaderBoard from "./components/LeaderBoard";
+import UserInfo from "./components/UserInfo";
+import Game from "./pages/Game";
+import RoomInfoRow from "./subcomponents/RoomInfoRow";
+import GameRooms from "./components/GameRooms";
+import Homepage from "./pages/Homepage";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import RequestChangePassword from "./pages/RequestChangePassword";
+import CreateRoom from "./components/CreateRoom";
 
 // -------------------------------
 // TEST INPUTTEXT
@@ -137,8 +136,7 @@ import CreateRoom from './components/CreateRoom';
 // let avatar = require("./media/avatar.png")
 // ReactDOM.render(<Game  avatar={avatar}/>, document.getElementById('root'));
 
-
-export const store = createStore(gameReducer);
+export const store = createStore(rootReducer);
 
 let avatar = require("./media/avatar.png");
 ReactDOM.render(
@@ -219,7 +217,6 @@ ReactDOM.render(
 // TEST REQUESTCHANGEPASSWORD
 // -------------------------------
 // ReactDOM.render(<RequestChangePassword />, document.getElementById('root'));
-
 
 // -------------------------------
 // TEST CREATEROOM
