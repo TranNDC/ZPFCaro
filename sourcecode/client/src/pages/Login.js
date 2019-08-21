@@ -1,9 +1,9 @@
 import React from 'react';
 import './Login.css';
+import '../subcomponents/RectButton.css';
 import LogoTitle from "../subcomponents/LogoTitle";
 import InputText from "../subcomponents/InputText";
-import RectButton from "../subcomponents/RectButton";
-import { Container } from 'react-bootstrap';
+import { Container, Button } from 'react-bootstrap';
 
 class Login extends React.Component {
     constructor(props) {
@@ -26,7 +26,7 @@ class Login extends React.Component {
                         <InputText type="password" />
                     </div>
                     <div>
-                        <RectButton text="Login" />
+                        <Button className="rect-btn">login</Button>
                     </div>
                 </div>
             </Container>

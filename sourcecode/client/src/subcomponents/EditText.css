@@ -33,6 +33,7 @@
     height: 60px;
     border-radius: 0;
     border-color: #F98D0F;
+    border-right: none;
     font-size: 18px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }

@@ -13,8 +13,10 @@ class RectButton extends React.Component{
       }
      
       render() {
+        let className = this.props.className + " sliderdiv";
+
         return (
-            <div>
+            <div className={className}>
                 <span className="sd-label">{this.props.type}</span>
                 <InputRange
                     maxValue={100}

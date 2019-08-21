@@ -1,0 +1,33 @@
+.modal-dialog {
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-self: auto;
+    align-items: center;
+}
+
+.set-heightmodal .modal-content {
+    width: 450px !important;
+    height: 345px !important;
+    border-radius: 10px !important;
+    border: none;
+    align-items: center;
+}
+
+.set-marginbot {
+    margin-bottom: 30px;
+}
+
+.set-littemarginbot {
+    margin-bottom: 15px;
+}
+
+.set-margintop {
+    margin-top: 30px;
+}
+
+.set-marginRight {
+    margin-right: 10px;
+}

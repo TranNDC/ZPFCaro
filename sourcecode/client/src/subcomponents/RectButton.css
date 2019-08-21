@@ -10,10 +10,15 @@
     /* margin-right: 10px; */
 }
 
-.rect-btn:hover,
 .rect-btn:focus {
-    background-color: rgb(204, 119, 21);
+    box-shadow: none !important;
+}
+
+.rect-btn:hover,
+.rect-btn:active {
+    background-color: rgb(204, 119, 21) !important;
     outline-color: rgba(243, 148, 40, 0.575) !important;
+    box-shadow: none !important;
 }
 
 .rect-btn.text-black {
@@ -30,6 +35,6 @@
 
 .rect-btn.background-gray:hover,
 .rect-btn.background-gray:focus {
-    background-color: rgb(204, 204, 204);
+    background-color: rgb(204, 204, 204) !important;
     outline-color: rgba(229, 229, 229, 0.747) !important;
 }
