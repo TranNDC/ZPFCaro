@@ -1,8 +1,11 @@
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './style.css';
-
+import React from "react";
+import ReactDOM from "react-dom";
+import "./style.css";
+import gameReducer from "./reducers";
+import {Provider} from "react-redux";
+import {clearStorage} from "./utils/utils";
+import {createStore} from "redux";
 import InputText from './subcomponents/InputText';
 import LogoTitle from './subcomponents/LogoTitle';
 import EditText from './subcomponents/EditText';
