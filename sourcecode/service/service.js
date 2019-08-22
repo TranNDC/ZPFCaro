@@ -24,7 +24,7 @@ service.generateJWT = async (data) => {
 // Parameter: STRING token
 // Result: JSON username | Error about token (wrong characters/expired)
 service.verifyJWT = (token) => {
-    if (service.existTokenInBLJWT(token) == true) return false
+    if (service.existTokenInBLJWT(token)) return false
 
     let val = jwt.verify(token, tokenKey, function(err, decoded) {
         if (err) {
@@ -32,6 +32,21 @@ service.verifyJWT = (token) => {
             return false
         } 
         return JSON.parse('{"username" : "' + decoded.username + '"}')
+    });
+    return val
+}
+
+// Get remaining expired time of JWT 
+// Parameter: STRING token
+// Result: SECOND time | Null
+service.getRemainExpTimeOfJWT = (token) => {
+    let val = jwt.verify(token, tokenKey, function(err, decoded) {
+        if (err) {
+            console.log(err)
+            return null
+        } 
+        curTime = Math.floor(new Date().getTime()/1000)
+        return (decoded.exp - curTime)
     });
     return val
 }
@@ -54,22 +69,16 @@ service.hashPassword = async (rawPass) => {
 // Parameter: STRING username, password
 // Result: Token (login succesfully) | False (Wrong username, password, error)
 service.checkLogin = async (username, password) => {
-    try {
-        userInfo = await repoMongo.getUserByUsername(username)
-        if (userInfo == null) return false
+    userInfo = await repoMongo.getUserByUsername(username)
+    if (userInfo == null) return false
 
-        valComparePass = await service.comparePassword(password, userInfo.password)
-        if (!valComparePass) return false
+    valComparePass = await service.comparePassword(password, userInfo.password)
+    if (!valComparePass) return false
 
-        jsonUsername = JSON.parse('{"username" : "' + username + '"}')
-        token = await service.generateJWT(jsonUsername)
-        
-        return token
-    }
-    catch (err) {
-        console.log(err)
-        return false
-    }
+    jsonUsername = JSON.parse('{"username" : "' + username + '"}')
+    token = await service.generateJWT(jsonUsername)
+    
+    return token
 }
 
 // Get user info
@@ -213,27 +222,12 @@ service.existTokenInBLJWT = async (token) => {
 // Parameter: STRING token
 // Result: True | False
 service.addTokenToBLJWT = async (token) => {
-    verifyToken = await service.verifyJWT(token)
-    if (!verifyToken) return false
-    return (await repoRedis.setFieldBLJWT(token))
-}
+    if (await service.existTokenInBLJWT(token)) return false
+    
+    expires = await service.getRemainExpTimeOfJWT(token)
+    if (expires == null) return false
 
-// Deleting expired token in Redis (Used in setInterval)
-service.delExpiredTokenInBLJWT = async () => {
-    membersBLJWT = await repoRedis.getMembersBLJWT()
-    let validJWTArray = []
-
-    membersBLJWT.forEach(element => {
-        let val = jwt.verify(element, tokenKey, function(err, decoded) {
-            if (err) return false
-            return true
-        });
-        if (val) validJWTArray.push(element)
-    });
-
-    repoRedis.delKeyBLJWT()
-
-    if (validJWTArray.length != 0) repoRedis.setFieldBLJWT(validJWTArray)
+    return (await repoRedis.setBLJWT(token, expires))
 }
 
 // Add/Update points into leaderboard
@@ -274,6 +268,8 @@ service.getAllTopLB = async (token) => {
 }
 
 // Get my ranking
+// Parameter: STRING token
+// Result: JSON username & ranking
 service.getMyRanking = async (token) => {
     verifyToken = await service.verifyJWT(token)
     if (!verifyToken) return false

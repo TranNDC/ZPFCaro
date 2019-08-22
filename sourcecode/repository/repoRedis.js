@@ -15,27 +15,18 @@ repoRedis.connectRedis = () => {
 // ------------------------------------------------
 // BlackListJWT - Set => Shortname: BLJWT
 // ------------------------------------------------
-const keyBLJWT = "BlackListJWT"
-
-repoRedis.setFieldBLJWT = async (value) => {
-    return (await client.sadd(keyBLJWT, value))
+function keyBLJWT(jwt) {
+    return ("BlackListJWT:" + jwt)
 }
 
-repoRedis.delKeyBLJWT = async () => {
-    return (await client.del(keyBLJWT))
+repoRedis.setBLJWT = async (jwt, expires) => {
+    return (await client.setex(keyBLJWT(jwt), expires, 1))
 }
 
-repoRedis.isMemberBLJWT = (value) => {
-    getAsync = promisify(client.sismember).bind(client)
-    return getAsync(keyBLJWT, value).then((res) => {
-        return ((res==0) ? false : true)
-    })
-}
-
-repoRedis.getMembersBLJWT = () => {
-    getAsync = promisify(client.smembers).bind(client)
-    return getAsync(keyBLJWT).then((res) => {
-        return res;
+repoRedis.isMemberBLJWT = (jwt) => {
+    getAsync = promisify(client.get).bind(client)
+    return getAsync(keyBLJWT(jwt)).then((res) => {
+        return ((res==null) ? false : true)
     })
 }
 

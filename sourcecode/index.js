@@ -72,20 +72,20 @@ app.get('/test', async (req, res) => {
 
    // result = await service.delExpiredTokenInBLJWT()
 
-   service.updatePointsLB ("cattran", 1000000)
-   service.updatePointsLB ("quoctk01", 800000)
-   service.updatePointsLB ("quoctk01", 900000)
-   service.updatePointsLB ("quoctk02", 800000)
-   service.updatePointsLB ("quoctk02", 700000)
-   service.updatePointsLB ("quoctk08", 250000)
-   service.updatePointsLB ("quoctk08", 220000)
-   console.log("-------------------------------")
-   console.log(await service.getTop6LB("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF1b2N0azA4IiwiaWF0IjoxNTY2NDQwMjgxLCJleHAiOjE1NjcwNDUwODF9.cZCLddwWwNvzGiH9oX3az0Q12B78qH9piSl1tm48htA"))
-   console.log("-------------------------------")
-   console.log(await service.getAllTopLB("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF1b2N0azA4IiwiaWF0IjoxNTY2NDQwMjgxLCJleHAiOjE1NjcwNDUwODF9.cZCLddwWwNvzGiH9oX3az0Q12B78qH9piSl1tm48htA"))
-   console.log("-------------------------------")
-   console.log(await service.getMyRanking("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF1b2N0azA4IiwiaWF0IjoxNTY2NDQwMjgxLCJleHAiOjE1NjcwNDUwODF9.cZCLddwWwNvzGiH9oX3az0Q12B78qH9piSl1tm48htA"))
-   console.log("-------------------------------")
+   // service.updatePointsLB ("cattran", 1000000)
+   // service.updatePointsLB ("quoctk01", 800000)
+   // service.updatePointsLB ("quoctk01", 900000)
+   // service.updatePointsLB ("quoctk02", 800000)
+   // service.updatePointsLB ("quoctk02", 700000)
+   // service.updatePointsLB ("quoctk08", 250000)
+   // service.updatePointsLB ("quoctk08", 220000)
+   // console.log("-------------------------------")
+   // console.log(await service.getTop6LB("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF1b2N0azA4IiwiaWF0IjoxNTY2NDQwMjgxLCJleHAiOjE1NjcwNDUwODF9.cZCLddwWwNvzGiH9oX3az0Q12B78qH9piSl1tm48htA"))
+   // console.log("-------------------------------")
+   // console.log(await service.getAllTopLB("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF1b2N0azA4IiwiaWF0IjoxNTY2NDQwMjgxLCJleHAiOjE1NjcwNDUwODF9.cZCLddwWwNvzGiH9oX3az0Q12B78qH9piSl1tm48htA"))
+   // console.log("-------------------------------")
+   // console.log(await service.getMyRanking("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF1b2N0azA4IiwiaWF0IjoxNTY2NDQwMjgxLCJleHAiOjE1NjcwNDUwODF9.cZCLddwWwNvzGiH9oX3az0Q12B78qH9piSl1tm48htA"))
+   // console.log("-------------------------------")
 })
 
 
@@ -124,12 +124,12 @@ app.post('/login', async (req, res) => {
 
    result = await service.checkLogin(username, password)
    
-   if (result) {
-      res.json({statusCode: 200, token: result})
-   }
-   else {
+   if (!result) {
       res.json({statusCode: 404, message: "Username or password is wrong"})
+      return
    }
+   
+   res.json({statusCode: 200, token: result})
 })
 
 // Request: token, logout
@@ -139,20 +139,20 @@ app.post('/logout', async (req, res) => {
 
    result = await service.addTokenToBLJWT(token)
    if (!result) {
-      res.json({statusCode: 200, message: "Logout successfully"})
+      res.json({statusCode: 404, message: "Wrong token, logout fail"})      
       return
    }
 
-   res.json({statusCode: 404, message: "Wrong token, logout fail"})
+   res.json({statusCode: 200, message: "Logout successfully"})
 })
 
-// Request: username, password, email, displayedname
+// Request: username, password, email, displayedName
 // Response: msg error or success
 app.post('/register', async (req, res) => {
    username = req.body.username
    password = req.body.password
    email = req.body.email
-   displayedname = req.body.displayedname
+   displayedName = req.body.displayedName
 
    if (! (await service.isUniqueUsername(username))) {
       res.json({statusCode: 404, message: "This username existed, please choose another"})
@@ -164,7 +164,7 @@ app.post('/register', async (req, res) => {
       return
    }
 
-   result = await service.addNewUser(username, password, email, displayedname)
+   result = await service.addNewUser(username, password, email, displayedName)
    if (result == null) {
       res.json({statusCode: 500, message: "Server registered new account fail"})
       return
@@ -374,14 +374,6 @@ app.get('/user/ranking', async (req, res) => {
 
 app.listen(5000, () => {
    console.log("App is listening on port 5000...")
-
    service.connectRedis();
    service.connectMongoDB();
-
-   // Redis stores keys of users who logged out
-   // => SetInterval for deleting expiredToken in Redis
-   // => 3 days = 259200000ms‬ = Math.pow(2,28) - 9235456ms
-   setInterval(() => {
-      service.delExpiredTokenInBLJWT()
-   }, Math.pow(2,28) - 9235456); 
 })
