@@ -1,5 +1,6 @@
 const mongo = require('mongodb').MongoClient
 const url = 'mongodb://localhost:27017'
+const { promisify } = require('util');
 let repoMongo = {}
 let collectionUsers 
 let collectionGames
@@ -40,100 +41,109 @@ repoMongo.getUserByEmail = async (email) => {
 // Function receives JSON "newUser" parameters with string structure:
 // '{"username" : "xxxxx", "password" : "xxxxx", "email" : "xxxxx", "display_name" : "xxxxx"}'
 repoMongo.addUser = (newUser) => {
-    collectionUsers.insertOne({username: newUser.username, password: newUser.password, email: newUser.email, display_name: newUser.display_name, points: 0, avatar: "", win_num: 0, draw_num: 0, lose_num: 0}, (err, result) => {
-        if (err) {
-            console.log(err)
-            return null
-        }
-        return result
+    getAsync = promisify(collectionUsers.insertOne).bind(collectionUsers)
+
+    return getAsync({username: newUser.username, password: newUser.password, email: newUser.email, display_name: newUser.display_name, points: 0, avatar: "", win_num: 0, draw_num: 0, lose_num: 0}).then((res) => {
+        return res
+    }).catch((err) => {
+        console.log(err)
+        return null
     })
 }
 
 // Update display_name of user by username
 repoMongo.updateNameOfUser = (username, newName) => {
-    collectionUsers.updateOne({username: username}, {$set: {display_name: newName}}, (err, val) => {
-        if (err) {
-            console.log(err)
-            return false
-        }
+    getAsync = promisify(collectionUsers.updateOne).bind(collectionUsers)
+
+    return getAsync({username: username}, {$set: {display_name: newName}}).then((res) => {
         return true
+    }).catch((err) => {
+        console.log(err)
+        return false
     })
 }
 
 // Update email of user by username
 repoMongo.updateEmailOfUser = (username, newemail) => {
-    collectionUsers.updateOne({username: username}, {$set: {email: newemail}}, (err, val) => {
-        if (err) {
-            console.log(err)
-            return false
-        }
+    getAsync = promisify(collectionUsers.updateOne).bind(collectionUsers)
+
+    return getAsync({username: username}, {$set: {email: newemail}}).then((res) => {
         return true
+    }).catch((err) => {
+        console.log(err)
+        return false
     })
 }
 
 // Update password of user by username
 repoMongo.updatePasswordOfUser = (username, newpassword) => {
-    collectionUsers.updateOne({username: username}, {$set: {password: newpassword}}, (err, val) => {
-        if (err) {
-            console.log(err)
-            return false
-        }
+    getAsync = promisify(collectionUsers.updateOne).bind(collectionUsers)
+
+    return getAsync({username: username}, {$set: {password: newpassword}}).then((res) => {
         return true
+    }).catch((err) => {
+        console.log(err)
+        return false
     })
 }
 
 // Update avatar link of user by username
 repoMongo.updateAvatarOfUser = (username, avatarlink) => {
-    collectionUsers.updateOne({username: username}, {$set: {avatar: avatarlink}}, (err, val) => {
-        if (err) {
-            console.log(err)
-            return false
-        }
+    getAsync = promisify(collectionUsers.updateOne).bind(collectionUsers)
+
+    return getAsync({username: username}, {$set: {avatar: avatarlink}}).then((res) => {
         return true
+    }).catch((err) => {
+        console.log(err)
+        return false
     })
 }
 
 // Update points of user by username
 repoMongo.updatePointsOfUser = (username, points) => {
-    collectionUsers.updateOne({username: username}, {$set: {points: points}}, (err, val) => {
-        if (err) {
-            console.log(err)
-            return false
-        }
+    getAsync = promisify(collectionUsers.updateOne).bind(collectionUsers)
+
+    return getAsync({username: username}, {$set: {points: points}}).then((res) => {
         return true
+    }).catch((err) => {
+        console.log(err)
+        return false
     })
 }
 
 // Update win_num of user by username
 repoMongo.updateWinNumOfUser = (username, win_num) => {
-    collectionUsers.updateOne({username: username}, {$set: {win_num: win_num}}, (err, val) => {
-        if (err) {
-            console.log(err)
-            return false
-        }
+    getAsync = promisify(collectionUsers.updateOne).bind(collectionUsers)
+
+    return getAsync({username: username}, {$set: {win_num: win_num}}).then((res) => {
         return true
+    }).catch((err) => {
+        console.log(err)
+        return false
     })
 }
 
 // Update draw_num of user by username
 repoMongo.updateDrawNumOfUser = (username, draw_num) => {
-    collectionUsers.updateOne({username: username}, {$set: {draw_num: draw_num}}, (err, val) => {
-        if (err) {
-            console.log(err)
-            return false
-        }
+    getAsync = promisify(collectionUsers.updateOne).bind(collectionUsers)
+
+    return getAsync({username: username}, {$set: {draw_num: draw_num}}).then((res) => {
         return true
+    }).catch((err) => {
+        console.log(err)
+        return false
     })
 }
 
 // Update lose_num of user by username
 repoMongo.updateLoseNumOfUser = (username, lose_num) => {
-    collectionUsers.updateOne({username: username}, {$set: {lose_num: lose_num}}, (err, val) => {
-        if (err) {
-            console.log(err)
-            return false
-        }
+    getAsync = promisify(collectionUsers.updateOne).bind(collectionUsers)
+
+    return getAsync({username: username}, {$set: {lose_num: lose_num}}).then((res) => {
         return true
+    }).catch((err) => {
+        console.log(err)
+        return false
     })
 }
 
@@ -141,12 +151,13 @@ repoMongo.updateLoseNumOfUser = (username, lose_num) => {
 // Parameter: A JSON variable contains all user info | Structure of JSON:
 // '{"password" : "xxxxx", "email" : "xxxxx", "display_name" : "xxxxx", "avatar" : "xxxxx", "points" : xxxxx, "win_num" : xxxxx, "draw_num" : xxxxx, "lose_num" : xxxxx}'
 repoMongo.updateUserInfo = (username, userInfo) => {
-    collectionUsers.updateOne({username: username}, {$set: {password: userInfo.password, email: userInfo.email, display_name: userInfo.display_name, avatar: userInfo.avatar, points: userInfo.points, win_num: userInfo.win_num, draw_num: userInfo.draw_num, lose_num: userInfo.lose_num}}, (err, val) => {
-        if (err) {
-            console.log(err)
-            return false
-        }
+    getAsync = promisify(collectionUsers.updateOne).bind(collectionUsers)
+
+    return getAsync({username: username}, {$set: {password: userInfo.password, email: userInfo.email, display_name: userInfo.display_name, avatar: userInfo.avatar, points: userInfo.points, win_num: userInfo.win_num, draw_num: userInfo.draw_num, lose_num: userInfo.lose_num}}).then((res) => {
         return true
+    }).catch((err) => {
+        console.log(err)
+        return false
     })
 }
 
@@ -159,12 +170,13 @@ repoMongo.updateUserInfo = (username, userInfo) => {
 // '{"id" : "xxxxx", "user_id" : "xxxxx", "guest_id" : "xxxxx", "bet_points" : xxxxx, "status" : xxxxx}'
 // status has one of three values : -1 (host lost), 0 (both persion drew), 1 (host won)
 repoMongo.addGame = (newGame) => {
-    collectionGames.insertOne({_id: newGame.id, user_id: newGame.user_id, guest_id: newGame.guest_id, bet_points: newGame.bet_points, status: newGame.status}, (err, val) => {
-        if (err) {
-            console.log(err)
-            return null
-        }
-        return val
+    getAsync = promisify(collectionGames.insertOne).bind(collectionGames)
+
+    return getAsync({_id: newGame.id, user_id: newGame.user_id, guest_id: newGame.guest_id, bet_points: newGame.bet_points, status: newGame.status}).then((res) => {
+        return res
+    }).catch((err) => {
+        console.log(err)
+        return null
     })
 }
 
