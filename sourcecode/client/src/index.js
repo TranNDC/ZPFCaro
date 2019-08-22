@@ -36,6 +36,7 @@ import Register from "./pages/Register";
 import RequestChangePassword from "./pages/RequestChangePassword";
 import CreateRoom from "./components/CreateRoom";
 import CountDownBox from "./subcomponents/CountDownBox";
+import AlertWarn from "./components/AlertWarn";
 
 // -------------------------------
 // TEST INPUTTEXT
@@ -230,9 +231,14 @@ import CountDownBox from "./subcomponents/CountDownBox";
 // -------------------------------
 // TEST COUNTDOWNBOX
 // -------------------------------
-ReactDOM.render(<CountDownBox />, document.getElementById('root'));
+// ReactDOM.render(<CountDownBox />, document.getElementById('root'));
 
-// export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+// -------------------------------
+// TEST ALERTWARN
+// -------------------------------
+// ReactDOM.render(<AlertWarn />, document.getElementById('root'));
+
+export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 // window.store = store;
 // let avatar = require("./media/avatar.png");
 // ReactDOM.render(
@@ -240,26 +246,10 @@ ReactDOM.render(<CountDownBox />, document.getElementById('root'));
 //     <Router>
 //       <Route exact path="/register" component={Register} />
 //       <Route exact path="/login" component={Login} />
-//       <Route exact path="/homepage" component={Homepage} />
+//       <Route exact path="/" component={Homepage} />
 //       <Route exact path="/game" component={Game} />
 //     </Router>
 //   </Provider>,
 //   document.getElementById("root")
 // );
-
-
-export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
-window.store = store;
-let avatar = require("./media/avatar.png");
-ReactDOM.render(
-  <Provider store={store}>
-    <Router>
-      <Route exact path="/register" component={Register} />
-      <Route exact path="/login" component={Login} />
-      <Route exact path="/" component={Homepage} />
-      <Route exact path="/game" component={Game} />
-    </Router>
-  </Provider>,
-  document.getElementById("root")
-);
 

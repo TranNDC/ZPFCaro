@@ -4,7 +4,7 @@ import './CountDownBox.css';
 class CountDownBox extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { time: 3 }
+        this.state = { time: 5, go: "GO" }
     }
 
     componentDidMount() {
@@ -12,32 +12,18 @@ class CountDownBox extends React.Component {
             this.setState({
                 time: this.state.time-1
             });
-            if (this.state.time == 0) {
+            if (this.state.time == -2) {
                 clearInterval(this.state.intervalId)
-                return;
+                this.setState({ time: null, go: "" })
             }
         }, 1000);
         this.setState({ intervalId })
-      }
-      
-      componentWillUnmount() {
-        clearInterval(this.state.intervalId)
-      }
-
-      print = (time) => {
-        return (
-            <div className="cdb-style scale-in-center">
-                    {time}
-                </div>
-        );
-      }
+    }
 
     render() {
-        let valTime = this.props.value
-        
         return ( 
-            <div className="cdb-style scale-in-center">
-                {this.state.time}
+            <div className="cdb-style">
+                {(this.state.time > 0) ? this.state.time : this.state.go}
             </div>
         );
     }
