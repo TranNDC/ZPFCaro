@@ -92,6 +92,7 @@ class EditText extends React.Component {
                     value={(this.state.value != "") ? this.state.value : valueInput}
                     required={required}
                     onChange={e => this.onChangeContent(e.target.value)}
+                    className="no-border-right"
                 />
                 <InputGroup.Append>
                     <InputGroup.Text className="edit-text">

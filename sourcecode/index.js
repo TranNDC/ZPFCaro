@@ -162,7 +162,7 @@ app.post('/register', cors(corsOptions), async (req, res) => {
    password = req.body.password
    email = req.body.email
    displayedName = req.body.displayedName
-
+   console.log(displayedName);
    if (! (await service.isUniqueUsername(username))) {
       res.status(400).json({statusCode: 404, message: "This username existed, please choose another"})
       return

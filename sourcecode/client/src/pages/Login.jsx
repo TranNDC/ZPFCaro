@@ -63,7 +63,7 @@ class Login extends React.Component {
     let coppyState = { ...this.state };
     let user = {
       username: coppyState.username,
-      password: coppyState.username
+      password: coppyState.password
     };
     let errorMessage = await this.props.login(user, this.props.history);
     this.setState({ error: errorMessage });

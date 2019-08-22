@@ -96,6 +96,7 @@ class Register extends React.Component {
       email: coppyState.email,
       displayedName: coppyState.displayedName
     };
+    console.log(user);
     let errorMessage = await this.props.register(user, this.props.history);
     this.setState({error:errorMessage})
     // console.log(errorMessage);;
