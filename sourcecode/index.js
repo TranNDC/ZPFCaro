@@ -1,9 +1,14 @@
 const express = require('express')
 const app = express()
 let service = require('./service/service');
-
+var cors = require('cors')
 // Use body-parser
 let bodyParser = require('body-parser');
+
+var corsOptions = {
+   origin: 'http://localhost:3000',
+ }
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -118,249 +123,260 @@ app.get('/test', async (req, res) => {
 
 // Request: username | password
 // Response: code 200 (token) | code 404 (fail)
-app.post('/login', async (req, res) => {
+app.options('/login', cors())
+app.post('/login', cors(corsOptions), async (req, res) => {
    username = req.body.username
    password = req.body.password;
 
    result = await service.checkLogin(username, password)
    
    if (result) {
-      res.json({statusCode: 200, token: result})
+      res.status(200).json({token: result})
    }
    else {
-      res.json({statusCode: 404, message: "Username or password is wrong"})
+      res.status(404).json({message: "Username or password is wrong"})
    }
 })
 
 // Request: token, logout
 // Response: msg error or success
-app.post('/logout', async (req, res) => {
+app.options('/logout', cors())
+app.post('/logout', cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
 
    result = await service.addTokenToBLJWT(token)
    if (!result) {
-      res.json({statusCode: 200, message: "Logout successfully"})
+      res.status(200).json({message: "Logout successfully"})
       return
    }
 
-   res.json({statusCode: 404, message: "Wrong token, logout fail"})
+   res.status(404).json({message: "Wrong token, logout fail"})
 })
 
 // Request: username, password, email, displayedname
 // Response: msg error or success
-app.post('/register', async (req, res) => {
+app.options('/register', cors())
+app.post('/register', cors(corsOptions), async (req, res) => {
    username = req.body.username
    password = req.body.password
    email = req.body.email
    displayedname = req.body.displayedname
 
    if (! (await service.isUniqueUsername(username))) {
-      res.json({statusCode: 404, message: "This username existed, please choose another"})
+      res.status(400).json({statusCode: 404, message: "This username existed, please choose another"})
       return
    }
 
    if (! (await service.isUniqueEmail(email))) {
-      res.json({statusCode: 404, message: "This email existed, please choose another"})
+      res.status(400).json({message: "This email existed, please choose another"})
       return
    }
 
    result = await service.addNewUser(username, password, email, displayedname)
    if (result == null) {
-      res.json({statusCode: 500, message: "Server registered new account fail"})
+      res.status(500).json({message: "Server registered new account fail"})
       return
    }
 
-   res.json({statusCode: 200, message: "Register new account successfully"})
+   res.status(200).json({message: "Register new account successfully"})
 })
 
 // Request: token
 // Response: listGameRoom
-app.get('/listgameroom', async (req, res) => {
+app.get('/listgameroom', cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
 
    listGameRoom = await service.getListGameRoom(token)
    if (!listGameRoom) {
-      res.json({statusCode: 404, message: "Wrong/Expired token"})
+      res.status(400).json({message: "Wrong/Expired token"})
       return
    }
 
-   res.json({statusCode: 200, listGameRoom: listGameRoom})
+   res.status(200).json({listGameRoom: listGameRoom})
 })
 
 // Request: token
 // Response: leaderboard
-app.get('/leaderboard/top6', async (req, res) => {
+app.get('/leaderboard/top6', cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
 
    leaderboard = await service.getTop6LB(token)
    if (!leaderboard) {
-      res.json({statusCode: 404, message: "Wrong/Expired token"})
+      res.status(400).json({ message: "Wrong/Expired token"})
       return
    }
 
-   res.json({statusCode: 200, leaderboard: leaderboard})
+   res.status(200).json({statusCode: 200, leaderboard: leaderboard})
 })
 
 // Request: token
 // Response: leaderboard
-app.get('/leaderboard/all', async (req, res) => {
+app.get('/leaderboard/all', cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
 
    leaderboard = await service.getAllTopLB(token)
    if (!leaderboard) {
-      res.json({statusCode: 404, message: "Wrong/Expired token"})
+      res.status(400).json({ message: "Wrong/Expired token"})
       return
    }
 
-   res.json({statusCode: 200, leaderboard: leaderboard})
+   res.status(200).json({statusCode: 200, leaderboard: leaderboard})
 })
 
 // Request: token
 // Response: userInfo
-app.get('/user', async (req, res) => {
+app.get('/user', cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
 
    userInfo = await service.getUserInfo(token)
    if (!userInfo) {
-      res.json({statusCode: 404, message: "Wrong/Expired token"})
+      res.status(400).json({ message: "Wrong/Expired token"})
       return
    }
 
-   res.json({statusCode: 200, userInfo: userInfo})
+   res.status(200).json({  userInfo: userInfo})
 })
 
 // Request: token, name
 // Response: msg error or success
-app.post('/user/name', async (req, res) => {
+app.options('/user/name', cors())
+app.post('/user/name', cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
    name = req.body.name
 
    result = await service.updateUserDisplayedName(token, name)
    if (!result) {
-      res.json({statusCode: 404, message: "Wrong/Expired token"})
+      res.status(400).json({ message: "Wrong/Expired token"})
       return
    }
 
-   res.json({statusCode: 200, message: "Update successfully"})
+   res.status(200).json({  message: "Update successfully"})
 })
 
 // Request: token, error
 // Response: msg error or success
-app.post('/user/email', async (req, res) => {
+app.options('/user/email', cors())
+app.post('/user/email', cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
    email = req.body.email
 
    result = await service.updateUserEmail(token, email)
    if (!result) {
-      res.json({statusCode: 404, message: "Wrong/Expired token or Existed email"})
+      res.status(400).json({ message: "Wrong/Expired token or Existed email"})
       return
    }
 
-   res.json({statusCode: 200, message: "Update successfully"})
+   res.status(200).json({  message: "Update successfully"})
 })
 
 // Request: token, password
 // Response: msg error or success
-app.post('/user/password', async (req, res) => {
+app.options('/user/password', cors())
+app.post('/user/password', cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
    password = req.body.password
 
    result = await service.updateUserPassword(token, password)
    if (!result) {
-      res.json({statusCode: 404, message: "Wrong/Expired token"})
+      res.status(400).json({ message: "Wrong/Expired token"})
       return
    }
 
-   res.json({statusCode: 200, message: "Update successfully"})
+   res.status(200).json({  message: "Update successfully"})
 })
 
 // Request: token, avatar
 // Response: msg error or success
-app.post('/user/avatar', async (req, res) => {
+app.options('/user/avatar', cors())
+app.post('/user/avatar', cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
    avatar = req.body.avatar
 
    result = await service.updateUserAvatar(token, avatar)
    if (!result) {
-      res.json({statusCode: 404, message: "Wrong/Expired token"})
+      res.status(400).json({ message: "Wrong/Expired token"})
       return
    }
 
-   res.json({statusCode: 200, message: "Update successfully"})
+   res.status(200).json({  message: "Update successfully"})
 })
 
 // Request: token, points
 // Response: msg error or success
-app.post('/user/points', async (req, res) => {
+app.options('/user/points', cors())
+app.post('/user/points', cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
    points = req.body.points
 
    result = await service.updateUserPoints(token, points)
    if (!result) {
-      res.json({statusCode: 404, message: "Wrong/Expired token"})
+      res.status(400).json({ message: "Wrong/Expired token"})
       return
    }
 
-   res.json({statusCode: 200, message: "Update successfully"})
+   res.status(200).json({  message: "Update successfully"})
 })
 
 // Request: token, winnum
 // Response: msg error or success
-app.post('/user/winnum', async (req, res) => {
+app.options('/user/winnum', cors())
+app.post('/user/winnum', cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
    winnum = req.body.winnum
 
    result = await service.updateUserWinNum(token, winnum)
    if (!result) {
-      res.json({statusCode: 404, message: "Wrong/Expired token"})
+      res.status(400).json({ message: "Wrong/Expired token"})
       return
    }
 
-   res.json({statusCode: 200, message: "Update successfully"})
+   res.status(200).json({  message: "Update successfully"})
 })
 
 // Request: token, drawnum
 // Response: msg error or success
-app.post('/user/drawnum', async (req, res) => {
+app.options('/user/drawnum', cors())
+app.post('/user/drawnum', cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
    drawnum = req.body.drawnum
 
    result = await service.updateUserDrawNum(token, drawnum)
    if (!result) {
-      res.json({statusCode: 404, message: "Wrong/Expired token"})
+      res.status(400).json({ message: "Wrong/Expired token"})
       return
    }
 
-   res.json({statusCode: 200, message: "Update successfully"})
+   res.status(200).json({  message: "Update successfully"})
 })
 
 // Request: token, losenum
 // Response: msg error or success
-app.post('/user/losenum', async (req, res) => {
+app.options('/user/losenum', cors())
+app.post('/user/losenum', cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
    loseNum = req.body.losenum
 
    result = await service.updateUserLoseNum(token, losenum)
    if (!result) {
-      res.json({statusCode: 404, message: "Wrong/Expired token"})
+      res.status(400).json({ message: "Wrong/Expired token"})
       return
    }
 
-   res.json({statusCode: 200, message: "Update successfully"})
+   res.status(200).json({  message: "Update successfully"})
 })
 
 // Request: token
-// Response: JSON(username, ranking)
-app.get('/user/ranking', async (req, res) => {
+// Response: JSON(username, ranking)\
+app.get('/user/ranking', cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
 
    result = await service.getMyRanking(token)
    if (!result) {
-      res.json({statusCode: 404, errorMsg: "Wrong/Expired token"})
+      res.status(400).json({ errorMsg: "Wrong/Expired token"})
       return
    }
 
-   res.json({statusCode: 200, ranking: result})
+   res.status(200).json({  ranking: result})
 })
 
 

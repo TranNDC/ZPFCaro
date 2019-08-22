@@ -21,3 +21,10 @@
 .login-margintop {
     margin-top: 30px;
 }
+
+.login-error-message{
+    color: red;
+    top:90px;
+    transition: 1s;
+    position: absolute;
+}

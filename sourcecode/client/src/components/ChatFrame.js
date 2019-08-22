@@ -3,8 +3,8 @@ import BlackButton from "../subcomponents/BlackButton";
 import React from "react";
 import { FormGroup, FormControl } from "react-bootstrap";
 import { addMessage } from "../actions/chatAction";
-import { Button } from "react-bootstrap";
 import { connect } from "react-redux";
+import { Button } from "react-bootstrap";
 
 import "./ChatFrame.css";
 import "../subcomponents/BlackButton.css";
@@ -23,7 +23,6 @@ import "../subcomponents/BlackButton.css";
 //   }
 // }
 
-
 class ChatFrame extends React.Component {
   constructor(props) {
     super(props);
@@ -33,18 +32,37 @@ class ChatFrame extends React.Component {
     this.handleTextChange = this.handleTextChange.bind(this);
   }
 
-  componentWillMount(){
-      console.log(this.props.user)
-      console.log(this.props.messages)
+  componentWillMount() {
+    console.log(this.props.user);
+    console.log(this.props.messages);
   }
+
+  componentDidUpdate() {
+    document.querySelector('.cfr-message-frame').scrollTo(0, document.querySelector('.cfr-message-frame').scrollHeight)
+} 
 
   handleTextChange(e) {
     this.setState({ message: e.target.value });
   }
-  
-  handleClick(){
-      this.props.addMessage(this.state.message,this.props.user.avatar,this.props.user.displayedName,'response');
+
+  handleClick() {
+    this.setState({ message: '' });
+    this.props.addMessage(
+      this.state.message,
+      this.props.user.avatar,
+      this.props.user.displayedName,
+      "response"
+    );
   }
+
+  enterPressed(event) {
+    var code = event.keyCode || event.which;
+    if(code === 13) { 
+      this.handleClick();
+        //Do stuff in here
+    } 
+}
+
 
   render() {
     return (
@@ -52,7 +70,7 @@ class ChatFrame extends React.Component {
         <div className="cfr-display-frame">
           <div className="cfr-title">{this.props.opponent.username}</div>
           <div className="cfr-message-frame">
-            {this.props.messages.map((message) => {
+            {this.props.messages.map(message => {
               return (
                 <Message
                   type={message.type}
@@ -69,14 +87,17 @@ class ChatFrame extends React.Component {
             <FormControl
               className="m-0"
               type="text"
+              value={this.state.message}
               placeholder="Type a message..."
               onChange={e => {
                 this.handleTextChange(e);
               }}
+              onKeyPress={this.enterPressed.bind(this)}
             />
           </FormGroup>
           {/* <ChatInput className="cfr-input" /> */}
           <Button
+            type="submit"
             className="black-button cfr-btn"
             onClick={this.handleClick.bind(this)}
           >
@@ -100,13 +121,11 @@ function mapDispatchToProps(dispatch) {
   return {
     addMessage(message, avatar, username, type) {
       dispatch(addMessage(message, avatar, username, type));
-    },
- 
+    }
   };
 }
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(ChatFrame);
-  
+  mapStateToProps,
+  mapDispatchToProps
+)(ChatFrame);

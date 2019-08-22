@@ -19,6 +19,7 @@
 
 .cfr-message-frame{
     overflow-y: auto;
+    overflow-x: hidden;
     height: 77%;
 }
 
