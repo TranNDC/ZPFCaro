@@ -14,7 +14,8 @@ class InputText extends React.Component {
   }
 
   render() {
-    let icon, alt, placeholder, type, pattern, title, required, minpts, maxpts;
+    let icon, alt, placeholder, type, pattern, title, required, minpts, maxpts, maxLength;
+    maxLength = this.props.maxLength
 
     switch (this.props.type) {
       case 'username':
@@ -106,6 +107,7 @@ class InputText extends React.Component {
           min={minpts}
           max={maxpts}
           onChange={this.handleClick}
+          maxlength={maxLength}
         />
       </InputGroup>
     );  
