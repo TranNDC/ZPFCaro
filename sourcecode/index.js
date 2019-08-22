@@ -212,16 +212,30 @@ app.get('/gameroom/one', async (req, res) => {
 })
 
 // Request: token, gameroom
-// Response: 
 // Parameter of "gameroom": JSON gameroom (uuid, room_name, password, bet_points, guest_id, host_id, is_waiting)
 // is_waiting {0,1} => 1 means room is playing
 app.post('/gameroom', async (req, res) => {
    token = req.headers.authorization
    gameroom = req.body.gameroom
 
-   result = service.updateGameRoom(token, gameroom)
+   result = service.setGameRoom(token, gameroom)
    if (!result) {
       res.json({statusCode: 404, message: "Wrong/Expired token"})
+      return
+   }
+
+   res.json({statusCode: 200, message: "Update successfully"})
+})
+
+// Request: token, json uuid, json guest_id
+app.post('/gameroom/guest', async (req, res) => {
+   token = req.headers.authorization
+   uuid = req.body.gid
+   guest_id = req.body.guest_id
+
+   result = await service.updateGuestAndStatusGR(token, uuid, guest_id)
+   if (!result) {
+      res.status(400).json({statusCode: 400, message: "Wrong/Expired token or room not empty"})
       return
    }
 

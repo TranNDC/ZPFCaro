@@ -1,7 +1,5 @@
 import React from 'react';
-
 import './GameAvatar.css';
-
 
 class GameAvatar extends React.Component{
     render(){

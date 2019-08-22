@@ -319,15 +319,25 @@ service.getInfoOneGameRoom = async (token, keyRoom) => {
 }
 
 // Add/Update gameroom info
-// Parameter: JSON gameroom (uuid, room_name, password, bet_points, guest_id, host_id, is_waiting) | Token
+// Parameter: JSON gameroom (uuid, room_name, password, bet_points, host_id, is_waiting) | Token
 // is_waiting {0,1} => 1 means room is playing
 // Result: False | True
-service.updateGameRoom = async (token, gameroom) => {
+service.setGameRoom = async (token, gameroom) => {
     verifyToken = await service.verifyJWT(token)
     if (!verifyToken) return false
 
     repoRedis.setFieldGR(gameroom)
     return true
+}
+
+// Update guest_id & status of gameroom
+// Parameter: STRING uuid, guest_id
+// Result: False | True
+service.updateGuestAndStatusGR = async (token, uuid, guest_id) => {
+    verifyToken = await service.verifyJWT(token)
+    if (!verifyToken) return false
+
+    return (await repoRedis.updateGuestAndStatusGR(uuid, guest_id))
 }
 
 module.exports = service;
