@@ -124,7 +124,7 @@ app.post('/login', async (req, res) => {
 
    result = await service.checkLogin(username, password)
    
-   if (!result) {
+   if (result) {
       res.json({statusCode: 200, token: result})
    }
    else {
@@ -134,7 +134,7 @@ app.post('/login', async (req, res) => {
 
 // Request: token, logout
 // Response: msg error or success
-app.post('/logout', (req, res) => {
+app.post('/logout', async (req, res) => {
    token = req.headers.authorization
 
    result = await service.addTokenToBLJWT(token)
