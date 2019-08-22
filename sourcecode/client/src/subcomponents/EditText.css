@@ -42,6 +42,6 @@
     border-color: #F98D0F;
 }
 
-.input-text.no-border-right {
+.input-text .no-border-right {
     border-right: none;
 }

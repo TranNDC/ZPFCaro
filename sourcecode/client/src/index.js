@@ -204,7 +204,7 @@ import CreateRoom from "./components/CreateRoom";
 // -------------------------------
 // TEST HOMEPAGE
 // -------------------------------
-ReactDOM.render(<Homepage />, document.getElementById('root'));
+// ReactDOM.render(<Homepage />, document.getElementById('root'));
 
 // -------------------------------
 // TEST LOGIN
