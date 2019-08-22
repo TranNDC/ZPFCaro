@@ -4,6 +4,7 @@ import './Header.css';
 import '../subcomponents/CircleButton.css';
 import Settings from './Settings';
 import Profile from './Profile';
+import Aboutus from './Aboutus';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 
 class Header extends React.Component {
@@ -25,7 +26,7 @@ class Header extends React.Component {
                     <Col className="h-iconCol" xs={9}>
                         <Profile />
                         <Button className="h-icon circleButton fa fa-book"></Button>
-                        <Button className="h-icon circleButton fa fa-info"></Button>
+                        <Aboutus />
                         <Settings />
                         <Button className="h-icon circleButton fa fa-sign-out"></Button>
                     </Col>

@@ -68,7 +68,7 @@ class Profile extends React.Component {
                         }
                     </div>
                     <div className="prof-margintop">
-                        <Button className="rect-btn text-black small-width background-gray cr-marginRight" onClick={this.closeModal}>back</Button>
+                        <Button className="rect-btn text-black small-width background-gray prof-marginRight" onClick={this.closeModal}>back</Button>
                         <Button className="rect-btn text-black small-width">update</Button>
                     </div>
                 </Modal>
