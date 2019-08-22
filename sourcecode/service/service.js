@@ -297,7 +297,7 @@ service.getInfoAllGameRoom = async (token) => {
     
     let listGameRoomJSON = []
     allGameRooms = await repoRedis.getInfoOfAllGR()
-    if (allGameRooms == null) return false
+    if (allGameRooms == null) return null
 
     allGameRooms.forEach(element => {
         let valJSON = JsonGameRoomInfo(element)

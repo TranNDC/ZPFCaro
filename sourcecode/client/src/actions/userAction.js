@@ -1,4 +1,5 @@
 import { api } from "../api/api";
+import {store} from "../index";
 import  { Redirect } from 'react-router-dom'
 import {setJwtToStorage} from "../utils/storageUtil";
 
@@ -37,12 +38,11 @@ export function register(user,history) {
 }
 
 export function login(user,history) {
-  console.log(user);
   return function(dispatch) {
     return callLoginApi(user)
       .then(result => {
         setJwtToStorage(result.data.token); 
-        history.push('/homepage')
+        history.push('/')
       }).catch((err) => {
         return err.response.data.message;
       })
@@ -50,12 +50,25 @@ export function login(user,history) {
   };
 }
 
-export function loadUserInfo(){
-  
+export async function loadUserInfo(history){
+  await callGetUserInfoApi().then(
+    (res)=>{
+      store.dispatch(loadUser(res.data));
+    }
+  ).catch(
+    (err)=>{
+      history.push('/login')
+    }
+  )
+}
+
+export function loadUser(data){
   return{
-    type: LOAD_USERINFO
+    type: LOAD_USERINFO,
+    user: data
   }
 }
+
 
 function callRegisterApi(user) {
   var promise = new Promise(function(resolve, reject) {
@@ -75,6 +88,20 @@ function callLoginApi(user) {
   var promise = new Promise(function(resolve, reject) {
     api
       .post(`/login`, user)
+      .then(res => {
+        resolve(res);
+      })
+      .catch(res => {
+        reject(res);
+      });
+  });
+  return promise;
+}
+
+function callGetUserInfoApi() {
+  var promise = new Promise(function(resolve, reject) {
+    api
+      .get(`/user`)
       .then(res => {
         resolve(res);
       })

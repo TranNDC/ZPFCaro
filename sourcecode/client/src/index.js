@@ -204,7 +204,7 @@ import CreateRoom from "./components/CreateRoom";
 // -------------------------------
 // TEST HOMEPAGE
 // -------------------------------
-ReactDOM.render(<Homepage />, document.getElementById('root'));
+// ReactDOM.render(<Homepage />, document.getElementById('root'));
 
 // -------------------------------
 // TEST LOGIN
@@ -236,7 +236,7 @@ ReactDOM.render(
     <Router>
       <Route exact path="/register" component={Register} />
       <Route exact path="/login" component={Login} />
-      <Route exact path="/homepage" component={Homepage} />
+      <Route exact path="/" component={Homepage} />
       <Route exact path="/game" component={Game} />
     </Router>
   </Provider>,
