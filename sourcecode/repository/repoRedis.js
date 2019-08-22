@@ -19,10 +19,16 @@ function keyBLJWT(jwt) {
     return ("BlackListJWT:" + jwt)
 }
 
+// Set JWT to Redis
+// Parameter: SRING jwt, TIME (SECONDS) expires
+// Result: True 
 repoRedis.setBLJWT = async (jwt, expires) => {
     return (await client.setex(keyBLJWT(jwt), expires, 1))
 }
 
+// Check JWT existed in Redis or not
+// Parameter: STRING jwt
+// Result: True | False
 repoRedis.isMemberBLJWT = (jwt) => {
     getAsync = promisify(client.get).bind(client)
     return getAsync(keyBLJWT(jwt)).then((res) => {
@@ -35,10 +41,14 @@ repoRedis.isMemberBLJWT = (jwt) => {
 // ------------------------------------------------
 const keyLB = "Leaderboard"
 
+// Add user to Leaderboard
+// Parameter: STRING username, INT points
 repoRedis.setFieldLB = (username, points) => {
     client.zadd(keyLB, points, username)
 }
 
+// Get top 6 of leaderboard
+// Result: JSON array with top 6 users
 repoRedis.getTop6LB = () => {
     getAsync = promisify(client.zrevrange).bind(client)
     return getAsync(keyLB, 0, 5, 'WITHSCORES').then((res) => {
@@ -46,6 +56,8 @@ repoRedis.getTop6LB = () => {
     })
 }
 
+// Get all top of leaderboard
+// Result: JSON array with all top users
 repoRedis.getAllTopLB = () => {
     getAsync = promisify(client.zrevrange).bind(client)
     return getAsync(keyLB, 0, -1, 'WITHSCORES').then((res) => {
@@ -53,6 +65,9 @@ repoRedis.getAllTopLB = () => {
     })
 }
 
+// Get user ranking by username
+// Parameter: STRING username
+// Result: INT ranking+1 (ranking in redis starts with 0, we must plus 1)
 repoRedis.getMyRanking = (username) => {
     getAsync = promisify(client.zrevrank).bind(client)
     return getAsync(keyLB, username).then((res) => {

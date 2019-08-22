@@ -138,6 +138,7 @@ app.post('/logout', async (req, res) => {
    token = req.headers.authorization
 
    result = await service.addTokenToBLJWT(token)
+   console.log(result)
    if (!result) {
       res.json({statusCode: 404, message: "Wrong token, logout fail"})      
       return
