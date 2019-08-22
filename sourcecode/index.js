@@ -138,7 +138,6 @@ app.post('/logout', async (req, res) => {
    token = req.headers.authorization
 
    result = await service.addTokenToBLJWT(token)
-   console.log(result)
    if (!result) {
       res.json({statusCode: 404, message: "Wrong token, logout fail"})      
       return
@@ -176,16 +175,48 @@ app.post('/register', async (req, res) => {
 
 // Request: token
 // Response: listGameRoom
-app.get('/listgameroom', async (req, res) => {
+app.get('/gameroom/all', async (req, res) => {
    token = req.headers.authorization
 
-   listGameRoom = await service.getListGameRoom(token)
+   listGameRoom = await service.getInfoAllGameRoom(token)
    if (!listGameRoom) {
-      res.json({statusCode: 404, message: "Wrong/Expired token"})
+      res.json({statusCode: 404, message: "Wrong/Expired token or rooms not found"})
       return
    }
 
    res.json({statusCode: 200, listGameRoom: listGameRoom})
+})
+
+// Request: token with URL(/gameroom/one?gid=xxxx)
+// Response: GameRoom
+app.get('/gameroom/one', async (req, res) => {
+   token = req.headers.authorization
+   gid = req.query.gid
+
+   grInfo = await service.getInfoOneGameRoom(token, gid)
+   if (!grInfo) {
+      res.json({statusCode: 404, message: "Wrong/Expired token or room not found"})
+      return
+   }
+
+   res.json({statusCode: 200, gameRoom: grInfo})
+})
+
+// Request: token, gameroom
+// Response: 
+// Parameter of "gameroom": JSON gameroom (uuid, room_name, password, bet_points, guest_id, host_id, is_waiting)
+// is_waiting {0,1} => 1 means room is playing
+app.post('/gameroom', async (req, res) => {
+   token = req.headers.authorization
+   gameroom = req.body.gameroom
+
+   result = service.updateGameRoom(token, gameroom)
+   if (!result) {
+      res.json({statusCode: 404, message: "Wrong/Expired token"})
+      return
+   }
+
+   res.json({statusCode: 200, message: "Update successfully"})
 })
 
 // Request: token
