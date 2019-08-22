@@ -1,10 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./style.css";
+import thunkMiddleware from 'redux-thunk'
 import rootReducer from "./reducers/index";
 import { Provider } from "react-redux";
-import { clearStorage } from "./utils/gameUtils";
-import { createStore } from "redux";
+import {applyMiddleware, createStore } from "redux";
+
+import {BrowserRouter as Router, Route} from "react-router-dom";
+
 import InputText from "./subcomponents/InputText";
 import LogoTitle from "./subcomponents/LogoTitle";
 import EditText from "./subcomponents/EditText";
@@ -136,7 +139,7 @@ import CreateRoom from "./components/CreateRoom";
 // let avatar = require("./media/avatar.png")
 // ReactDOM.render(<Game  avatar={avatar}/>, document.getElementById('root'));
 
-export const store = createStore(rootReducer);
+// export const store = createStore(rootReducer);
 
 // let avatar = require("./media/avatar.png");
 // ReactDOM.render(
@@ -222,3 +225,20 @@ ReactDOM.render(<Homepage />, document.getElementById('root'));
 // TEST CREATEROOM
 // -------------------------------
 // ReactDOM.render(<CreateRoom />, document.getElementById('root'));
+
+
+
+export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+window.store = store;
+let avatar = require("./media/avatar.png");
+ReactDOM.render(
+  <Provider store={store}>
+    <Router>
+      <Route exact path="/register" component={Register} />
+      <Route exact path="/login" component={Login} />
+      <Route exact path="/homepage" component={Homepage} />
+      <Route exact path="/game" component={Game} />
+    </Router>
+  </Provider>,
+  document.getElementById("root")
+);

@@ -6,11 +6,11 @@ class InputText extends React.Component {
 
   constructor(props) {
     super(props);
-    // this.handleClick = this.handleClick.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick = function(e) {
-    // this.props.onChangeValue(e.target.value);
+    this.props.onChangeValue(e.target.value);
   }
 
   render() {
@@ -41,8 +41,8 @@ class InputText extends React.Component {
           alt = "icon-confirm-password";
           type = "password";
           placeholder = "Confirmed Password";
-          pattern = ".{6,}";
-          title = "Confirmed password contains at least 6 characters";
+          pattern = decodeURI(this.props.pattern);
+          title = "Confirmed password does not match";
           required = "required";
           break;
       case 'email':
@@ -106,6 +106,7 @@ class InputText extends React.Component {
           required={required}
           min={minpts}
           max={maxpts}
+          value={this.props.value}
           onChange={this.handleClick}
           maxlength={maxLength}
         />

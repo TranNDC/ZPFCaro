@@ -94,7 +94,7 @@ class EditText extends React.Component {
                     onChange={e => this.onChangeContent(e.target.value)}
                 />
                 <InputGroup.Append>
-                    <InputGroup.Text>
+                    <InputGroup.Text className="edit-text">
                         <a href="#" onClick={e => this.doEdit(e, disableNewPass)}>
                             <img src={icon} alt={alt}/>
                         </a>
