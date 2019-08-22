@@ -329,12 +329,4 @@ service.updateGameRoom = async (token, gameroom) => {
     return true
 }
 
-
-
-
-
-
-
-
-
 module.exports = service;

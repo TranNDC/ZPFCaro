@@ -395,15 +395,6 @@ app.get('/user/ranking', async (req, res) => {
    res.json({statusCode: 200, ranking: result})
 })
 
-
-
-
-
-
-
-
-
-
 app.listen(5000, () => {
    console.log("App is listening on port 5000...")
    service.connectRedis();
