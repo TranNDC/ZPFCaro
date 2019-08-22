@@ -8,8 +8,14 @@ class GameCell extends React.Component {
         super(props)
     }
 
+    componentWillUpdate(nextProps, nextState){
+        if (nextProps.pattern != '')
+        this.disable = true;
+    }
+
     render(){
         let classes = 'gc-game-cell d-flex justify-content-center align-content-center'+ this.props.className + ' ' + this.props.pattern;
+        classes += (this.disable)?" disable":"";
         return (
             <div className={classes}>
                 <a className="text-decoration-none">

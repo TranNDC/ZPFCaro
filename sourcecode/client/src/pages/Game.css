@@ -26,6 +26,8 @@
 } */
 
 .g-game-col{
+    padding-bottom:  7px !important;
+    padding-top:  7px !important;
     border: 1px solid white !important;
 }
 
