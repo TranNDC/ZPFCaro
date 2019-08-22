@@ -46,6 +46,11 @@ class Login extends React.Component {
           <div>
             <Button type="submit" className="rect-btn">login</Button>
           </div>
+          <div className="login-paddingtop">
+            <a href="#" className="login-link"><label className="login-lableStyle">Forgot password?</label></a>
+            <label className="login-paddingLink"></label>
+            <a href="#" className="login-link"><label className="login-lableStyle">Don't have account?</label></a>
+          </div>
         </form>
       </Container>
     );
