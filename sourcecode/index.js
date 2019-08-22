@@ -71,7 +71,26 @@ app.get('/test', async (req, res) => {
    // console.log(result)
 
    // result = await service.delExpiredTokenInBLJWT()
+
+   service.updatePointsLB ("cattran", 1000000)
+   service.updatePointsLB ("quoctk01", 800000)
+   service.updatePointsLB ("quoctk01", 900000)
+   service.updatePointsLB ("quoctk02", 800000)
+   service.updatePointsLB ("quoctk02", 700000)
+   service.updatePointsLB ("quoctk08", 250000)
+   service.updatePointsLB ("quoctk08", 220000)
+   console.log("-------------------------------")
+   console.log(await service.getTop6LB("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF1b2N0azA4IiwiaWF0IjoxNTY2NDM5NDgxLCJleHAiOjE1NjY0Mzk1MDF9.3r7ReuDj1rBjKCmt_d1nHFwpyfLNZfgOJSDJMY4Ef3E"))
+   console.log("-------------------------------")
+   console.log(await service.getAllTopLB("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF1b2N0azA4IiwiaWF0IjoxNTY2NDM5NDgxLCJleHAiOjE1NjY0Mzk1MDF9.3r7ReuDj1rBjKCmt_d1nHFwpyfLNZfgOJSDJMY4Ef3E"))
+   console.log("-------------------------------")
+   console.log(await service.getMyRanking("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF1b2N0azA4IiwiaWF0IjoxNTY2NDM5NDgxLCJleHAiOjE1NjY0Mzk1MDF9.3r7ReuDj1rBjKCmt_d1nHFwpyfLNZfgOJSDJMY4Ef3E"))
+   console.log("-------------------------------")
 })
+
+
+
+
 
 // app.get('/verify', async (req, res) => {
 //    token = req.headers.authorization
@@ -155,10 +174,21 @@ app.get('/listgameroom', async (req, res) => {
 
 // Request: token
 // Response: leaderboard
-app.get('/leaderboard', async (req, res) => {
+app.get('/leaderboard/top6', async (req, res) => {
    token = req.headers.authorization
 
-   leaderboard = service.getLeaderboard(token)
+   leaderboard = service.getTop6LB(token)
+   if (!leaderboard) res.json({statusCode: 404, errorMsg: "Wrong/Expired token"})
+
+   res.json({statusCode: 200, leaderboard: leaderboard})
+})
+
+// Request: token
+// Response: leaderboard
+app.get('/leaderboard/all', async (req, res) => {
+   token = req.headers.authorization
+
+   leaderboard = service.getAllTopLB(token)
    if (!leaderboard) res.json({statusCode: 404, errorMsg: "Wrong/Expired token"})
 
    res.json({statusCode: 200, leaderboard: leaderboard})

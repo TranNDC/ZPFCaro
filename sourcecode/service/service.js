@@ -17,7 +17,7 @@ service.connectMongoDB = () => {
 // Parameter: JSON data
 // Result: Token
 service.generateJWT = async (data) => {
-    return (await jwt.sign(data, tokenKey, {expiresIn: "20s"}))
+    return (await jwt.sign(data, tokenKey, {expiresIn: "7d"}))
 }
 
 // Verify JWT
@@ -80,36 +80,6 @@ service.getUserInfo = async (token) => {
     if (!verifyToken) return false
     username = verifyToken.username
     return (await repoMongo.getUserByUsername(username))
-}
-
-// Get list game room
-// Parameter: STRING token
-// Result: False | List game room
-service.getListGameRoom = async (token) => {
-    verifyToken = await service.verifyJWT(token)
-    if (!verifyToken) return false
-    username = verifyToken.username
-
-    
-
-
-
-    // return (await repoMongo.getUserByUsername(username))
-}
-
-// Get leaderboard
-// Parameter: STRING token
-// Result: False | Leaderboard
-service.getLeaderboard = async (token) => {
-    verifyToken = await service.verifyJWT(token)
-    if (!verifyToken) return false
-    username = verifyToken.username
-
-    
-
-
-
-    // return (await repoMongo.getUserByUsername(username))
 }
 
 // Update losenum
@@ -221,7 +191,7 @@ service.addNewUser = async (username, password, email, displayedname) => {
     hashpass = await service.hashPassword(password)
     newUser = '{"username" : "' + username + '", "password" : "' + hashpass + '", "email" : "' + email + '", "displayedname" : "' + displayedname + '"}'
     newUser = JSON.parse(newUser);
-    return (await repository.addUser(newUser))
+    return (await repoMongo.addUser(newUser))
 }
  
 /* --------------------------------------------------------------
@@ -248,7 +218,7 @@ service.addTokenToBLJWT = async (token) => {
     return (await repoRedis.setFieldBLJWT(token))
 }
 
-// Deleting expired token in Redis
+// Deleting expired token in Redis (Used in setInterval)
 service.delExpiredTokenInBLJWT = async () => {
     membersBLJWT = await repoRedis.getMembersBLJWT()
     let validJWTArray = []
@@ -265,6 +235,75 @@ service.delExpiredTokenInBLJWT = async () => {
 
     if (validJWTArray.length != 0) repoRedis.setFieldBLJWT(validJWTArray)
 }
+
+// Add/Update points into leaderboard
+// Parameter: STRING username, displayedName, INT points
+service.updatePointsLB = (username, points) => {
+    repoRedis.setFieldLB(username, points)
+}
+
+// Process top user info (add more 2 field info: display_name & points)
+async function processTopUserInfoLB(array) {
+    let arrTop6 = []
+    for (let i=0; i<array.length-1; i+=2) {
+        userInfoDB = await repoMongo.getUserByUsername(array[i])
+        if (userInfoDB == null) continue
+        var user = '{"username" : "'+ array[i] + '", "display_name" : "' + userInfoDB.display_name + '", "points" : ' + array[i+1] + '}'
+        arrTop6.push(JSON.parse(user))
+    }
+
+    return arrTop6
+}
+
+// Get leaderboard (top 6)
+// Parameter: STRING token
+// Result: False | Leaderboard
+service.getTop6LB = async (token) => {
+    verifyToken = await service.verifyJWT(token)
+    if (!verifyToken) return false
+    return processTopUserInfoLB(await repoRedis.getTop6LB())
+}
+
+// Get leaderboard (all top)
+// Parameter: STRING token
+// Result: False | Leaderboard
+service.getAllTopLB = async (token) => {
+    verifyToken = await service.verifyJWT(token)
+    if (!verifyToken) return false
+    return processTopUserInfoLB(await repoRedis.getAllTopLB())
+}
+
+// Get my ranking
+service.getMyRanking = async (token) => {
+    verifyToken = await service.verifyJWT(token)
+    if (!verifyToken) return false
+    username = verifyToken.username
+
+    myRank = (await repoRedis.getMyRanking(username))
+    result = '{"username" : "'+ username + '", "ranking" : ' + myRank + '}'
+
+    return JSON.parse(result);
+}
+
+// Get list game room
+// Parameter: STRING token
+// Result: False | List game room
+service.getListGameRoom = async (token) => {
+    verifyToken = await service.verifyJWT(token)
+    if (!verifyToken) return false
+    username = verifyToken.username
+
+    
+
+
+
+    // return (await repoMongo.getUserByUsername(username))
+}
+
+
+
+
+
 
 
 

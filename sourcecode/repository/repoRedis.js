@@ -40,17 +40,37 @@ repoRedis.getMembersBLJWT = () => {
 }
 
 // ------------------------------------------------
-// LeaderBoard - Sorted Set => Shortname: LB
+// Leaderboard - Sorted Set => Shortname: LB
 // ------------------------------------------------
+const keyLB = "Leaderboard"
 
+repoRedis.setFieldLB = (username, points) => {
+    client.zadd(keyLB, points, username)
+}
 
+repoRedis.getTop6LB = () => {
+    getAsync = promisify(client.zrevrange).bind(client)
+    return getAsync(keyLB, 0, 5, 'WITHSCORES').then((res) => {
+        return res;
+    })
+}
 
+repoRedis.getAllTopLB = () => {
+    getAsync = promisify(client.zrevrange).bind(client)
+    return getAsync(keyLB, 0, -1, 'WITHSCORES').then((res) => {
+        return res;
+    })
+}
 
-
-
+repoRedis.getMyRanking = (username) => {
+    getAsync = promisify(client.zrevrank).bind(client)
+    return getAsync(keyLB, username).then((res) => {
+        return (res+1);
+    })
+}
 
 // ------------------------------------------------
-// Rooms:<uuid> Hash => Shortname: GR
+// GameRoom:<uuid> Hash => Shortname: GR
 // ------------------------------------------------
 
 
