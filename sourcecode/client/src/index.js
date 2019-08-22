@@ -139,6 +139,15 @@ import CreateRoom from "./components/CreateRoom";
 // let avatar = require("./media/avatar.png")
 // ReactDOM.render(<Game  avatar={avatar}/>, document.getElementById('root'));
 
+// export const store = createStore(rootReducer);
+
+// let avatar = require("./media/avatar.png");
+// ReactDOM.render(
+//   <Provider store={store}>
+//     <Game avatar={avatar} />
+//   </Provider>,
+//   document.getElementById("root")
+// );
 
 // -------------------------------
 // TEST HEADER
@@ -195,7 +204,7 @@ import CreateRoom from "./components/CreateRoom";
 // -------------------------------
 // TEST HOMEPAGE
 // -------------------------------
-// ReactDOM.render(<Homepage />, document.getElementById('root'));
+ReactDOM.render(<Homepage />, document.getElementById('root'));
 
 // -------------------------------
 // TEST LOGIN

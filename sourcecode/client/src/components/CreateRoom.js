@@ -32,10 +32,10 @@ class CreateRoom extends React.Component {
                         <LogoTitle text="CREATE ROOM" />
                     </div>
                     <div className="cr-marginbot">
-                        <InputText type="roomname" />
+                        <InputText type="roomname" maxLength={30}/>
                     </div>
                     <div className="cr-marginbot">
-                        <InputText type="roompassword" />
+                        <InputText type="roompassword" maxLength={30}/>
                     </div>
                     <div className="cr-marginbot">
                         <InputText type="betpoints" />
