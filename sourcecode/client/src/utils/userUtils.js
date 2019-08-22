@@ -1,7 +1,8 @@
 export function initState() {
     let initStateValue = {
+      id:'',
       username: 'tran',
-      'displayName':'Trann Nguyen',
+      'displayedName':'Trann Nguyen',
       'email':'tranndc@vng.com.vn',
       'points':10000,
       'winningRate':100,

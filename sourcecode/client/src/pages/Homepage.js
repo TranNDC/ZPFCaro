@@ -7,15 +7,28 @@ import LeaderBoard from "../components/LeaderBoard";
 import GameRooms from "../components/GameRooms";
 import CreateRoom from "../components/CreateRoom";
 import { Container, Row, Col, Button } from 'react-bootstrap';
+import {isAuthenticated} from "../utils/storageUtil";
+import {Redirect} from "react-router-dom";
+import { loadUserInfo } from "../actions/userAction";
+import { loadGameRooms } from "../actions/roomAction";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 class Homepage extends React.Component {
     constructor(props) {
         super(props);
     }
 
+    async componentWillMount(){
+        await loadUserInfo(this.props.history);
+        await loadGameRooms(this.props.history);
+    } 
+
     render() {
-        let className = this.props.className;
-        
+        if (!isAuthenticated()) {
+            return <Redirect to="/login" />;
+          }
+        let className = this.props.className
         return (
             <Container fluid={true} className={className}>
                 <Header />
@@ -24,7 +37,18 @@ class Homepage extends React.Component {
                         <GameRooms />
                     </Col>
                     <Col xs="4" className="hp-padLeft">
-                        <UserInfo avatar={require("../media/avatar.png")} type1="displayedname" displayedname="Trần Kiến Quốc" type2="points" points="800000" type3="winningrate" winningrate="68" type4="windrawlose" wins="81315" draws="41123" loses="10092" />
+                        <UserInfo 
+                        avatar={this.props.user.avatar} 
+                        type1="displayedname" 
+                        displayedname={this.props.user.displayedName} 
+                        type2="points" 
+                        points={this.props.user.points} 
+                        type3="winningrate" 
+                        winningrate={this.props.user.winningRate}
+                        type4="windrawlose" 
+                        wins={this.props.user.winCount} 
+                        draws={this.props.user.drawCount}
+                        loses={this.props.user.loseCount} />
                         <LeaderBoard className="hp-margintop"/>
                         <CreateRoom/>
                         <Button className="hp-rectbtn rect-btn">play with npc</Button>
@@ -35,4 +59,24 @@ class Homepage extends React.Component {
     }
 }
 
-export default Homepage;
+function mapStateToProps(state, index) {
+    return {
+        user: state.userReducer
+    };
+  }
+  
+  function mapDispatchToProps(dispatch) {
+    return {
+      loadUserInfo(history) {
+        return dispatch(loadUserInfo(history));
+      }
+    };
+  }
+  
+  export default withRouter(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(Homepage)
+  );
+  

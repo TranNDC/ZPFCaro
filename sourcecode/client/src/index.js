@@ -247,3 +247,19 @@ ReactDOM.render(<CountDownBox />, document.getElementById('root'));
 //   document.getElementById("root")
 // );
 
+
+export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+window.store = store;
+let avatar = require("./media/avatar.png");
+ReactDOM.render(
+  <Provider store={store}>
+    <Router>
+      <Route exact path="/register" component={Register} />
+      <Route exact path="/login" component={Login} />
+      <Route exact path="/" component={Homepage} />
+      <Route exact path="/game" component={Game} />
+    </Router>
+  </Provider>,
+  document.getElementById("root")
+);
+

@@ -24,6 +24,11 @@ export function initState(width, height, coutDownValue) {
   return initStateValue;
 }
 
+export function calculateWinningRate(win,lose,draw){
+  let rate = win/(win+lose+draw)*100;
+  return (win+lose+draw == 0)?0:Math.round(rate*100)/100;
+}
+
 function directionResult(gameBoard, x, y, dx, dy, pattern) {
   let countL = 0,
     countR = 0;

@@ -6,7 +6,7 @@ import {
   COUNTDOWN_RESET,
   CREATE_RANDOM_MOVE
 } from "../actions/gameAction";
-import { initState, createRandomMove, calculateResult } from "../utils/gameUtils";
+import { initState, createRandomMove, calculateResult } from "../utils/gameUtil";
 
 const CELL_WIDTH = 32;
 const CELL_HEIGHT = 22;

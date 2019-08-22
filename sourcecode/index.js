@@ -162,7 +162,6 @@ app.post('/register', cors(corsOptions), async (req, res) => {
    password = req.body.password
    email = req.body.email
    displayedName = req.body.displayedName
-   console.log(displayedName);
    if (! (await service.isUniqueUsername(username))) {
       res.status(400).json({statusCode: 404, message: "This username existed, please choose another"})
       return
@@ -184,11 +183,18 @@ app.post('/register', cors(corsOptions), async (req, res) => {
 
 // Request: token
 // Response: listGameRoom
-app.get('/gameroom/all', cors(corsOptions), async (req, res) => {
+app.options('/gameroom/all', cors())
+app.get('/gameroom/all', cors(corsOptions), cors(corsOptions), async (req, res) => {
+   console.log('req');
    token = req.headers.authorization
 
    listGameRoom = await service.getInfoAllGameRoom(token)
-   if (!listGameRoom) {
+   if (listGameRoom==null) {
+      res.status(200).json({listGameRoom: []})
+      return  
+   }
+
+   if (listGameRoom == false){
       res.status(400).json({message: "Wrong/Expired token"})
       return
    }
@@ -198,7 +204,8 @@ app.get('/gameroom/all', cors(corsOptions), async (req, res) => {
 
 // Request: token with URL(/gameroom/one?gid=xxxx)
 // Response: GameRoom
-app.get('/gameroom/one', async (req, res) => {
+app.options('/gameroom/one', cors())
+app.get('/gameroom/one', cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
    gid = req.query.gid
 
@@ -214,7 +221,8 @@ app.get('/gameroom/one', async (req, res) => {
 // Request: token, gameroom
 // Parameter of "gameroom": JSON gameroom (uuid, room_name, password, bet_points, guest_id, host_id, is_waiting)
 // is_waiting {0,1} => 1 means room is playing
-app.post('/gameroom', async (req, res) => {
+app.options('/gameroom', cors())
+app.post('/gameroom', cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
    gameroom = req.body.gameroom
 
@@ -244,6 +252,7 @@ app.post('/gameroom/guest', async (req, res) => {
 
 // Request: token
 // Response: leaderboard
+app.options('/leaderboard/top6', cors())
 app.get('/leaderboard/top6', cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
 
@@ -258,6 +267,7 @@ app.get('/leaderboard/top6', cors(corsOptions), async (req, res) => {
 
 // Request: token
 // Response: leaderboard
+app.options('/leaderboard/all', cors())
 app.get('/leaderboard/all', cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
 
@@ -272,6 +282,7 @@ app.get('/leaderboard/all', cors(corsOptions), async (req, res) => {
 
 // Request: token
 // Response: userInfo
+app.options('/user', cors())
 app.get('/user', cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
 
