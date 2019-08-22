@@ -11,7 +11,7 @@ export const UPDATE_PASSWORD = "user.UPDATE_PASSWORD";
 export const UPDATE_AVATAR = "user.UPDATE_AVATAR";
 export const UPDATE_DISPLAYEDNAME = "user.UPDATE_DISPLAYEDNAME";
 export const LOGOUT = "user.LOGOUT";
-export const REFRESH_USERINFO = "user.REFRESH_USERINFO";
+export const LOAD_USERINFO = "user.LOAD_USERINFO";
 
 //type: response
 export function initUser() {
@@ -31,7 +31,6 @@ export function register(user,history) {
         history.push('/login')
       }).catch((err) => {
         return err.response.data.message;
-        console.log("ERROR", err.response);
       })
 
   };
@@ -42,14 +41,20 @@ export function login(user,history) {
   return function(dispatch) {
     return callLoginApi(user)
       .then(result => {
-        setJwtToStorage(result.data.token);
+        setJwtToStorage(result.data.token); 
         history.push('/homepage')
       }).catch((err) => {
-        console.log("ERROR", err.response);
         return err.response.data.message;
       })
 
   };
+}
+
+export function loadUserInfo(){
+  
+  return{
+    type: LOAD_USERINFO
+  }
 }
 
 function callRegisterApi(user) {

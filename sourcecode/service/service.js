@@ -197,8 +197,9 @@ service.isUniqueUsername = async (username) => {
 // Parameter: STRING username, password, email, displayedname
 // Result: User | Null
 service.addNewUser = async (username, password, email, displayedname) => {
+    console.log(displayedname);
     hashpass = await service.hashPassword(password)
-    newUser = '{"username" : "' + username + '", "password" : "' + hashpass + '", "email" : "' + email + '", "displayedname" : "' + displayedname + '"}'
+    newUser = '{"username" : "' + username + '", "password" : "' + hashpass + '", "email" : "' + email + '", "display_name" : "' + displayedname + '"}'
     newUser = JSON.parse(newUser);
     return (await repoMongo.addUser(newUser))
 }
