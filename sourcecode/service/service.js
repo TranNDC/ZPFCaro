@@ -23,8 +23,8 @@ service.generateJWT = async (data) => {
 // Verify JWT
 // Parameter: STRING token
 // Result: JSON username | Error about token (wrong characters/expired)
-service.verifyJWT = (token) => {
-    if (service.existTokenInBLJWT(token) == true) return false
+service.verifyJWT = async (token) => {
+    if (await service.existTokenInBLJWT(token)) return false
 
     let val = jwt.verify(token, tokenKey, function(err, decoded) {
         if (err) {
@@ -32,6 +32,21 @@ service.verifyJWT = (token) => {
             return false
         } 
         return JSON.parse('{"username" : "' + decoded.username + '"}')
+    });
+    return val
+}
+
+// Get remaining expired time of JWT 
+// Parameter: STRING token
+// Result: SECOND time | Null
+service.getRemainExpTimeOfJWT = (token) => {
+    let val = jwt.verify(token, tokenKey, function(err, decoded) {
+        if (err) {
+            console.log(err)
+            return null
+        } 
+        curTime = Math.floor(new Date().getTime()/1000)
+        return (decoded.exp - curTime)
     });
     return val
 }
@@ -54,22 +69,16 @@ service.hashPassword = async (rawPass) => {
 // Parameter: STRING username, password
 // Result: Token (login succesfully) | False (Wrong username, password, error)
 service.checkLogin = async (username, password) => {
-    try {
-        userInfo = await repoMongo.getUserByUsername(username)
-        if (userInfo == null) return false
+    userInfo = await repoMongo.getUserByUsername(username)
+    if (userInfo == null) return false
 
-        valComparePass = await service.comparePassword(password, userInfo.password)
-        if (!valComparePass) return false
+    valComparePass = await service.comparePassword(password, userInfo.password)
+    if (!valComparePass) return false
 
-        jsonUsername = JSON.parse('{"username" : "' + username + '"}')
-        token = await service.generateJWT(jsonUsername)
-        
-        return token
-    }
-    catch (err) {
-        console.log(err)
-        return false
-    }
+    jsonUsername = JSON.parse('{"username" : "' + username + '"}')
+    token = await service.generateJWT(jsonUsername)
+    
+    return token
 }
 
 // Get user info
@@ -213,27 +222,12 @@ service.existTokenInBLJWT = async (token) => {
 // Parameter: STRING token
 // Result: True | False
 service.addTokenToBLJWT = async (token) => {
-    verifyToken = await service.verifyJWT(token)
-    if (!verifyToken) return false
-    return (await repoRedis.setFieldBLJWT(token))
-}
+    if (await service.existTokenInBLJWT(token)) return false
+    
+    expires = await service.getRemainExpTimeOfJWT(token)
+    if (expires == null) return false
 
-// Deleting expired token in Redis (Used in setInterval)
-service.delExpiredTokenInBLJWT = async () => {
-    membersBLJWT = await repoRedis.getMembersBLJWT()
-    let validJWTArray = []
-
-    membersBLJWT.forEach(element => {
-        let val = jwt.verify(element, tokenKey, function(err, decoded) {
-            if (err) return false
-            return true
-        });
-        if (val) validJWTArray.push(element)
-    });
-
-    repoRedis.delKeyBLJWT()
-
-    if (validJWTArray.length != 0) repoRedis.setFieldBLJWT(validJWTArray)
+    return (await repoRedis.setBLJWT(token, expires))
 }
 
 // Add/Update points into leaderboard
@@ -243,7 +237,7 @@ service.updatePointsLB = (username, points) => {
 }
 
 // Process top user info (add more 2 field info: display_name & points)
-async function processTopUserInfoLB(array) {
+async function JsonTopUserInfoLB(array) {
     let arrTop6 = []
     for (let i=0; i<array.length-1; i+=2) {
         userInfoDB = await repoMongo.getUserByUsername(array[i])
@@ -261,7 +255,7 @@ async function processTopUserInfoLB(array) {
 service.getTop6LB = async (token) => {
     verifyToken = await service.verifyJWT(token)
     if (!verifyToken) return false
-    return processTopUserInfoLB(await repoRedis.getTop6LB())
+    return JsonTopUserInfoLB(await repoRedis.getTop6LB())
 }
 
 // Get leaderboard (all top)
@@ -270,46 +264,69 @@ service.getTop6LB = async (token) => {
 service.getAllTopLB = async (token) => {
     verifyToken = await service.verifyJWT(token)
     if (!verifyToken) return false
-    return processTopUserInfoLB(await repoRedis.getAllTopLB())
+    return JsonTopUserInfoLB(await repoRedis.getAllTopLB())
 }
 
 // Get my ranking
+// Parameter: STRING token
+// Result: JSON username & ranking
 service.getMyRanking = async (token) => {
     verifyToken = await service.verifyJWT(token)
     if (!verifyToken) return false
     username = verifyToken.username
 
-    myRank = (await repoRedis.getMyRanking(username))
+    myRank = await repoRedis.getMyRanking(username)
     result = '{"username" : "'+ username + '", "ranking" : ' + myRank + '}'
 
     return JSON.parse(result);
 }
 
-// Get list game room
-// Parameter: STRING token
-// Result: False | List game room
-service.getListGameRoom = async (token) => {
-    verifyToken = await service.verifyJWT(token)
-    if (!verifyToken) return false
-    username = verifyToken.username
-
-    
-
-
-
-    // return (await repoMongo.getUserByUsername(username))
+// Convert array info to JSON info
+function JsonGameRoomInfo(info) {
+    result = '{"uuid" : "'+ info[1] + '", "room_name" : "' + info[3] + '", "password" : "' + info[5] + '", "bet_points" : ' + info[7] + ', "guest_id" : "' + info[9] + '", "host_id" : "' + info[11] + '", "is_waiting" : ' + info[13] + '}'
+    return JSON.parse(result)
 }
 
+// Get info of all gamerooms
+// Parameter: STRING token
+// Result: False | List gameroom
+service.getInfoAllGameRoom = async (token) => {
+    verifyToken = await service.verifyJWT(token)
+    if (!verifyToken) return false
+    
+    let listGameRoomJSON = []
+    allGameRooms = await repoRedis.getInfoOfAllGR()
+    if (allGameRooms == null) return false
 
+    allGameRooms.forEach(element => {
+        let valJSON = JsonGameRoomInfo(element)
+        listGameRoomJSON.push(valJSON)
+    });
 
+    return listGameRoomJSON
+}
 
+// Get info of one gameroom
+// Parameter: STRING token, keyRoom
+// Result: False | Gameroom info
+service.getInfoOneGameRoom = async (token, keyRoom) => {
+    verifyToken = await service.verifyJWT(token)
+    if (!verifyToken) return false
 
+    val = await repoRedis.getInfoOfOneGR(keyRoom)
+    return ((val==null) ? false : JsonGameRoomInfo(val))
+}
 
+// Add/Update gameroom info
+// Parameter: JSON gameroom (uuid, room_name, password, bet_points, guest_id, host_id, is_waiting) | Token
+// is_waiting {0,1} => 1 means room is playing
+// Result: False | True
+service.updateGameRoom = async (token, gameroom) => {
+    verifyToken = await service.verifyJWT(token)
+    if (!verifyToken) return false
 
-
-
-
-
-
+    repoRedis.setFieldGR(gameroom)
+    return true
+}
 
 module.exports = service;

@@ -77,20 +77,20 @@ app.get('/test', async (req, res) => {
 
    // result = await service.delExpiredTokenInBLJWT()
 
-   service.updatePointsLB ("cattran", 1000000)
-   service.updatePointsLB ("quoctk01", 800000)
-   service.updatePointsLB ("quoctk01", 900000)
-   service.updatePointsLB ("quoctk02", 800000)
-   service.updatePointsLB ("quoctk02", 700000)
-   service.updatePointsLB ("quoctk08", 250000)
-   service.updatePointsLB ("quoctk08", 220000)
-   console.log("-------------------------------")
-   console.log(await service.getTop6LB("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF1b2N0azA4IiwiaWF0IjoxNTY2NDQwMjgxLCJleHAiOjE1NjcwNDUwODF9.cZCLddwWwNvzGiH9oX3az0Q12B78qH9piSl1tm48htA"))
-   console.log("-------------------------------")
-   console.log(await service.getAllTopLB("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF1b2N0azA4IiwiaWF0IjoxNTY2NDQwMjgxLCJleHAiOjE1NjcwNDUwODF9.cZCLddwWwNvzGiH9oX3az0Q12B78qH9piSl1tm48htA"))
-   console.log("-------------------------------")
-   console.log(await service.getMyRanking("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF1b2N0azA4IiwiaWF0IjoxNTY2NDQwMjgxLCJleHAiOjE1NjcwNDUwODF9.cZCLddwWwNvzGiH9oX3az0Q12B78qH9piSl1tm48htA"))
-   console.log("-------------------------------")
+   // service.updatePointsLB ("cattran", 1000000)
+   // service.updatePointsLB ("quoctk01", 800000)
+   // service.updatePointsLB ("quoctk01", 900000)
+   // service.updatePointsLB ("quoctk02", 800000)
+   // service.updatePointsLB ("quoctk02", 700000)
+   // service.updatePointsLB ("quoctk08", 250000)
+   // service.updatePointsLB ("quoctk08", 220000)
+   // console.log("-------------------------------")
+   // console.log(await service.getTop6LB("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF1b2N0azA4IiwiaWF0IjoxNTY2NDQwMjgxLCJleHAiOjE1NjcwNDUwODF9.cZCLddwWwNvzGiH9oX3az0Q12B78qH9piSl1tm48htA"))
+   // console.log("-------------------------------")
+   // console.log(await service.getAllTopLB("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF1b2N0azA4IiwiaWF0IjoxNTY2NDQwMjgxLCJleHAiOjE1NjcwNDUwODF9.cZCLddwWwNvzGiH9oX3az0Q12B78qH9piSl1tm48htA"))
+   // console.log("-------------------------------")
+   // console.log(await service.getMyRanking("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF1b2N0azA4IiwiaWF0IjoxNTY2NDQwMjgxLCJleHAiOjE1NjcwNDUwODF9.cZCLddwWwNvzGiH9oX3az0Q12B78qH9piSl1tm48htA"))
+   // console.log("-------------------------------")
 })
 
 
@@ -134,8 +134,9 @@ app.post('/login', cors(corsOptions), async (req, res) => {
       res.status(200).json({token: result})
    }
    else {
-      res.status(404).json({message: "Username or password is wrong"})
+      res.status(400).json({message: "Username or password is wrong"})
    }
+   
 })
 
 // Request: token, logout
@@ -153,14 +154,14 @@ app.post('/logout', cors(corsOptions), async (req, res) => {
    res.status(404).json({message: "Wrong token, logout fail"})
 })
 
-// Request: username, password, email, displayedname
+// Request: username, password, email, displayedName
 // Response: msg error or success
 app.options('/register', cors())
 app.post('/register', cors(corsOptions), async (req, res) => {
    username = req.body.username
    password = req.body.password
    email = req.body.email
-   displayedname = req.body.displayedname
+   displayedName = req.body.displayedName
 
    if (! (await service.isUniqueUsername(username))) {
       res.status(400).json({statusCode: 404, message: "This username existed, please choose another"})
@@ -172,7 +173,7 @@ app.post('/register', cors(corsOptions), async (req, res) => {
       return
    }
 
-   result = await service.addNewUser(username, password, email, displayedname)
+   result = await service.addNewUser(username, password, email, displayedName)
    if (result == null) {
       res.status(500).json({message: "Server registered new account fail"})
       return
@@ -183,16 +184,48 @@ app.post('/register', cors(corsOptions), async (req, res) => {
 
 // Request: token
 // Response: listGameRoom
-app.get('/listgameroom', cors(corsOptions), async (req, res) => {
+app.get('/gameroom/all', cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
 
-   listGameRoom = await service.getListGameRoom(token)
+   listGameRoom = await service.getInfoAllGameRoom(token)
    if (!listGameRoom) {
       res.status(400).json({message: "Wrong/Expired token"})
       return
    }
 
    res.status(200).json({listGameRoom: listGameRoom})
+})
+
+// Request: token with URL(/gameroom/one?gid=xxxx)
+// Response: GameRoom
+app.get('/gameroom/one', async (req, res) => {
+   token = req.headers.authorization
+   gid = req.query.gid
+
+   grInfo = await service.getInfoOneGameRoom(token, gid)
+   if (!grInfo) {
+      res.json({statusCode: 404, message: "Wrong/Expired token or room not found"})
+      return
+   }
+
+   res.json({statusCode: 200, gameRoom: grInfo})
+})
+
+// Request: token, gameroom
+// Response: 
+// Parameter of "gameroom": JSON gameroom (uuid, room_name, password, bet_points, guest_id, host_id, is_waiting)
+// is_waiting {0,1} => 1 means room is playing
+app.post('/gameroom', async (req, res) => {
+   token = req.headers.authorization
+   gameroom = req.body.gameroom
+
+   result = service.updateGameRoom(token, gameroom)
+   if (!result) {
+      res.json({statusCode: 404, message: "Wrong/Expired token"})
+      return
+   }
+
+   res.json({statusCode: 200, message: "Update successfully"})
 })
 
 // Request: token
@@ -379,25 +412,8 @@ app.get('/user/ranking', cors(corsOptions), async (req, res) => {
    res.status(200).json({  ranking: result})
 })
 
-
-
-
-
-
-
-
-
-
 app.listen(5000, () => {
    console.log("App is listening on port 5000...")
-
    service.connectRedis();
    service.connectMongoDB();
-
-   // Redis stores keys of users who logged out
-   // => SetInterval for deleting expiredToken in Redis
-   // => 3 days = 259200000ms‬ = Math.pow(2,28) - 9235456ms
-   setInterval(() => {
-      service.delExpiredTokenInBLJWT()
-   }, Math.pow(2,28) - 9235456); 
 })
