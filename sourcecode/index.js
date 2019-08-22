@@ -128,7 +128,7 @@ app.post('/login', async (req, res) => {
       res.json({statusCode: 200, token: result})
    }
    else {
-      res.json({statusCode: 404, errorMsg: "Username or password is wrong"})
+      res.json({statusCode: 404, message: "Username or password is wrong"})
    }
 })
 
@@ -139,11 +139,11 @@ app.post('/logout', async (req, res) => {
 
    result = await service.addTokenToBLJWT(token)
    if (!result) {
-      res.json({statusCode: 200, msg: "Logout successfully"})
+      res.json({statusCode: 200, message: "Logout successfully"})
       return
    }
 
-   res.json({statusCode: 404, errorMsg: "Wrong token, logout fail"})
+   res.json({statusCode: 404, message: "Wrong token, logout fail"})
 })
 
 // Request: username, password, email, displayedname
@@ -155,22 +155,22 @@ app.post('/register', async (req, res) => {
    displayedname = req.body.displayedname
 
    if (! (await service.isUniqueUsername(username))) {
-      res.json({statusCode: 404, errorMsg: "This username existed, please choose another"})
+      res.json({statusCode: 404, message: "This username existed, please choose another"})
       return
    }
 
    if (! (await service.isUniqueEmail(email))) {
-      res.json({statusCode: 404, errorMsg: "This email existed, please choose another"})
+      res.json({statusCode: 404, message: "This email existed, please choose another"})
       return
    }
 
    result = await service.addNewUser(username, password, email, displayedname)
    if (result == null) {
-      res.json({statusCode: 500, errorMsg: "Server registered new account fail"})
+      res.json({statusCode: 500, message: "Server registered new account fail"})
       return
    }
 
-   res.json({statusCode: 200, msg: "Register new account successfully"})
+   res.json({statusCode: 200, message: "Register new account successfully"})
 })
 
 // Request: token
@@ -180,7 +180,7 @@ app.get('/listgameroom', async (req, res) => {
 
    listGameRoom = await service.getListGameRoom(token)
    if (!listGameRoom) {
-      res.json({statusCode: 404, errorMsg: "Wrong/Expired token"})
+      res.json({statusCode: 404, message: "Wrong/Expired token"})
       return
    }
 
@@ -194,7 +194,7 @@ app.get('/leaderboard/top6', async (req, res) => {
 
    leaderboard = await service.getTop6LB(token)
    if (!leaderboard) {
-      res.json({statusCode: 404, errorMsg: "Wrong/Expired token"})
+      res.json({statusCode: 404, message: "Wrong/Expired token"})
       return
    }
 
@@ -208,7 +208,7 @@ app.get('/leaderboard/all', async (req, res) => {
 
    leaderboard = await service.getAllTopLB(token)
    if (!leaderboard) {
-      res.json({statusCode: 404, errorMsg: "Wrong/Expired token"})
+      res.json({statusCode: 404, message: "Wrong/Expired token"})
       return
    }
 
@@ -222,7 +222,7 @@ app.get('/user', async (req, res) => {
 
    userInfo = await service.getUserInfo(token)
    if (!userInfo) {
-      res.json({statusCode: 404, errorMsg: "Wrong/Expired token"})
+      res.json({statusCode: 404, message: "Wrong/Expired token"})
       return
    }
 
@@ -237,11 +237,11 @@ app.post('/user/name', async (req, res) => {
 
    result = await service.updateUserDisplayedName(token, name)
    if (!result) {
-      res.json({statusCode: 404, errorMsg: "Wrong/Expired token"})
+      res.json({statusCode: 404, message: "Wrong/Expired token"})
       return
    }
 
-   res.json({statusCode: 200, msg: "Update successfully"})
+   res.json({statusCode: 200, message: "Update successfully"})
 })
 
 // Request: token, error
@@ -252,11 +252,11 @@ app.post('/user/email', async (req, res) => {
 
    result = await service.updateUserEmail(token, email)
    if (!result) {
-      res.json({statusCode: 404, errorMsg: "Wrong/Expired token or Existed email"})
+      res.json({statusCode: 404, message: "Wrong/Expired token or Existed email"})
       return
    }
 
-   res.json({statusCode: 200, msg: "Update successfully"})
+   res.json({statusCode: 200, message: "Update successfully"})
 })
 
 // Request: token, password
@@ -267,11 +267,11 @@ app.post('/user/password', async (req, res) => {
 
    result = await service.updateUserPassword(token, password)
    if (!result) {
-      res.json({statusCode: 404, errorMsg: "Wrong/Expired token"})
+      res.json({statusCode: 404, message: "Wrong/Expired token"})
       return
    }
 
-   res.json({statusCode: 200, msg: "Update successfully"})
+   res.json({statusCode: 200, message: "Update successfully"})
 })
 
 // Request: token, avatar
@@ -282,11 +282,11 @@ app.post('/user/avatar', async (req, res) => {
 
    result = await service.updateUserAvatar(token, avatar)
    if (!result) {
-      res.json({statusCode: 404, errorMsg: "Wrong/Expired token"})
+      res.json({statusCode: 404, message: "Wrong/Expired token"})
       return
    }
 
-   res.json({statusCode: 200, msg: "Update successfully"})
+   res.json({statusCode: 200, message: "Update successfully"})
 })
 
 // Request: token, points
@@ -297,11 +297,11 @@ app.post('/user/points', async (req, res) => {
 
    result = await service.updateUserPoints(token, points)
    if (!result) {
-      res.json({statusCode: 404, errorMsg: "Wrong/Expired token"})
+      res.json({statusCode: 404, message: "Wrong/Expired token"})
       return
    }
 
-   res.json({statusCode: 200, msg: "Update successfully"})
+   res.json({statusCode: 200, message: "Update successfully"})
 })
 
 // Request: token, winnum
@@ -312,11 +312,11 @@ app.post('/user/winnum', async (req, res) => {
 
    result = await service.updateUserWinNum(token, winnum)
    if (!result) {
-      res.json({statusCode: 404, errorMsg: "Wrong/Expired token"})
+      res.json({statusCode: 404, message: "Wrong/Expired token"})
       return
    }
 
-   res.json({statusCode: 200, msg: "Update successfully"})
+   res.json({statusCode: 200, message: "Update successfully"})
 })
 
 // Request: token, drawnum
@@ -327,11 +327,11 @@ app.post('/user/drawnum', async (req, res) => {
 
    result = await service.updateUserDrawNum(token, drawnum)
    if (!result) {
-      res.json({statusCode: 404, errorMsg: "Wrong/Expired token"})
+      res.json({statusCode: 404, message: "Wrong/Expired token"})
       return
    }
 
-   res.json({statusCode: 200, msg: "Update successfully"})
+   res.json({statusCode: 200, message: "Update successfully"})
 })
 
 // Request: token, losenum
@@ -342,11 +342,11 @@ app.post('/user/losenum', async (req, res) => {
 
    result = await service.updateUserLoseNum(token, losenum)
    if (!result) {
-      res.json({statusCode: 404, errorMsg: "Wrong/Expired token"})
+      res.json({statusCode: 404, message: "Wrong/Expired token"})
       return
    }
 
-   res.json({statusCode: 200, msg: "Update successfully"})
+   res.json({statusCode: 200, message: "Update successfully"})
 })
 
 // Request: token
@@ -360,7 +360,7 @@ app.get('/user/ranking', async (req, res) => {
       return
    }
 
-   res.json({statusCode: 200, myRanking: result})
+   res.json({statusCode: 200, ranking: result})
 })
 
 
