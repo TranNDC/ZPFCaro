@@ -2,7 +2,7 @@ import React from 'react';
 import './Profile.css';
 import '../subcomponents/RectButton.css';
 import '../subcomponents/CircleButton.css';
-import LogoTitle from "../subcomponents/LogoTitle";
+import TitleModal from "../subcomponents/TitleModal";
 import EditText from '../subcomponents/EditText';
 import UserInfoInProfile from './UserInfoInProfile';
 import { Modal, Button } from 'react-bootstrap';
@@ -37,14 +37,21 @@ class Profile extends React.Component {
                 <Button className="h-icon circleButton fa fa-user" onClick={this.openModal}></Button>
 
                 <Modal show={this.state.showProfileModal} onHide={this.closeModal} className={classNameHeightmodal + " " + (this.state.showChangePassword ? "updateHeightModal" : "")}>
-                    <div className="prof-marginbot prof-margintop">
-                        <LogoTitle text="PROFILE" />
-                    </div>
-                    <div className="prof-marginbot">
+                    <TitleModal text="profile" className="prof-marginbot" />
+                    <div className="prof-paddingbot">
                         <UserInfoInProfile avatar={require("../media/avatar.png")} type1="username" username="quoctk08" type2="points" points="800000" type3="ranking" ranking="172" type4="winningrate" winningrate="68" />
                     </div>
-                    <div className="prof-marginbot">
-                        <label className="prof-label prof-windrawlose"><b>Wins: </b>81315 | <b>Draws: </b>41123 | <b>Loses: </b>10092</label>
+                    <div className="prof-paddingbot">
+                        <label className="prof-label prof-windrawlose">
+                            <b className="prof-paddingright">&#123;</b>
+                            <b className="prof-paddingright">Wins:</b>
+                            81315
+                            <b className="prof-paddingleft prof-paddingright">Draws:</b>
+                            41123
+                            <b className="prof-paddingleft prof-paddingright">Loses:</b>
+                            10092
+                            <b className="prof-paddingleft">&#125;</b>
+                        </label>
                     </div>
                     <div className="prof-marginbot">
                         <label className="prof-label">Displayed name</label>
@@ -68,8 +75,8 @@ class Profile extends React.Component {
                         }
                     </div>
                     <div className="prof-margintop">
-                        <Button className="rect-btn text-black small-width background-gray prof-marginRight" onClick={this.closeModal}>back</Button>
-                        <Button className="rect-btn text-black small-width">update</Button>
+                        <Button className="rect-btn text-black small-width background-gray btn-for-modal prof-marginRight" onClick={this.closeModal}>back</Button>
+                        <Button className="rect-btn text-black small-width btn-for-modal">update</Button>
                     </div>
                 </Modal>
             </>

@@ -37,6 +37,7 @@ import RequestChangePassword from "./pages/RequestChangePassword";
 import CreateRoom from "./components/CreateRoom";
 import CountDownBox from "./subcomponents/CountDownBox";
 import AlertWarn from "./components/AlertWarn";
+import TitleModal from "./subcomponents/TitleModal";
 
 // -------------------------------
 // TEST INPUTTEXT
@@ -238,18 +239,23 @@ import AlertWarn from "./components/AlertWarn";
 // -------------------------------
 // ReactDOM.render(<AlertWarn />, document.getElementById('root'));
 
+// -------------------------------
+// TEST TitleModal
+// -------------------------------
+// ReactDOM.render(<TitleModal text="PROFILE" />, document.getElementById('root'));
+
 export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
-// window.store = store;
-// let avatar = require("./media/avatar.png");
-// ReactDOM.render(
-//   <Provider store={store}>
-//     <Router>
-//       <Route exact path="/register" component={Register} />
-//       <Route exact path="/login" component={Login} />
-//       <Route exact path="/" component={Homepage} />
-//       <Route exact path="/game" component={Game} />
-//     </Router>
-//   </Provider>,
-//   document.getElementById("root")
-// );
+window.store = store;
+let avatar = require("./media/avatar.png");
+ReactDOM.render(
+  <Provider store={store}>
+    <Router>
+      <Route exact path="/register" component={Register} />
+      <Route exact path="/login" component={Login} />
+      <Route exact path="/homepage" component={Homepage} />
+      <Route exact path="/game" component={Game} />
+    </Router>
+  </Provider>,
+  document.getElementById("root")
+);
 

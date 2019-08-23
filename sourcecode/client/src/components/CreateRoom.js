@@ -1,7 +1,7 @@
 import React from 'react';
 import './CreateRoom.css';
 import '../subcomponents/RectButton.css';
-import LogoTitle from "../subcomponents/LogoTitle";
+import TitleModal from '../subcomponents/TitleModal';
 import InputText from "../subcomponents/InputText";
 import { Modal, Button } from 'react-bootstrap';
 
@@ -28,9 +28,7 @@ class CreateRoom extends React.Component {
                 <Button className="hp-margintop hp-rectbtn rect-btn" onClick={this.openModal}>create new</Button>
 
                 <Modal show={this.state.showCRModal} onHide={this.closeModal} className="cr-heightmodal">
-                    <div className="cr-marginbot cr-margintop">
-                        <LogoTitle text="CREATE ROOM" />
-                    </div>
+                    <TitleModal text="create room" className="cr-marginbot" />
                     <div className="cr-marginbot">
                         <InputText type="roomname" maxLength={30}/>
                     </div>
@@ -41,8 +39,8 @@ class CreateRoom extends React.Component {
                         <InputText type="betpoints" />
                     </div>
                     <div>
-                        <Button className="rect-btn text-black small-width background-gray cr-marginRight" onClick={this.closeModal}>back</Button>
-                        <Button className="rect-btn text-black small-width">create</Button>
+                        <Button className="rect-btn text-black small-width background-gray btn-for-modal cr-marginRight" onClick={this.closeModal}>back</Button>
+                        <Button className="rect-btn text-black small-width btn-for-modal">create</Button>
                     </div>
                 </Modal>
             </>

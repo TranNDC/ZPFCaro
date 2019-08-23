@@ -27,8 +27,10 @@ class Homepage extends React.Component {
     render() {
         if (!isAuthenticated()) {
             return <Redirect to="/login" />;
-          }
-        let className = this.props.className
+        }
+        
+        let className = this.props.className + " animated bounceInRight slow";
+
         return (
             <Container fluid={true} className={className}>
                 <Header />
