@@ -38,6 +38,7 @@ import CreateRoom from "./components/CreateRoom";
 import CountDownBox from "./subcomponents/CountDownBox";
 import AlertWarn from "./components/AlertWarn";
 import TitleModal from "./subcomponents/TitleModal";
+import EndGameBox from "./components/EndGameBox";
 
 // -------------------------------
 // TEST INPUTTEXT
@@ -244,6 +245,19 @@ import TitleModal from "./subcomponents/TitleModal";
 // -------------------------------
 // ReactDOM.render(<TitleModal text="PROFILE" />, document.getElementById('root'));
 
+// -------------------------------
+// TEST ENDGAMEBOX
+// -------------------------------
+/* 
+  stateEGB: True (For opening modal)
+  headingEndGame: YOU WIN | YOU LOSE
+  titleEndGame: Congratulations, you won the game! | Don't be sad, try harder!
+  subTitleEndGame: Do you want to play new game? | Low points, cann't play new game!
+  isContinue: {true} | {false} (If "subTitleEndGame" is about don't having enough points, "isContinue" will be {false})
+*/
+// ReactDOM.render(<EndGameBox stateEGB="true" headingEndGame="YOU WIN"  titleEndGame="Congratulations, you won the game!" subTitleEndGame="Do you want to play new game?" isContinue={true} />, document.getElementById('root'));
+// ReactDOM.render(<EndGameBox stateEGB="true" headingEndGame="YOU LOSE"  titleEndGame="Don't be sad, try harder!" subTitleEndGame="Low points, cann't play new game!" isContinue={false} />, document.getElementById('root'));
+
 export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 window.store = store;
 let avatar = require("./media/avatar.png");
@@ -258,4 +272,3 @@ ReactDOM.render(
   </Provider>,
   document.getElementById("root")
 );
-
