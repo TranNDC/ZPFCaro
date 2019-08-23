@@ -34,7 +34,7 @@ class Profile extends React.Component {
 
         return (
             <>
-                <Button className="h-icon circleButton fa fa-user" onClick={this.openModal}></Button>
+                <Button className="h-icon circleButton fa fa-user" onClick={this.openModal} title="Profile"></Button>
 
                 <Modal show={this.state.showProfileModal} onHide={this.closeModal} className={classNameHeightmodal + " " + (this.state.showChangePassword ? "updateHeightModal" : "")}>
                     <TitleModal text="profile" className="prof-marginbot" />

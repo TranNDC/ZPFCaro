@@ -253,7 +253,7 @@ ReactDOM.render(
       <Route exact path="/register" component={Register} />
       <Route exact path="/login" component={Login} />
       <Route exact path="/homepage" component={Homepage} />
-      <Route exact path="/game" component={Game} />
+      <Route exact path="/" component={Game} />
     </Router>
   </Provider>,
   document.getElementById("root")

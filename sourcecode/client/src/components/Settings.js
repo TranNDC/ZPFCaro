@@ -26,7 +26,7 @@ class Settings extends React.Component {
     render() {
         return (
             <>
-                <Button className="h-icon circleButton fa fa-cog" onClick={this.openModal}></Button>
+                <Button className="h-icon circleButton fa fa-cog" onClick={this.openModal} title="Settings"></Button>
 
                 <Modal show={this.state.showSettingsModal} onHide={this.closeModal} className="set-heightmodal">
                     <TitleModal text="settings" className="set-marginbot" />

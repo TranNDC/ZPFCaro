@@ -25,7 +25,7 @@ class Aboutus extends React.Component {
     render() {
         return (
             <>
-                <Button className="h-icon circleButton fa fa-info" onClick={this.openModal}></Button>
+                <Button className="h-icon circleButton fa fa-info" onClick={this.openModal} title="About us"></Button>
 
                 <Modal show={this.state.showAboutUsModal} onHide={this.closeModal} className="aboutus-heightmodal">
                     <TitleModal text="about us" className="aboutus-marginbot" />
