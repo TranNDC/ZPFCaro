@@ -509,15 +509,15 @@ io.on('connection', function(socket) {
          return
       }
 
-      socket.join(gameroom.uuid) 
-      socket.to(gameroom.uuid).emit('server-send-result-create-room', {statusCode: 200, message: "Create room successfully"})
+      socket.join(String(gameroom.uuid)) 
+      socket.emit('server-send-result-create-room', {statusCode: 200, message: "Create room successfully"})
    })
 
    // Join gameroom
    // Parameter: JSON guest (guest_id, guest_displayed_name), JSON infogame (roomid, bet_points), STRING token
    socket.on('client-request-join-room', async function(guest, infogame, token) {
       
-      console.log(guest);
+      console.log(infogame);
       console.log('guest');
 
       guestInfo = await service.getUserInfo(token)
@@ -550,9 +550,9 @@ io.on('connection', function(socket) {
       }
 
       currentRoom = await service.getInfoOneGameRoomNoToken(infogame.roomid)
-
-      socket.join(infogame.roomid)
-      socket.in(infogame.roomid).emit('server-send-result-join-room', {statusCode: 200, message: "Join room successfully", data: currentRoom})
+      console.log(currentRoom);
+      await socket.join(String(infogame.roomid))
+      io.in(String(infogame.roomid)).emit('server-send-result-join-room', {statusCode: 200, message: "Join room successfully", data: currentRoom})
    })
 
    // Mark pattern or win/draw
@@ -719,7 +719,7 @@ io.on('connection', function(socket) {
    // Server receive error from client in game ("Draw" game will happen)
    // Parameter: STRING roomid
    // Result: data (statusCode, message
-   socket.io('client-send-error-in-game', async function (roomid) {
+   socket.on('client-send-error-in-game', async function (roomid) {
       currentRoom = await service.getInfoOneGameRoomNoToken(roomid)
 
       hostInfo = await service.getUserInfoByIDNoToken(currentRoom.host_id)
@@ -740,7 +740,7 @@ io.on('connection', function(socket) {
 
    // Client request out room when host is in room, no guest.
    // Parameter: roomid
-   socket.on('host-out-room-not-started', function(roomid) {
+   socket.on('host-out-room-not-started', async function(roomid) {
       await service.deleteGRNoToken(roomid)
       data = '{"statusCode": 200, "message": "Leaving room!"}'
       socket.emit("server-ask-client-leave-room", data)
