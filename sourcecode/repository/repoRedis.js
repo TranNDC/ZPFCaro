@@ -87,17 +87,17 @@ function keyGR(uuid) {
 // is_waiting {0,1} => 1 means room is playing
 repoRedis.setFieldGR = (gameroom) => {
     getAsync = promisify(client.hdel).bind(client)
-    return getAsync(keyGR(gameroom.uuid), "guest_id").then((res) => {
+    return getAsync(keyGR(gameroom.uuid), "guest_id", "guest_displayed_name").then((res) => {
         client.hmset(keyGR(gameroom.uuid), ["uuid", gameroom.uuid, "room_name", gameroom.room_name, "password", gameroom.password, "bet_points", gameroom.bet_points, "host_id", gameroom.host_id, "host_displayed_name", gameroom.host_displayed_name, "is_waiting", 0])  
     })
 }
 
 // Update guestid & roomStatus
-// Parameter: STRING uuid, guest_id
+// Parameter: STRING uuid, JSON guest (guest_id, guest_displayed_name)
 // is_waiting {0,1} => 1 means room is playing
-repoRedis.updateGuestAndStatusGR = async (uuid, guest_id) => {
+repoRedis.updateGuestAndStatusGR = async (uuid, guest) => {
     getAsync = promisify(client.hsetnx).bind(client)
-    return await getAsync(keyGR(uuid), "guest_id", guest_id).then((res) => {
+    return await getAsync(keyGR(uuid), "guest_id", guest.guest_id, "guest_displayed_name", guest.guest_displayed_name).then((res) => {
         if (!res) return false
         client.hmset(keyGR(uuid), ["is_waiting", 1])
         return true
