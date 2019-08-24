@@ -102,31 +102,13 @@ app.get('/test', async (req, res) => {
 
 
 
-
-
-// app.get('/verify', async (req, res) => {
-//    token = req.headers.authorization
-
-//    result = await service.verifyJWT(token) 
-   
-//    if (result != false) {
-//       res.json({statusCode: 200, JWTMsg: "Verify JWT successfully"})
-//    }
-//    else {
-//       res.json({statusCode: 404, errorMsg: "Verify JWT fail because of invalid token"})
-//    }
-// }) 
-
-// app.get('/', (req, res) => {
-//    res.send("Hello there, from server!")
-// })
-
-
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
+
+
 
 // Request: username | password
 // Response: code 200 (token) | code 404 (fail)
@@ -143,7 +125,6 @@ app.post('/login', cors(corsOptions), async (req, res) => {
    else {
       res.status(400).json({message: "Username or password is wrong"})
    }
-   
 })
 
 // Request: token, logout
@@ -461,30 +442,40 @@ server.listen(port, () => {
 io.on('connection', function(socket) {
 
    // Broadcast info about ListGameRoom
-   socket.on('client-request-info-listgameroom', function() {
-      listgameroom = service.getInfoAllGameRoomNoToken()
-      if (listgameroom == null) return
-      socket.broadcast.emit('server-send-info-listgameroom', listgameroom)
+   // Parameter: STRING token
+   socket.on('client-request-info-listgameroom', async function(token) {
+      result = await service.getInfoAllGameRoom(token)
+      if (result == null) return
+      if (result == false) return
+      socket.broadcast.emit('server-send-info-listgameroom', result)
    })
 
    // Broadcast info about Leaderboard
-   socket.on('client-request-info-leaderboard', function() {
-      leaderboard = service.getTop6LBNoToken()
-      socket.broadcast.emit('server-send-info-leaderboard', leaderboard)
+   // Parameter: STRING token
+   socket.on('client-request-info-leaderboard', async function(token) {
+      result = await service.getTop6LB(token)
+      if (result == false) return
+      socket.broadcast.emit('server-send-info-leaderboard', result)
    })
    
-   // Set interval for broadcast info ListGameRoom & Leaderboard
-   setInterval(function() {
-      listgameroom = service.getInfoAllGameRoomNoToken()
-      if (listgameroom == null) return
-      leaderboard = service.getTop6LBNoToken()
-      socket.broadcast.emit('server-send-info-listgameroom', listgameroom)
+   // Set interval for broadcast info Leaderboard & ListGameRoom
+   setInterval(async function(token) {
+      // Leaderboard
+      leaderboard = await service.getTop6LB(token)
+      if (leaderboard == false) return
       socket.broadcast.emit('server-send-info-leaderboard', leaderboard)
+
+      // List Game Room
+      listgameroom = await service.getInfoAllGameRoom(token)
+      if (listgameroom == null) return
+      if (listgameroom == false) return
+      socket.broadcast.emit('server-send-info-listgameroom', listgameroom)
+      
    }, 20000)
 
-   // Join gameroom
-   socket.on('client-request-join-room', function(roomid) {
-      socket.join(roomid)
+   // Send flag for starting game in 5s
+   socket.on('client-request-start-game', function(roomid) {
+      socket.to(roomid).emit('server-start-game', true)
    })
 
    // Chat in gameroom
@@ -492,9 +483,234 @@ io.on('connection', function(socket) {
       socket.to(roomid).emit('server-send-chat-in-room', message)
    })
 
+   // Create gameroom
+   // Parameter: JSON gameroom (uuid, room_name, password, bet_points, host_id, host_displayed_name), STRING token
+   socket.on('client-request-create-room', async function(gameroom, token) {
+      hostInfo = await service.getUserInfo(token)
+      
+      if (hostInfo == false) {
+         socket.emit('server-send-result-create-room', {statusCode: 400, message: "Wrong/Expired token or get info fail"})
+         return
+      }
+
+      if (hostInfo.points < gameroom.bet_points) {
+         socket.emit('server-send-result-create-room', {statusCode: 400, message: "Bet points isn't enough"})
+         return
+      }
+
+      newPoints = hostInfo.points - gameroom.bet_points
+      updatePoints = await service.updateUserPoints(token, newPoints)
+
+      if (updatePoints == false) {
+         socket.emit('server-send-result-create-room', {statusCode: 400, message: "Wrong/Expired token or update points fail"})
+         return
+      }
+
+      newRoom = await service.setGameRoom(token, gameroom)
+
+      if (newRoom == false) {
+         await service.updateUserPoints(token, hostInfo.points)
+         socket.emit('server-send-result-create-room', {statusCode: 400, message: "Wrong/Expired token or create room fail"})
+         return
+      }
+
+      socket.join(gameroom.uuid) 
+      socket.emit('server-send-result-create-room', {statusCode: 200, message: "Create room successfully"})
+   })
+
+   // Join gameroom
+   // Parameter: JSON guest (guest_id, guest_displayed_name), JSON infogame (roomid, bet_points), STRING token
+   socket.on('client-request-join-room', async function(guest, infogame, token) {
+      guestInfo = await service.getUserInfo(token)
+
+      if (guestInfo == false) {
+         socket.emit('server-send-result-join-room', {statusCode: 400, message: "Wrong/Expired token or get info fail"})
+         return
+      }
+
+      if (guestInfo.points < infogame.bet_points) {
+         socket.emit('server-send-result-join-room', {statusCode: 400, message: "Bet points isn't enough"})
+         return
+      }
+
+      newPoints = guestInfo.points - infogame.bet_points
+      updatePoints = await service.updateUserPoints(token, newPoints)
+
+      if (updatePoints == false) {
+         socket.emit('server-send-result-join-room', {statusCode: 400, message: "Wrong/Expired token or update points fail"})
+         return
+      }
+
+      updateStatusGuest = await service.updateGuestAndStatusGR(token, infogame.roomid, guest)
+
+      if (updateStatusGuest == false) {
+         await service.updateUserPoints(token, guestInfo.points)
+         socket.emit('server-send-result-join-room', {statusCode: 400, message: "Wrong/Expired token or update guest status fail"})
+         return
+      }
+
+      socket.join(infogame.roomid)
+      socket.to(infogame.roomid).emit('server-send-result-join-room', {statusCode: 200, message: "Join room successfully"})
+   })
+
+   // Mark pattern or win/draw
+   // Parameter: JSON turn (x, y), gameStatus ("" | "win" | "draw"), infogame (roomid, isHost)
+   // Result: turn (x, y), data (statusCode, message("" | "lose" | "win" | "draw"))
+   socket.on('client-request-mark-pattern', async function(turn, gameStatus, infogame) {
+      switch (gameStatus) {
+         case "":
+            data = '{"statusCode": 200, "message": ""}'
+            socket.to(infogame.roomid).emit("server-send-data-game", turn, data)
+            break;
+         case "win":
+            currentRoom = await service.getInfoOneGameRoomNoToken(infogame.roomid)
+
+            if (currentRoom == false) {
+               data = '{"statusCode": 500, "message": "Can not find room data & connect fail"}'
+               socket.to(infogame.roomid).emit("server-send-data-game", turn, data)
+               return
+            }
+
+            hostInfo = await service.getUserInfoByIDNoToken(currentRoom.host_id)
+
+            if (hostInfo == null) {
+               data = '{"statusCode": 500, "message": "Can not find host info"}'
+               socket.to(infogame.roomid).emit("server-send-data-game", turn, data)
+               return
+            }
+
+            guestInfo = await service.getUserInfoByIDNoToken(currentRoom.guest_id)
+
+            if (guestInfo == null) {
+               data = '{"statusCode": 500, "message": "Can not find guest info"}'
+               socket.to(infogame.roomid).emit("server-send-data-game", turn, data)
+               return
+            }
+
+            let statusGame
+            if (infogame.isHost) {
+               statusGame = 1
+
+               hostOldPoints = hostInfo.points + currentRoom.bet_points
+               hostNewPoints = (currentRoom.bet_points * 2 + 30 + hostOldPoints)
+               updateHostPoints = await service.updateUserPointsByIDNoToken(currentRoom.host_id, hostNewPoints)
+               if (updateHostPoints == false) {
+                  data = '{"statusCode": 500, "message": "Can not update points for host"}'
+                  socket.to(infogame.roomid).emit("server-send-data-game", turn, data)
+                  return
+               }
+
+               guestNewPoints = (guestInfo.points + 10)
+               updateGuestPoints = await service.updateUserPointsByIDNoToken(currentRoom.guest_id, guestNewPoints)
+               if (updateGuestPoints == false) {
+                  await service.updateUserPointsByIDNoToken(currentRoom.host_id, hostOldPoints)
+                  data = '{"statusCode": 500, "message": "Can not update points for guest"}'
+                  socket.to(infogame.roomid).emit("server-send-data-game", turn, data)
+                  return
+               }
+            }
+            else {
+               statusGame = -1
+               
+               hostOldPoints = hostInfo.points + currentRoom.bet_points
+               hostNewPoints = (hostInfo.points + 10)
+               updateHostPoints = await service.updateUserPointsByIDNoToken(currentRoom.host_id, hostNewPoints)
+               if (updateHostPoints == false) {
+                  data = '{"statusCode": 500, "message": "Can not update points for host"}'
+                  socket.to(infogame.roomid).emit("server-send-data-game", turn, data)
+                  return
+               }
+
+               guestNewPoints = (currentRoom.bet_points * 2 + guestInfo.points + 30)
+               updateGuestPoints = await service.updateUserPointsByIDNoToken(currentRoom.guest_id, guestNewPoints)
+               if (updateGuestPoints == false) {
+                  await service.updateUserPointsByIDNoToken(currentRoom.host_id, hostOldPoints)
+                  data = '{"statusCode": 500, "message": "Can not update points for guest"}'
+                  socket.to(infogame.roomid).emit("server-send-data-game", turn, data)
+                  return
+               }
+            }
+
+            newGame = '{"id" : "' + currentRoom.uuid + '", "user_id" : "' + currentRoom.host_id + '", "guest_id" : "' + currentRoom.guest_id + '", "bet_points" : ' + currentRoom.bet_points + ', "status" : ' + statusGame + '}'
+
+            addNewGame = await service.addGame(newGame)
+            if (addNewGame == false) {
+               data = '{"statusCode": 500, "message": "Add new game to DB fail"}'
+               socket.to(roomid).emit("server-send-data-game", turn, data)
+               return
+            }
+
+            data = '{"statusCode": 200, "message": "lose"}'
+            socket.to(info.roomid).emit("server-send-data-game", turn, data)
+            break;
+         case "draw":
+            currentRoom = await service.getInfoOneGameRoomNoToken(infogame.roomid)
+
+            if (currentRoom == false) {
+               data = '{"statusCode": 500, "message": "Can not find room data & connect fail"}'
+               socket.to(infogame.roomid).emit("server-send-data-game", turn, data)
+               return
+            }
+
+            hostInfo = await service.getUserInfoByIDNoToken(currentRoom.host_id)
+
+            if (hostInfo == null) {
+               data = '{"statusCode": 500, "message": "Can not find host info"}'
+               socket.to(infogame.roomid).emit("server-send-data-game", turn, data)
+               return
+            }
+
+            guestInfo = await service.getUserInfoByIDNoToken(currentRoom.guest_id)
+
+            if (guestInfo == null) {
+               data = '{"statusCode": 500, "message": "Can not find guest info"}'
+               socket.to(infogame.roomid).emit("server-send-data-game", turn, data)
+               return
+            }
+
+            let statusGame = 0
+           
+            hostOldPoints = hostInfo.points + currentRoom.bet_points
+            hostNewPoints = (currentRoom.bet_points + 20 + hostOldPoints)
+            updateHostPoints = await service.updateUserPointsByIDNoToken(currentRoom.host_id, hostNewPoints)
+            if (updateHostPoints == false) {
+               data = '{"statusCode": 500, "message": "Can not update points for host"}'
+               socket.to(infogame.roomid).emit("server-send-data-game", turn, data)
+               return
+            }
+
+            guestNewPoints = (guestInfo.points + 20 + currentRoom.bet_points)
+            updateGuestPoints = await service.updateUserPointsByIDNoToken(currentRoom.guest_id, guestNewPoints)
+            if (updateGuestPoints == false) {
+               await service.updateUserPointsByIDNoToken(currentRoom.host_id, hostOldPoints)
+               data = '{"statusCode": 500, "message": "Can not update points for guest"}'
+               socket.to(infogame.roomid).emit("server-send-data-game", turn, data)
+               return
+            }
+
+            newGame = '{"id" : "' + currentRoom.uuid + '", "user_id" : "' + currentRoom.host_id + '", "guest_id" : "' + currentRoom.guest_id + '", "bet_points" : ' + currentRoom.bet_points + ', "status" : ' + statusGame + '}'
+
+            addNewGame = await service.addGame(newGame)
+            if (addNewGame == false) {
+               data = '{"statusCode": 500, "message": "Add new game to DB fail"}'
+               socket.to(roomid).emit("server-send-data-game", turn, data)
+               return
+            }
+
+            data = '{"statusCode": 200, "message": "lose"}'
+            socket.to(info.roomid).emit("server-send-data-game", turn, data)
+            break;
+         default:
+            data = '{"statusCode": 400, "message": "Wrong game status"}'
+            socket.to(roomid).emit("server-send-data-game", turn, data)
+            return
+      }
+   })
+
    
 
 
+   // continue | cancel
 
 
 
@@ -504,10 +720,6 @@ io.on('connection', function(socket) {
      console.log(socket.id + ': disconnected')
    })
  
-   // socket.on('newMessage', data => {
-   //   io.sockets.emit('newMessage', {data: data, id: socket.id});
-   //   console.log(data);
-   // })
  
 });
  

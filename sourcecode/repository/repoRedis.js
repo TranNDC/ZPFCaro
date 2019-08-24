@@ -83,12 +83,12 @@ function keyGR(uuid) {
 }
 
 // Add/Update info of gameroom to Redis
-// Parameter: JSON gameroom (uuid, room_name, password, bet_points, host_id, host_displayed_name, is_waiting)
+// Parameter: JSON gameroom (uuid, room_name, password, bet_points, host_id, host_displayed_name)
 // is_waiting {0,1} => 1 means room is playing
 repoRedis.setFieldGR = (gameroom) => {
     getAsync = promisify(client.hdel).bind(client)
     return getAsync(keyGR(gameroom.uuid), "guest_id", "guest_displayed_name").then((res) => {
-        client.hmset(keyGR(gameroom.uuid), ["uuid", gameroom.uuid, "room_name", gameroom.room_name, "password", gameroom.password, "bet_points", gameroom.bet_points, "host_id", gameroom.host_id, "host_displayed_name", gameroom.host_displayed_name, "is_waiting", 0])  
+        return client.hmset(keyGR(gameroom.uuid), ["uuid", gameroom.uuid, "room_name", gameroom.room_name, "password", gameroom.password, "bet_points", gameroom.bet_points, "host_id", gameroom.host_id, "host_displayed_name", gameroom.host_displayed_name, "is_waiting", 0])  
     })
 }
 
@@ -105,11 +105,11 @@ repoRedis.updateGuestAndStatusGR = async (uuid, guest) => {
 }
 
 // Get all info of one gameroom
-// Parameter: keyRoom
+// Parameter: STRING keyRoom
 // Result: Info array
-repoRedis.getInfoOfOneGR = async (keyRoom) => {
+repoRedis.getInfoOfOneGR = async (uuid) => {
     getAsync = promisify(client.hgetall).bind(client)
-    return await getAsync(keyRoom).then((res) => {
+    return await getAsync(keyGR(uuid)).then((res) => {
         return res
     })
 }
