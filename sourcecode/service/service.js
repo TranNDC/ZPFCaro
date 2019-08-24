@@ -355,4 +355,9 @@ service.updateGuestAndStatusGR = async (token, uuid, guest) => {
     return (await repoRedis.updateGuestAndStatusGR(uuid, guest))
 }
 
+// Delete game room (no token)
+service.deleteGRNoToken = async (uuid) => {
+    return (await repoRedis.deleteGR(uuid))
+}
+
 module.exports = service;
