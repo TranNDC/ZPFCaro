@@ -195,7 +195,6 @@ app.get('/gameroom/all', cors(corsOptions), cors(corsOptions), async (req, res) 
    token = req.headers.authorization
    
    listGameRoom = await service.getInfoAllGameRoom(token)
-
    if (listGameRoom==null || listGameRoom==[]) {
       res.status(200).json({listGameRoom: []})
       return  

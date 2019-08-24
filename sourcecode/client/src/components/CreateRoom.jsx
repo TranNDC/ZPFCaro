@@ -7,7 +7,7 @@ import { Modal, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { createGameRoom } from "../actions/roomAction";
-
+import TitleModal from '../subcomponents/TitleModal';
 class CreateRoom extends React.Component {
   constructor(props) {
     super(props);
@@ -46,10 +46,8 @@ class CreateRoom extends React.Component {
           onHide={this.closeModal}
           className="cr-heightmodal"
         >
+        <TitleModal text="create room" className="cr-marginbot" />
           <form onSubmit={this.handleSubmit}>
-            <div className="cr-marginbot cr-margintop">
-              <LogoTitle text="CREATE ROOM" />
-            </div>
             <div className="cr-marginbot">
               <InputText
                 type="roomname"
@@ -76,12 +74,12 @@ class CreateRoom extends React.Component {
             </div>
             <div>
               <Button
-                className="rect-btn text-black small-width background-gray cr-marginRight"
+                className="rect-btn text-black small-width background-gray cr-marginRight btn-for-modal"
                 onClick={this.closeModal}
               >
                 back
               </Button>
-              <Button type="submit" className="rect-btn text-black small-width">
+              <Button type="submit" className="rect-btn text-black small-width btn-for-modal">
                 create
               </Button>
             </div>
@@ -95,6 +93,7 @@ class CreateRoom extends React.Component {
     e.preventDefault();
     let errorMessage = await this.props.createGameRoom(
       this.props.user.id,
+      this.props.user.displayedName,
       this.state.roomName,
       this.state.roomPassword,
       this.state.betPoints,

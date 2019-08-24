@@ -197,7 +197,6 @@ service.isUniqueUsername = async (username) => {
 // Parameter: STRING username, password, email, displayedname
 // Result: User | Null
 service.addNewUser = async (username, password, email, displayedname) => {
-    console.log(displayedname);
     hashpass = await service.hashPassword(password)
     newUser = '{"username" : "' + username + '", "password" : "' + hashpass + '", "email" : "' + email + '", "display_name" : "' + displayedname + '"}'
     newUser = JSON.parse(newUser);
@@ -300,11 +299,11 @@ service.getInfoAllGameRoom = async (token) => {
     verifyToken = await service.verifyJWT(token)
     if (!verifyToken) return false
     
-    let listGameRoomJSON = []
+    let allGameRooms = []
     allGameRooms = await repoRedis.getInfoOfAllGR()
     if (allGameRooms == null) return null
 
-    return listGameRoomJSON
+    return allGameRooms
 }
 
 // Get info of all gamerooms (no token)

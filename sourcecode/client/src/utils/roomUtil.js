@@ -31,7 +31,7 @@ export function convertResponseToState(rooms){
         roomName:room['room_name'],
         hasPassword:room['password'],
         betPoints:room['bet_points'],
-        hostDisplayedName:room['host_display_name'],
+        hostDisplayedName:room['host_displayed_name'],
         isPlaying:room['is_waiting']
       }
     }

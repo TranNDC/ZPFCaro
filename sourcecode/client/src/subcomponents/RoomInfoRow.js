@@ -87,6 +87,7 @@ class RoomInfoRow extends React.Component {
                     </div>
                     {(() => {
                         if (this.props.password != "" && this.props.password != null) {
+                            console.log('xxx');
                             return (
                                 <div className="rir-marginbot">
                                     <InputText type="roompassword" />
