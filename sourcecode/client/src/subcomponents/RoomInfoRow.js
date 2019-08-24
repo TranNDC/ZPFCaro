@@ -30,7 +30,7 @@ class RoomInfoRow extends React.Component {
         else {
             if (this.props.betpoints != 0) heightModal += " rir-pointsHeightModal"
             else
-                if (this.props.password != null) heightModal += " rir-passHeightModal"
+                if (this.props.password.length != 0) heightModal += " rir-passHeightModal"
         }
 
         return (
