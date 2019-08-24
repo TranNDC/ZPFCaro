@@ -1,5 +1,5 @@
 import React from 'react';
-import LogoTitle from '../subcomponents/LogoTitle';
+import TitleModal from '../subcomponents/TitleModal';
 import InputText from '../subcomponents/InputText';
 import '../subcomponents/RectButton.css';
 import './RoomInfoRow.css';
@@ -67,13 +67,11 @@ class RoomInfoRow extends React.Component {
                 </Row>
 
                 <Modal show={this.state.showJRModal} onHide={this.closeModal} className={heightModal}>
-                    <div className="rir-marginbot rir-margintop">
-                        <LogoTitle text="JOIN ROOM" />
-                    </div>
+                    <TitleModal text="join room" className="rir-marginbot" />
                     <div className="rir-marginbot rir-roominfo">
                         <div><label className="rir-label rir-lbhead">{this.props.roomname}</label></div>
                         <div>
-                            <label className="rir-label">{this.props.roomid}</label>
+                            <label className="rir-label rir-lbroomid">{this.props.roomid}</label>
                             <label className="rir-label rir-labelPadding">-</label>
                             <label className="rir-label">{this.props.displayedname}</label>
                         </div>
@@ -96,8 +94,8 @@ class RoomInfoRow extends React.Component {
                         }
                     }) ()}
                     <div>
-                        <Button className="rect-btn text-black small-width background-gray rir-marginRight" onClick={this.closeModal}>back</Button>
-                        <Button className="rect-btn text-black small-width">join</Button>
+                        <Button className="rect-btn text-black small-width background-gray btn-for-modal rir-marginRight" onClick={this.closeModal}>back</Button>
+                        <Button className="rect-btn text-black btn-for-modal small-width">join</Button>
                     </div>
                 </Modal>
             </>
