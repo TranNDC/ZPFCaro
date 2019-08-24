@@ -20,7 +20,6 @@ export function createGameRoom(hostId,roomName,password,betPoints,history) {
   // console.log(request);
   callCreateGameRoomApi(request).then(
     async (res)=>{
-      console.log(res.data);
       return res.data;
       // await store.dispatch(loadGameRooms(history));
       // store.dispatch(loadGamePage(betPoints));
@@ -35,19 +34,35 @@ export function createGameRoom(hostId,roomName,password,betPoints,history) {
   )
 }
 
-export async function loadGameRooms(history){
-  await callGetGameRoomsApi().then(
-    async (res)=>{
-      console.log(res);
-      await store.dispatch(loadGameRoom(res.data));
-    }
-  ).catch(
-    (err)=>{
-      // console.log(err.response)
-      history.push('/login')
-    }
-  )
+
+
+export function loadGameRooms(history) {
+  return function(dispatch) {
+    return callGetGameRoomsApi()
+      .then(result => {
+        dispatch(loadGameRoom(result.data));
+      }).catch((err) => {
+        console.log(err);
+        history.push('/login')
+      })
+
+  };
 }
+
+
+// export async function loadGameRooms(history){
+//   await callGetGameRoomsApi().then(
+//     async (res)=>{
+//       console.log(res);
+//       await store.dispatch(loadGameRoom(res.data));
+//     }
+//   ).catch(
+//     (err)=>{
+//       // console.log(err.response)
+//       history.push('/login')
+//     }
+//   )
+// }
 
 function loadGameRoom(data){
   return{
@@ -61,6 +76,7 @@ function callCreateGameRoomApi(room){
     api
       .post(`/gameroom/`,room)
       .then(res => {
+        console.log(res);
         resolve(res);
       })
       .catch(res => {
@@ -71,6 +87,7 @@ function callCreateGameRoomApi(room){
 }
 
 function callGetGameRoomsApi() {
+  console.log('callGetGameRoomsApi');
   var promise = new Promise(function(resolve, reject) {
     api
       .get(`/gameroom/all`)

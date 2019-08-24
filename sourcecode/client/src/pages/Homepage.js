@@ -21,15 +21,17 @@ class Homepage extends React.Component {
 
     componentWillMount(){
         this.props.loadUserInfo(this.props.history);
-        // await loadGameRooms(this.props.history);
-        this.props.initGameRoom();
+        this.props.loadGameRooms(this.props.history);
+        // this.props.initGameRoom();
     } 
 
     render() {
         if (!isAuthenticated()) {
             return <Redirect to="/login" />;
-          }
-        let className = this.props.className
+        }
+        
+        let className = this.props.className + " animated bounceInRight slow";
+
         return (
             <Container fluid={true} className={className}>
                 <Header />
@@ -41,7 +43,7 @@ class Homepage extends React.Component {
                         <UserInfo 
                         avatar={this.props.user.avatar} 
                         type1="displayedname" 
-                        displayedname={this.props.user.displayedName} 
+                        displayloadGameRoomsedname={this.props.user.displayedName} 
                         type2="points" 
                         points={this.props.user.points} 
                         type3="winningrate" 

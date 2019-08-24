@@ -1,23 +1,13 @@
-.modal-dialog {
-    height: 100%;
-    width: 100%;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-self: auto;
-    align-items: center;
-}
-
 .aboutus-heightmodal .modal-content {
     width: 450px !important;
-    height: 740px !important;
+    height: 645px !important;
     border-radius: 10px !important;
     border: none;
     align-items: center;
 }
 
 .aboutus-marginbot {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .aboutus-margintop {
@@ -38,9 +28,13 @@
     font-size: 24px;
 }
 
+.aboutus-labelUnderline {
+    text-decoration: underline !important;
+}
+
 .aboutus-labelContent {
     font-size: 18px;
     color: black;
     text-align: center;
-    width: 350px;
+    width: 400px;
 }

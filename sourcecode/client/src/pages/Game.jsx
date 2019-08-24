@@ -48,15 +48,17 @@ class Game extends React.Component {
     //   }
     // ];
 
+    let className = this.props.className + " animated bounceInRight slow";
+
     return (
-      <Container fluid={true}>
+      <Container fluid={true} className={className}>
         <Header />
         <Row className="m-0">
           <Col xs="9" className="g-game-col p-0 g-game-container">
-          <GameBoard width={30} height={22}/>
+            <GameBoard width={30} height={22}/>
           </Col>
           <Col xs="3" className="g-game-col g-info-container">
-          <GameSideBar avatar={avatar} />
+            <GameSideBar avatar={avatar} />
           </Col>
         </Row>
       </Container>

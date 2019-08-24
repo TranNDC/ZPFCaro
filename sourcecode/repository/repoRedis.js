@@ -130,14 +130,16 @@ repoRedis.getInfoOfAllGR = async () => {
     let gamerooms = []
 
     allKeysGR = await repoRedis.getAllKeysGR()
-
+    console.log(allKeysGR)
     if (allKeysGR == null) return null
 
     allKeysGR.forEach(async element => {
         info = await repoRedis.getInfoOfOneGR(element)
+        console.log(info)
         gamerooms.push(info)
     });
     
+    console.log(gamerooms)
     return gamerooms
 }
 

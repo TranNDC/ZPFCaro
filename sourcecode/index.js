@@ -186,10 +186,8 @@ app.post('/register', cors(corsOptions), async (req, res) => {
 app.options('/gameroom/all', cors())
 app.get('/gameroom/all', cors(corsOptions), cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
-
    listGameRoom = await service.getInfoAllGameRoom(token)
-
-   if (listGameRoom==null) {
+   if (listGameRoom==null || listGameRoom==[]) {
       res.status(200).json({listGameRoom: []})
       return  
    }

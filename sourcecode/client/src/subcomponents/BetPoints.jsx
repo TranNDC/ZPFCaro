@@ -11,7 +11,7 @@ class BetPoints extends React.Component {
         let classes = 'bp-bet-points '+ this.props.className;
         return (
             <div className={classes}>
-                {this.props.value}
+                <div className="animated flash slower infinite delay-2s">{this.props.value}</div>
             </div>
         );
     }

@@ -18,7 +18,6 @@ class GameRooms extends React.Component {
     for (var room in this.props.gameRooms) {
       listGameRoom.push(this.props.gameRooms[room]);
     }
-    console.log(listGameRoom);
 
     return (
       <div>
