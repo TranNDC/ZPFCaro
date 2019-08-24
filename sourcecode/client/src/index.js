@@ -259,16 +259,16 @@ import EndGameBox from "./components/EndGameBox";
 // ReactDOM.render(<EndGameBox stateEGB="true" headingEndGame="YOU LOSE"  titleEndGame="Don't be sad, try harder!" subTitleEndGame="Low points, cann't play new game!" isContinue={false} />, document.getElementById('root'));
 
 export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
-// window.store = store;
-// let avatar = require("./media/avatar.png");
-// ReactDOM.render(
-//   <Provider store={store}>
-//     <Router>
-//       <Route exact path="/register" component={Register} />
-//       <Route exact path="/login" component={Login} />
-//       <Route exact path="/homepage" component={Homepage} />
-//       <Route exact path="/" component={Game} />
-//     </Router>
-//   </Provider>,
-//   document.getElementById("root")
-// );
+window.store = store;
+let avatar = require("./media/avatar.png");
+ReactDOM.render(
+  <Provider store={store}>
+    <Router>
+      <Route exact path="/register" component={Register} />
+      <Route exact path="/login" component={Login} />
+      <Route exact path="/homepage" component={Homepage} />
+      <Route exact path="/" component={Game} />
+    </Router>
+  </Provider>,
+  document.getElementById("root")
+);

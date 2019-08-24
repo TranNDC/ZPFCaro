@@ -453,8 +453,49 @@ server.listen(port, () => {
 
 
 // ---------------------------------------------------------------------------
+// -------------------------------WEB SOCKETIO--------------------------------
 // ---------------------------------------------------------------------------
-// ---------------------------------------------------------------------------
 
 
 
+io.on('connection', function(socket) {
+
+   // Broadcast info about ListGameRoom
+   socket.on('server-send-info-listgameroom', function() {
+      listgameroom = service.getInfoAllGameRoomNoToken()
+      if (listgameroom == null) return
+      socket.broadcast.emit(listgameroom)
+   })
+
+   // Broadcast info about Leaderboard
+   socket.on('server-send-info-leaderboard', function() {
+      leaderboard = service.getTop6LBNoToken()
+      socket.broadcast.emit(leaderboard)
+   })
+   
+   // 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   socket.on('disconnect', function(){
+     console.log(socket.id + ': disconnected')
+   })
+ 
+   // socket.on('newMessage', data => {
+   //   io.sockets.emit('newMessage', {data: data, id: socket.id});
+   //   console.log(data);
+   // })
+ 
+});
+ 

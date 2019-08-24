@@ -259,6 +259,11 @@ service.getTop6LB = async (token) => {
     return JsonTopUserInfoLB(await repoRedis.getTop6LB())
 }
 
+// Get leaderboard (top6) (no token)
+service.getTop6LBNoToken = async () => {
+    return JsonTopUserInfoLB(await repoRedis.getTop6LB())
+}
+
 // Get leaderboard (all top)
 // Parameter: STRING token
 // Result: False | Leaderboard
@@ -289,6 +294,14 @@ service.getInfoAllGameRoom = async (token) => {
     verifyToken = await service.verifyJWT(token)
     if (!verifyToken) return false
     
+    allGameRooms = await repoRedis.getInfoOfAllGR()
+    if (allGameRooms == null) return null
+    return allGameRooms
+}
+
+// Get info of all gamerooms (no token)
+// Result: List gameroom
+service.getInfoAllGameRoomNoToken = async () => {
     allGameRooms = await repoRedis.getInfoOfAllGR()
     if (allGameRooms == null) return null
     return allGameRooms
