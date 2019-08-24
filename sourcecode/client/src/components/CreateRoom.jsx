@@ -155,4 +155,3 @@ export default withRouter(
     mapDispatchToProps
   )(CreateRoom)
 );
-

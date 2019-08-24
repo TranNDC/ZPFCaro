@@ -37,10 +37,11 @@ repoMongo.getUserByEmail = async (email) => {
     return (val != null) ? val : null
 }
 
-
 // Get user by id
 repoMongo.getUserById = async (id) => {
-    let val = await collectionUsers.findOne({_id: id}) 
+    ObjectID = require('mongodb').ObjectID
+    var objectId2 = new ObjectID(id)
+    let val = await collectionUsers.findOne({_id: objectId2})
     return (val != null) ? val : null
 }
 
