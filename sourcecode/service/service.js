@@ -295,16 +295,15 @@ service.getInfoAllGameRoom = async (token) => {
     verifyToken = await service.verifyJWT(token)
     if (!verifyToken) return false
     
-    let listGameRoomJSON = []
-    let allGameRooms = await repoRedis.getInfoOfAllGR()
-    if (!allGameRooms || allGameRooms.size ==0 ) return []
+    allGameRooms = await repoRedis.getInfoOfAllGR()
 
-    allGameRooms.forEach(async element => {
-        let valJSON = JsonGameRoomInfo(element)
-        valJSON['host_display_name'] = await repoMongo.getUserById(valJSON['host_id'])['display_name'];
-        listGameRoomJSON.push(valJSON)
-    });
-    return listGameRoomJSON
+    if (allGameRooms != null)
+        allGameRooms.forEach(room => {
+            console.log(room)
+            // room['host_display_name'] = await repoMongo.
+        });
+
+    return allGameRooms
 }
 
 // Get info of one gameroom

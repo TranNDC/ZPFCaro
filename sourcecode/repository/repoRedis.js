@@ -95,9 +95,9 @@ repoRedis.setFieldGR = (gameroom) => {
 // Update guestid & roomStatus
 // Parameter: STRING uuid, guest_id
 // is_waiting {0,1} => 1 means room is playing
-repoRedis.updateGuestAndStatusGR = (uuid, guest_id) => {
+repoRedis.updateGuestAndStatusGR = async (uuid, guest_id) => {
     getAsync = promisify(client.hsetnx).bind(client)
-    return getAsync(keyGR(uuid), "guest_id", guest_id).then((res) => {
+    return await getAsync(keyGR(uuid), "guest_id", guest_id).then((res) => {
         if (!res) return false
         client.hmset(keyGR(uuid), ["is_waiting", 1])
         return true
@@ -107,18 +107,18 @@ repoRedis.updateGuestAndStatusGR = (uuid, guest_id) => {
 // Get all info of one gameroom
 // Parameter: keyRoom
 // Result: Info array
-repoRedis.getInfoOfOneGR = (keyRoom) => {
+repoRedis.getInfoOfOneGR = async (keyRoom) => {
     getAsync = promisify(client.hgetall).bind(client)
-    return getAsync(keyRoom).then((res) => {
+    return await getAsync(keyRoom).then((res) => {
         return res
     })
 }
 
 // Get all keys of gamerooms
 // Result: All gameroom keys
-repoRedis.getAllKeysGR = () => {
+repoRedis.getAllKeysGR = async () => {
     getAsync = promisify(client.keys).bind(client)
-    return getAsync("GameRoom:*").then((res) => {
+    return await getAsync("GameRoom:*").then((res) => {
         if (res.length==0) return null
         return res
     })
@@ -127,20 +127,19 @@ repoRedis.getAllKeysGR = () => {
 // Get all info of all gamerooms
 // Result: All info of all gamerooms
 repoRedis.getInfoOfAllGR = async () => {
-    let gamerooms = []
-
     allKeysGR = await repoRedis.getAllKeysGR()
-    console.log(allKeysGR)
     if (allKeysGR == null) return null
 
-    allKeysGR.forEach(async element => {
-        info = await repoRedis.getInfoOfOneGR(element)
-        console.log(info)
-        gamerooms.push(info)
-    });
-    
-    console.log(gamerooms)
-    return gamerooms
+
+    var promises = []
+    allKeysGR.forEach(element => {
+        promises.push(repoRedis.getInfoOfOneGR(element));
+    })
+
+    return Promise.all(promises)
+    .then((res) => {
+        return res
+    })
 }
 
 module.exports = repoRedis;

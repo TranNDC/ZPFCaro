@@ -40,7 +40,7 @@ export function loadGameRooms(history) {
   return function(dispatch) {
     return callGetGameRoomsApi()
       .then(result => {
-        dispatch(loadGameRoom(result.data));
+        dispatch(loadGameRoom(result.data.listGameRoom));
       }).catch((err) => {
         console.log(err);
         history.push('/login')
@@ -76,7 +76,6 @@ function callCreateGameRoomApi(room){
     api
       .post(`/gameroom/`,room)
       .then(res => {
-        console.log(res);
         resolve(res);
       })
       .catch(res => {
@@ -87,7 +86,6 @@ function callCreateGameRoomApi(room){
 }
 
 function callGetGameRoomsApi() {
-  console.log('callGetGameRoomsApi');
   var promise = new Promise(function(resolve, reject) {
     api
       .get(`/gameroom/all`)

@@ -2,15 +2,13 @@ const express = require('express')
 const app = express()
 let service = require('./service/service');
 var cors = require('cors')
-// Use body-parser
-let bodyParser = require('body-parser');
-
 var corsOptions = {
    origin: 'http://localhost:3000',
- }
-
+}
+let bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+let repoRedis = require('./repository/repoRedis');
 
 app.get('/test', async (req, res) => {
    res.send('testing... !')
@@ -91,6 +89,8 @@ app.get('/test', async (req, res) => {
    // console.log("-------------------------------")
    // console.log(await service.getMyRanking("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF1b2N0azA4IiwiaWF0IjoxNTY2NDQwMjgxLCJleHAiOjE1NjcwNDUwODF9.cZCLddwWwNvzGiH9oX3az0Q12B78qH9piSl1tm48htA"))
    // console.log("-------------------------------")
+   
+   // console.log(await repoRedis.getInfoOfAllGR());
 })
 
 
@@ -186,7 +186,10 @@ app.post('/register', cors(corsOptions), async (req, res) => {
 app.options('/gameroom/all', cors())
 app.get('/gameroom/all', cors(corsOptions), cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
+   
    listGameRoom = await service.getInfoAllGameRoom(token)
+   
+
    if (listGameRoom==null || listGameRoom==[]) {
       res.status(200).json({listGameRoom: []})
       return  
@@ -197,6 +200,7 @@ app.get('/gameroom/all', cors(corsOptions), cors(corsOptions), async (req, res) 
       return
    }
 
+   console.log(listGameRoom);
    res.status(200).json({listGameRoom: listGameRoom})
 })
 

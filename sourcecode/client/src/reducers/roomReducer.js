@@ -9,8 +9,6 @@ const initialState = initState();
 const roomReducer = (state = initialState, action) => {
   switch (action.type) {
     case INIT_GAMEROOM:
-      console.log('initialState');
-      console.log(initialState);
       return state;
     case LOAD_GAMEROOMS:
 // merge old state and new rooms
