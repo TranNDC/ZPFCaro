@@ -589,7 +589,8 @@ io.on('connection', function(socket) {
                return
             }
 
-            let statusGame
+            let statusGame, hostNewPoints, guestNewPoints
+
             if (infogame.isHost) {
                statusGame = 1
 
@@ -641,9 +642,9 @@ io.on('connection', function(socket) {
                socket.to(roomid).emit("server-send-data-game", turn, data)
                return
             }
-            
-            service.updatePointsLB(hostInfo.username, hostInfo.points)
-            service.updatePointsLB(guestInfo.username, guestInfo.points)
+
+            service.updatePointsLB(hostInfo.username, hostNewPoints)
+            service.updatePointsLB(guestInfo.username, guestNewPoints)
             data = '{"statusCode": 200, "message": "lose"}'
             socket.to(info.roomid).emit("server-send-data-game", turn, data)
             break;
@@ -672,7 +673,7 @@ io.on('connection', function(socket) {
                return
             }
 
-            let statusGame = 0
+            let statusGame = 0, hostNewPoints, guestNewPoints
            
             hostOldPoints = hostInfo.points + currentRoom.bet_points
             hostNewPoints = (currentRoom.bet_points + 20 + hostOldPoints)
@@ -701,8 +702,8 @@ io.on('connection', function(socket) {
                return
             }
             
-            service.updatePointsLB(hostInfo.username, hostInfo.points)
-            service.updatePointsLB(guestInfo.username, guestInfo.points)
+            service.updatePointsLB(hostInfo.username, hostNewPoints)
+            service.updatePointsLB(guestInfo.username, guestNewPoints)
             data = '{"statusCode": 200, "message": "lose"}'
             socket.to(info.roomid).emit("server-send-data-game", turn, data)
             break;
