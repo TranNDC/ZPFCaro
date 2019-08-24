@@ -15,23 +15,23 @@ export function initGameRoom() {
   };
 }
 
-export function createGameRoom(hostId,roomName,password,betPoints,history) {
-  let request = creaRoomReq(hostId,roomName,password,betPoints);
-  // console.log(request);
-  callCreateGameRoomApi(request).then(
-    async (res)=>{
-      return res.data;
+export function createGameRoom(hostId,displayedName, roomName,password,betPoints,history) {
+  let request = creaRoomReq(hostId,displayedName,roomName,password,betPoints);
       // await store.dispatch(loadGameRooms(history));
       // store.dispatch(loadGamePage(betPoints));
       // history.push('/game')
       // store.dispatch(loadGameRoom(res.data));
-    }
-  ).catch(
-    (err)=>{
-      // console.log(err)
-      history.push('/login')
-    }
-  )
+
+  return function(dispatch) {
+    return callCreateGameRoomApi(request)
+      .then(result => {
+        history.push('/game')
+      // dispatch(loadUser(result.data));
+      }).catch((err) => {
+        history.push('/login')
+      })
+
+  };
 }
 
 
@@ -42,27 +42,11 @@ export function loadGameRooms(history) {
       .then(result => {
         dispatch(loadGameRoom(result.data.listGameRoom));
       }).catch((err) => {
-        console.log(err);
         history.push('/login')
       })
 
   };
 }
-
-
-// export async function loadGameRooms(history){
-//   await callGetGameRoomsApi().then(
-//     async (res)=>{
-//       console.log(res);
-//       await store.dispatch(loadGameRoom(res.data));
-//     }
-//   ).catch(
-//     (err)=>{
-//       // console.log(err.response)
-//       history.push('/login')
-//     }
-//   )
-// }
 
 function loadGameRoom(data){
   return{
@@ -90,7 +74,6 @@ function callGetGameRoomsApi() {
     api
       .get(`/gameroom/all`)
       .then(res => {
-        console.log(res);
         resolve(res);
       })
       .catch(res => {

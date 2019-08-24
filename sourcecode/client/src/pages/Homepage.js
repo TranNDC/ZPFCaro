@@ -19,9 +19,9 @@ class Homepage extends React.Component {
         super(props);
     }
 
-    componentWillMount(){
-        this.props.loadUserInfo(this.props.history);
-        this.props.loadGameRooms(this.props.history);
+    async componentWillMount(){
+        await this.props.loadUserInfo(this.props.history);
+        await this.props.loadGameRooms(this.props.history);
         // this.props.initGameRoom();
     } 
 
@@ -31,7 +31,7 @@ class Homepage extends React.Component {
         }
         
         let className = this.props.className + " animated bounceInRight slow";
-
+        console.log(this.props.user.displayedName)
         return (
             <Container fluid={true} className={className}>
                 <Header />
@@ -43,7 +43,7 @@ class Homepage extends React.Component {
                         <UserInfo 
                         avatar={this.props.user.avatar} 
                         type1="displayedname" 
-                        displayloadGameRoomsedname={this.props.user.displayedName} 
+                        displayedName={this.props.user.displayedName} 
                         type2="points" 
                         points={this.props.user.points} 
                         type3="winningrate" 

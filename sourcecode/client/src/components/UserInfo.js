@@ -16,7 +16,7 @@ class UserInfo extends React.Component {
                 );
             case "displayedname":
                 return (
-                    <UserInfoRow type={type} displayedname={this.props.displayedname} className="ui-space" />
+                    <UserInfoRow type={type} displayedname={this.props.displayedName} className="ui-space" />
                 );
             case "points":
                 return (
@@ -39,6 +39,7 @@ class UserInfo extends React.Component {
     }
 
     render() {
+        console.log(this.props)
         return (
             <div className="ui-div">
                 <div className="ui-avatardiv">

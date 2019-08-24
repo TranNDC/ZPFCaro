@@ -24,6 +24,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    text-transform: uppercase;
 }
 
 .rir-labelRID {
@@ -42,6 +43,7 @@
     font-weight: bold;
     font-size: 18px;
     color: black;
+    text-transform: uppercase;
     width: 100%;
 }
 

@@ -84,7 +84,7 @@ app.get('/test', async (req, res) => {
    // service.updatePointsLB ("quoctk01", 800000)
    // service.updatePointsLB ("quoctk01", 900000)
    // service.updatePointsLB ("quoctk02", 800000)
-   // service.updatePointsLB ("quoctk02", 700000)
+// service.updatePointsLB ("quoctk02", 700000)
    // service.updatePointsLB ("quoctk08", 250000)
    // service.updatePointsLB ("quoctk08", 220000)
    // console.log("-------------------------------")
@@ -231,7 +231,7 @@ app.options('/gameroom', cors())
 app.post('/gameroom', cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
    gameroom = req.body.gameroom
-   result = service.setGameRoom(token, gameroom)
+   result = await service.setGameRoom(token, gameroom)
    if (!result) {
       res.status(400).json({ message: "Wrong/Expired token"})
       return

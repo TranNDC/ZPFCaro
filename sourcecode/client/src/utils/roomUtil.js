@@ -22,7 +22,6 @@ export function creaRoomReq(hostId, hostDisplayedName, roomName, passWord, betPo
 
 export function convertResponseToState(rooms){
   let res = {};
-  console.log(rooms);
   rooms.forEach(room => {
     if (room['is_waiting'] == 0){
       let id = room.uuid.split('-');
