@@ -511,7 +511,7 @@ io.on('connection', function(socket) {
       }
 
       socket.join(gameroom.uuid) 
-      socket.to(gameroom.uuid).emit('server-send-result-create-room', {statusCode: 200, message: "Create room successfully"})
+      socket.emit('server-send-result-create-room', {statusCode: 200, message: "Create room successfully"})
    })
 
    // Join gameroom
@@ -549,7 +549,7 @@ io.on('connection', function(socket) {
       currentRoom = await service.getInfoOneGameRoomNoToken(infogame.roomid)
 
       socket.join(infogame.roomid)
-      socket.in(infogame.roomid).emit('server-send-result-join-room', {statusCode: 200, message: "Join room successfully", data: currentRoom})
+      io.in(infogame.roomid).emit('server-send-result-join-room', {statusCode: 200, message: "Join room successfully", data: currentRoom})
    })
 
    // Function process draw game
@@ -610,14 +610,14 @@ io.on('connection', function(socket) {
 
             data = '{"statusCode": 200, "message": "lose"}'
             socket.to(info.roomid).emit("server-send-data-game", turn, data)
-            socket.in(info.roomid).emit("server-ask-client-leave-room")
+            io.in(info.roomid).emit("server-ask-client-leave-room")
             break;
          case "draw":
             await processDrawGame(infogame.roomid)
 
             data = '{"statusCode": 200, "message": "lose"}'
             socket.to(info.roomid).emit("server-send-data-game", turn, data)
-            socket.in(info.roomid).emit("server-ask-client-leave-room")
+            io.in(info.roomid).emit("server-ask-client-leave-room")
             break;
       }
    })
