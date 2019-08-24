@@ -1,14 +1,19 @@
 const express = require('express')
 const app = express()
+const port = process.env.PORT || 5000
+const server = require('http').Server(app)
+let io = require('socket.io')(server);
 let service = require('./service/service');
 var cors = require('cors')
 var corsOptions = {
-   origin: 'http://localhost:3000',
+   origin: 'http://localhost:3000'
 }
 let bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-let repoRedis = require('./repository/repoRedis');
+
+// test
+// let repoRedis = require('./repository/repoRedis')
 
 app.get('/test', async (req, res) => {
    res.send('testing... !')
@@ -91,6 +96,8 @@ app.get('/test', async (req, res) => {
    // console.log("-------------------------------")
    
    // console.log(await repoRedis.getInfoOfAllGR());
+
+   // console.log(await service.getInfoOneGameRoom("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF1b2N0azA4IiwiaWF0IjoxNTY2NDQwMjgxLCJleHAiOjE1NjcwNDUwODF9.cZCLddwWwNvzGiH9oX3az0Q12B78qH9piSl1tm48htA", "GameRoom:123"))
 })
 
 
@@ -440,8 +447,17 @@ app.get('/user/ranking', cors(corsOptions), async (req, res) => {
    res.status(200).json({  ranking: result})
 })
 
-app.listen(5000, () => {
+server.listen(port, () => {
    console.log("App is listening on port 5000...")
    service.connectRedis();
    service.connectMongoDB();
 })
+
+
+
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+
+
+
