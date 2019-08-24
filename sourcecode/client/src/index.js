@@ -258,7 +258,7 @@ import EndGameBox from "./components/EndGameBox";
 // ReactDOM.render(<EndGameBox stateEGB="true" headingEndGame="YOU WIN"  titleEndGame="Congratulations, you won the game!" subTitleEndGame="Do you want to play new game?" isContinue={true} />, document.getElementById('root'));
 // ReactDOM.render(<EndGameBox stateEGB="true" headingEndGame="YOU LOSE"  titleEndGame="Don't be sad, try harder!" subTitleEndGame="Low points, cann't play new game!" isContinue={false} />, document.getElementById('root'));
 
-export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+export const store = createStore(rootReducer, applyMiddleware(thunk));
 window.store = store;
 let avatar = require("./media/avatar.png");
 ReactDOM.render(
@@ -266,8 +266,8 @@ ReactDOM.render(
     <Router>
       <Route exact path="/register" component={Register} />
       <Route exact path="/login" component={Login} />
-      <Route exact path="/homepage" component={Homepage} />
-      <Route exact path="/" component={Game} />
+      <Route exact path="/" component={Homepage} />
+      <Route exact path="/game" component={Game} />
     </Router>
   </Provider>,
   document.getElementById("root")

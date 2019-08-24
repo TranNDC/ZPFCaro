@@ -195,7 +195,6 @@ app.get('/gameroom/all', cors(corsOptions), cors(corsOptions), async (req, res) 
    token = req.headers.authorization
    
    listGameRoom = await service.getInfoAllGameRoom(token)
-   
 
    if (listGameRoom==null || listGameRoom==[]) {
       res.status(200).json({listGameRoom: []})
@@ -207,7 +206,6 @@ app.get('/gameroom/all', cors(corsOptions), cors(corsOptions), async (req, res) 
       return
    }
 
-   console.log(listGameRoom);
    res.status(200).json({listGameRoom: listGameRoom})
 })
 
@@ -464,19 +462,24 @@ server.listen(port, () => {
 io.on('connection', function(socket) {
 
    // Broadcast info about ListGameRoom
-   socket.on('server-send-info-listgameroom', function() {
+   socket.on('client-request-info-listgameroom', function() {
       listgameroom = service.getInfoAllGameRoomNoToken()
       if (listgameroom == null) return
-      socket.broadcast.emit(listgameroom)
+      socket.broadcast.emit('server-send-info-listgameroom', listgameroom)
    })
 
    // Broadcast info about Leaderboard
-   socket.on('server-send-info-leaderboard', function() {
+   socket.on('client-request-info-leaderboard', function() {
       leaderboard = service.getTop6LBNoToken()
-      socket.broadcast.emit(leaderboard)
+      socket.broadcast.emit('server-send-info-leaderboard', leaderboard)
    })
    
-   // 
+   // Set interval for broadcast info ListGameRoom & Leaderboard
+   setInterval(function() {
+      listgameroom = service.getInfoAllGameRoomNoToken()
+      if (listgameroom == null) return
+      socket.broadcast.emit(listgameroom)
+   }, 20000)
 
 
 
