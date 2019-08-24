@@ -40,6 +40,7 @@ export function convertResponseToState(rooms){
       let id = room.uuid.split('-');
       res[room.uuid] =  {
         id: 'R-'+id[3],
+        'fullId':room.uuid,
         roomName:room['room_name'],
         hasPassword:room['password'],
         betPoints:room['bet_points'],

@@ -96,6 +96,7 @@ repoRedis.setFieldGR = (gameroom) => {
 // Parameter: STRING uuid, JSON guest (guest_id, guest_displayed_name)
 // is_waiting {0,1} => 1 means room is playing
 repoRedis.updateGuestAndStatusGR = async (uuid, guest) => {
+    console.log(uuid)
     getAsync = promisify(client.hsetnx).bind(client)
     return await getAsync(keyGR(uuid), "guest_id", guest.guest_id, "guest_displayed_name", guest.guest_displayed_name).then((res) => {
         if (!res) return false

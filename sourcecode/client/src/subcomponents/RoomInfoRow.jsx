@@ -5,6 +5,11 @@ import '../subcomponents/RectButton.css';
 import './RoomInfoRow.css';
 import { Row, Col, Button, Modal } from 'react-bootstrap';
 
+import { joinGameRoom } from "../actions/roomAction";
+
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+
 class RoomInfoRow extends React.Component {
     constructor(props) {
         super(props);
@@ -23,7 +28,7 @@ class RoomInfoRow extends React.Component {
     }
 
     handleJoinRoom(){
-        let uuid = this.props.uuid;
+        this.props.joinGameRoom(this.props.user.id, this.props.user.displayedName,this.props.fullId,this.props.betpoints,this.props.history )
     }
 
     render() {
@@ -107,4 +112,34 @@ class RoomInfoRow extends React.Component {
     }
 }
 
-export default RoomInfoRow;
+
+function mapStateToProps(state, index) {
+  return {
+    user: state.userReducer
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    joinGameRoom(userId, displayedName, roomId, betPoints ,history) {
+      return dispatch(joinGameRoom(userId, displayedName, roomId, betPoints ,history));
+    },
+    // loadGameRooms(history) {
+    //   return dispatch(loadGameRooms(history));
+    // },
+    // initGameRoom() {
+    //   return dispatch(initGameRoom());
+    // },
+    // initIo() {
+    //   return dispatch(initIo());
+    // }
+  };
+}
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(RoomInfoRow)
+);
+      

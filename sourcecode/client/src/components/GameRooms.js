@@ -30,7 +30,7 @@ class GameRooms extends React.Component {
             if (ele.isPlaying == 0) {
               return (
                 <RoomInfoRow
-                  uuid={ele.uuid}
+                fullId={ele.fullId}
                   roomid={ele.id}
                   roomname={ele.roomName}
                   displayedname={ele.hostDisplayedName}
