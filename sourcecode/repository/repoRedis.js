@@ -98,10 +98,13 @@ repoRedis.setFieldGR = (gameroom) => {
 repoRedis.updateGuestAndStatusGR = async (uuid, guest) => {
     console.log(uuid)
     getAsync = promisify(client.hsetnx).bind(client)
-    return await getAsync(keyGR(uuid), "guest_id", guest.guest_id, "guest_displayed_name", guest.guest_displayed_name).then((res) => {
+    return await getAsync(keyGR(uuid), "guest_id", guest.guest_id).then((res) => {
         if (!res) return false
-        client.hmset(keyGR(uuid), ["is_waiting", 1])
-        return true
+        return getAsync(keyGR(uuid), "guest_displayed_name", guest.guest_displayed_name).then((res) => {
+            if (!res) return false
+            client.hmset(keyGR(uuid), ["is_waiting", 1])
+            return true
+        })
     })
 }
 
@@ -140,6 +143,16 @@ repoRedis.getInfoOfAllGR = async () => {
 
     return Promise.all(promises)
     .then((res) => {
+        return res
+    })
+}
+
+// Delete room in Redis
+// Parameter: uuid
+// Result: True | False
+repoRedis.deleteGR = async (uuid) => {
+    getAsync = promisify(client.del).bind(client)
+    return await getAsync(keyGR(uuid)).then((res) => {
         return res
     })
 }
