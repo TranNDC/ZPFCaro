@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./style.css";
-import thunkMiddleware from 'redux-thunk'
+import thunk from 'redux-thunk'
 import rootReducer from "./reducers/index";
 import { Provider } from "react-redux";
 import {applyMiddleware, createStore } from "redux";
@@ -230,7 +230,7 @@ import CountDownBox from "./subcomponents/CountDownBox";
 // -------------------------------
 // TEST COUNTDOWNBOX
 // -------------------------------
-ReactDOM.render(<CountDownBox />, document.getElementById('root'));
+// ReactDOM.render(<CountDownBox />, document.getElementById('root'));
 
 // export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 // window.store = store;
@@ -248,7 +248,7 @@ ReactDOM.render(<CountDownBox />, document.getElementById('root'));
 // );
 
 
-export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+export const store = createStore(rootReducer, applyMiddleware(thunk));
 window.store = store;
 let avatar = require("./media/avatar.png");
 ReactDOM.render(

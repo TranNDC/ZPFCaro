@@ -299,8 +299,9 @@ service.getInfoAllGameRoom = async (token) => {
     allGameRooms = await repoRedis.getInfoOfAllGR()
     if (allGameRooms == null) return null
 
-    allGameRooms.forEach(element => {
+    allGameRooms.forEach(async element => {
         let valJSON = JsonGameRoomInfo(element)
+        valJSON['host_display_name'] = await repoMongo.getUserById(valJSON['host_id'])['display_name'];
         listGameRoomJSON.push(valJSON)
     });
 
@@ -325,7 +326,6 @@ service.getInfoOneGameRoom = async (token, keyRoom) => {
 service.setGameRoom = async (token, gameroom) => {
     verifyToken = await service.verifyJWT(token)
     if (!verifyToken) return false
-
     repoRedis.setFieldGR(gameroom)
     return true
 }

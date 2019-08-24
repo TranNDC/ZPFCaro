@@ -10,7 +10,7 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import {isAuthenticated} from "../utils/storageUtil";
 import {Redirect} from "react-router-dom";
 import { loadUserInfo } from "../actions/userAction";
-import { loadGameRooms } from "../actions/roomAction";
+import { loadGameRooms, initGameRoom } from "../actions/roomAction";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
@@ -19,9 +19,10 @@ class Homepage extends React.Component {
         super(props);
     }
 
-    async componentWillMount(){
-        await loadUserInfo(this.props.history);
-        await loadGameRooms(this.props.history);
+    componentWillMount(){
+        this.props.loadUserInfo(this.props.history);
+        // await loadGameRooms(this.props.history);
+        this.props.initGameRoom();
     } 
 
     render() {
@@ -69,6 +70,12 @@ function mapStateToProps(state, index) {
     return {
       loadUserInfo(history) {
         return dispatch(loadUserInfo(history));
+      },
+      loadGameRooms(history) {
+        return dispatch(loadGameRooms(history));
+      },
+      initGameRoom() {
+        return dispatch(initGameRoom());
       }
     };
   }

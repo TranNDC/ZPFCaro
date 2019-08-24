@@ -57,7 +57,7 @@ class RoomInfoRow extends React.Component {
                     </Col>
                     <Col xs="1" className="rir-password">
                         {(() => {
-                            if (this.props.password != null) {
+                            if (this.props.password != null || this.props.password != '') {
                                 return (
                                     <img src={require("../media/icon-room-password.png")} className="rir-imgPassword"></img>
                                 );

@@ -75,7 +75,7 @@ class InputText extends React.Component {
           alt = "icon-rupee";
           type = "number";
           minpts = 0;
-          maxpts = 100000;
+          maxpts = this.props.max;
           placeholder = "Bet Points";
           break;
       case 'roomname':
