@@ -27,12 +27,35 @@ class EndGameBox extends React.Component {
     }
 
     render() {
-        let headingEndGame = this.props.headingEndGame;
-        let titleEndGame = this.props.titleEndGame;
-        let subTitleEndGame = this.props.subTitleEndGame;
+
+        let headingEndGame;
+        let titleEndGame;
+        let subTitleEndGame;
+        let isContinue;
+        console.log(this.props.type)
+        switch (this.props.type) {
+          case "win":
+            headingEndGame = "YOU WIN";
+            titleEndGame = "Congratulations, you won the game!";
+            subTitleEndGame= 'Do you want to play new game?'
+            isContinue = true;
+            break;
+          case "lose":
+            headingEndGame = "YOU LOSE";
+            titleEndGame = "Don't be sad, try harder!";
+            isContinue = true;
+            subTitleEndGame= 'Do you want to play new game?'
+            break;
+          case "lowPoint":
+            headingEndGame = "YOU LOSE";
+            titleEndGame = "Congratulations, you won the game!";
+            subTitleEndGame= "Low points, can't play new game!";
+            isContinue = false;
+            break;
+        }
 
         return (
-            <Modal show={this.state.showEndGameModal} className="endgamebox-heightmodal animated tada">
+            <Modal show={this.props.stateEGB} className="endgamebox-heightmodal animated tada">
                 <div id="endgamebox-heading">
                     <span>{headingEndGame}</span>
                 </div>
@@ -44,7 +67,7 @@ class EndGameBox extends React.Component {
                 </div>
                 <div className="endgamebox-margintop">
                     <Button className="endgamebox-rect-btn endgamebox-quit" onClick={this.quitGame}>Quit</Button>
-                    {this.props.isContinue && <Button className="endgamebox-rect-btn endgamebox-continue endgamebox-marginLeft" onClick={this.continueGame}>Continue</Button>}
+                    {isContinue && <Button className="endgamebox-rect-btn endgamebox-continue endgamebox-marginLeft" onClick={this.continueGame}>Continue</Button>}
                 </div>
             </Modal>
         );

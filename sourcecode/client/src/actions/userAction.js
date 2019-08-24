@@ -108,6 +108,25 @@ function callGetUserInfoApi() {
     api
       .get(`/user`)
       .then(res => {
+        callGetUserRankApi()
+        .then(result=>{
+          res.data.userInfo.ranking = result.data.ranking.ranking
+          resolve(res);
+        })
+      })
+      .catch(res => {
+        reject(res);
+      });
+  });
+  return promise;
+}
+
+
+function callGetUserRankApi() {
+  var promise = new Promise(function(resolve, reject) {
+    api
+      .get(`/user/ranking`)
+      .then(res => {
         resolve(res);
       })
       .catch(res => {

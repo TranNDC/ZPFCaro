@@ -251,7 +251,7 @@ import EndGameBox from "./components/EndGameBox";
   stateEGB: True (For opening modal)
   headingEndGame: YOU WIN | YOU LOSE
   titleEndGame: Congratulations, you won the game! | Don't be sad, try harder!
-  subTitleEndGame: Do you want to play new game? | Low points, cann't play new game!
+  subTitleEndGame: Do you want to play new game? | Low points, can't play new game!
   isContinue: {true} | {false} (If "subTitleEndGame" is about don't having enough points, "isContinue" will be {false})
 */
 // ReactDOM.render(<EndGameBox stateEGB="true" headingEndGame="YOU WIN"  titleEndGame="Congratulations, you won the game!" subTitleEndGame="Do you want to play new game?" isContinue={true} />, document.getElementById('root'));

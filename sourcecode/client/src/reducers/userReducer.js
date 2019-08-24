@@ -22,6 +22,7 @@ const userReducer = (state = initialState, action) => {
         'winCount':user['win_num'],
         'loseCount':user['lose_num'],
         'drawCount':user['draw_num'],
+        'ranking':user['ranking'],
         // 'avatar':require("../media/avatar.png")'
       };
     default:

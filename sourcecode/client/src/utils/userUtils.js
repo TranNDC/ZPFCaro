@@ -9,6 +9,7 @@ export function initState() {
       'winCount':100,
       'loseCount':100,
       'drawCount':1000,
+      'ranking':0,
       'avatar':require("../media/avatar.png")
     };
     return initStateValue;

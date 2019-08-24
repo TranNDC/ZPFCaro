@@ -11,6 +11,7 @@ class RoomInfoRow extends React.Component {
         this.state = { showJRModal: false };
         this.closeModal = this.closeModal.bind(this);
         this.openModal = this.openModal.bind(this);
+        this.handleJoinRoom = this.handleJoinRoom.bind(this);
     }
 
     closeModal() {
@@ -19,6 +20,10 @@ class RoomInfoRow extends React.Component {
 
     openModal() {
         this.setState({ showJRModal: true });
+    }
+
+    handleJoinRoom(){
+        let uuid = this.props.uuid;
     }
 
     render() {
@@ -95,7 +100,7 @@ class RoomInfoRow extends React.Component {
                     }) ()}
                     <div>
                         <Button className="rect-btn text-black small-width background-gray btn-for-modal rir-marginRight" onClick={this.closeModal}>back</Button>
-                        <Button className="rect-btn text-black btn-for-modal small-width">join</Button>
+                        <Button onClick={this.handleJoinRoom} className="rect-btn text-black btn-for-modal small-width">join</Button>
                     </div>
                 </Modal>
             </>

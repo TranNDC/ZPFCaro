@@ -6,6 +6,8 @@ import TitleModal from "../subcomponents/TitleModal";
 import EditText from '../subcomponents/EditText';
 import UserInfoInProfile from './UserInfoInProfile';
 import { Modal, Button } from 'react-bootstrap';
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 class Profile extends React.Component {
     constructor(props) {
@@ -39,27 +41,35 @@ class Profile extends React.Component {
                 <Modal show={this.state.showProfileModal} onHide={this.closeModal} className={classNameHeightmodal + " " + (this.state.showChangePassword ? "updateHeightModal" : "")}>
                     <TitleModal text="profile" className="prof-marginbot" />
                     <div className="prof-paddingbot">
-                        <UserInfoInProfile avatar={require("../media/avatar.png")} type1="username" username="quoctk08" type2="points" points="800000" type3="ranking" ranking="172" type4="winningrate" winningrate="68" />
+                        <UserInfoInProfile avatar={require("../media/avatar.png")} 
+                        type1="username" 
+                        username={this.props.user.username} 
+                        type2="points" 
+                        points={this.props.user.points} 
+                        type3="ranking" 
+                        ranking={this.props.user.ranking} 
+                        type4="winningrate" 
+                        winningrate={this.props.user.winningRate} />
                     </div>
                     <div className="prof-paddingbot">
                         <label className="prof-label prof-windrawlose">
                             <b className="prof-paddingright">&#123;</b>
                             <b className="prof-paddingright">Wins:</b>
-                            81315
+                            {this.props.user.winCount}
                             <b className="prof-paddingleft prof-paddingright">Draws:</b>
-                            41123
+                            {this.props.user.drawCount}
                             <b className="prof-paddingleft prof-paddingright">Loses:</b>
-                            10092
+                            {this.props.user.loseCount}
                             <b className="prof-paddingleft">&#125;</b>
                         </label>
                     </div>
                     <div className="prof-marginbot">
                         <label className="prof-label">Displayed name</label>
-                        <EditText type="displayedname" displayedname="Trần Kiến Quốc" />
+                        <EditText type="displayedname" displayedname={this.props.user.displayedName} />
                     </div>
                     <div className="prof-marginbot">
                         <label className="prof-label">Email</label>
-                        <EditText type="email" email="Kienquoctran08@gmail.com" />
+                        <EditText type="email" email={this.props.user.email} />
                     </div>
                     <div className="prof-changepassword">
                         <a href="#" onClick={this.toggleChangePassword} className="prof-btnlabel"><label className="prof-label">Change Password</label></a>
@@ -84,4 +94,30 @@ class Profile extends React.Component {
     }
 }
 
-export default Profile;
+function mapStateToProps(state, index) {
+    return {
+        user: state.userReducer
+    };
+  }
+  
+  function mapDispatchToProps(dispatch) {
+    return {
+    //   loadUserInfo(history) {
+    //     return dispatch(loadUserInfo(history));
+    //   },
+    //   loadGameRooms(history) {
+    //     return dispatch(loadGameRooms(history));
+    //   },
+    //   initGameRoom() {
+    //     return dispatch(initGameRoom());
+    //   }
+    };
+  }
+  
+  export default withRouter(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(Profile)
+  );
+  
