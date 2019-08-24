@@ -477,15 +477,22 @@ io.on('connection', function(socket) {
    setInterval(function() {
       listgameroom = service.getInfoAllGameRoomNoToken()
       if (listgameroom == null) return
-      socket.broadcast.emit(listgameroom)
+      leaderboard = service.getTop6LBNoToken()
+      socket.broadcast.emit('server-send-info-listgameroom', listgameroom)
+      socket.broadcast.emit('server-send-info-leaderboard', leaderboard)
    }, 20000)
 
+   // Join gameroom
+   socket.on('client-request-join-room', function(roomid) {
+      socket.join(roomid)
+   })
 
+   // Chat in gameroom
+   socket.on('client-request-chat-in-room', function(roomid, message) {
+      socket.to(roomid).emit('server-send-chat-in-room', message)
+   })
 
-
-
-
-
+   
 
 
 

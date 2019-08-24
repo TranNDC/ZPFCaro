@@ -1,7 +1,6 @@
 import React from "react";
 import "./CreateRoom.css";
 import "../subcomponents/RectButton.css";
-import LogoTitle from "../subcomponents/LogoTitle";
 import InputText from "../subcomponents/InputText";
 import { Modal, Button } from "react-bootstrap";
 import { connect } from "react-redux";

@@ -94,22 +94,22 @@
 
 .rir-heightmodal .modal-content {
     width: 450px !important;
-    height: 320px !important;
+    height: 270px !important;
     border-radius: 10px !important;
     border: none;
     align-items: center;
 }
 
 .rir-biggestHeightModal .modal-content {
-    height: 440px !important;
+    height: 390px !important;
 }
 
 .rir-pointsHeightModal .modal-content {
-    height: 350px !important;
+    height: 295px !important;
 }
 
 .rir-passHeightModal .modal-content {
-    height: 415px !important;
+    height: 360px !important;
 }
 
 .rir-roominfo {
@@ -127,6 +127,10 @@
 .rir-lbhead {
     color: #F98D0F;
     font-size: 22px;
+    text-transform: uppercase;
+}
+
+.rir-lbroomid {
     text-transform: uppercase;
 }
 
