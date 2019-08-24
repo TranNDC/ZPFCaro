@@ -473,9 +473,9 @@ io.on('connection', function(socket) {
       
    }, 20000)
 
-   // Send flag for starting game in 5s
+   // Send flag for starting game in 5s for both
    socket.on('client-request-start-game', function(roomid) {
-      socket.to(roomid).emit('server-start-game', true)
+      socket.in(roomid).emit('server-start-game', true)
    })
 
    // Chat in gameroom
@@ -534,19 +534,20 @@ io.on('connection', function(socket) {
          return
       }
 
+      oldPoints = guestInfo.points
       newPoints = guestInfo.points - infogame.bet_points
       updatePoints = await service.updateUserPoints(token, newPoints)
 
       if (updatePoints == false) {
-         socket.emit('server-send-result-join-room', {statusCode: 400, message: "Wrong/Expired token or update points fail"})
+         socket.emit('server-send-result-join-room', {statusCode: 400, message: "Update points fail"})
          return
       }
 
       updateStatusGuest = await service.updateGuestAndStatusGR(token, infogame.roomid, guest)
 
       if (updateStatusGuest == false) {
-         await service.updateUserPoints(token, guestInfo.points)
-         socket.emit('server-send-result-join-room', {statusCode: 400, message: "Wrong/Expired token or update guest status fail"})
+         await service.updateUserPoints(token, oldPoints)
+         socket.emit('server-send-result-join-room', {statusCode: 400, message: "Update guest status fail"})
          return
       }
 
@@ -640,7 +641,9 @@ io.on('connection', function(socket) {
                socket.to(roomid).emit("server-send-data-game", turn, data)
                return
             }
-
+            
+            service.updatePointsLB(hostInfo.username, hostInfo.points)
+            service.updatePointsLB(guestInfo.username, guestInfo.points)
             data = '{"statusCode": 200, "message": "lose"}'
             socket.to(info.roomid).emit("server-send-data-game", turn, data)
             break;
@@ -697,7 +700,9 @@ io.on('connection', function(socket) {
                socket.to(roomid).emit("server-send-data-game", turn, data)
                return
             }
-
+            
+            service.updatePointsLB(hostInfo.username, hostInfo.points)
+            service.updatePointsLB(guestInfo.username, guestInfo.points)
             data = '{"statusCode": 200, "message": "lose"}'
             socket.to(info.roomid).emit("server-send-data-game", turn, data)
             break;
