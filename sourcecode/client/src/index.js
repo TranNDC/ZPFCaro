@@ -203,7 +203,7 @@ import EndGameBox from "./components/EndGameBox";
 // -------------------------------
 // TEST GAMEROOMS
 // -------------------------------
-ReactDOM.render(<GameRooms />, document.getElementById('root'));
+// ReactDOM.render(<GameRooms />, document.getElementById('root'));
 
 // -------------------------------
 // TEST HOMEPAGE

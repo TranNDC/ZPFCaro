@@ -282,12 +282,6 @@ service.getMyRanking = async (token) => {
     return JSON.parse(result);
 }
 
-// Convert array info to JSON info
-function JsonGameRoomInfo(info) {
-    result = '{"uuid" : "'+ info[1] + '", "room_name" : "' + info[3] + '", "password" : "' + info[5] + '", "bet_points" : ' + info[7] + ', "guest_id" : "' + info[9] + '", "host_id" : "' + info[11] + '", "is_waiting" : ' + info[13] + '}'
-    return JSON.parse(result)
-}
-
 // Get info of all gamerooms
 // Parameter: STRING token
 // Result: False | List gameroom
@@ -295,16 +289,9 @@ service.getInfoAllGameRoom = async (token) => {
     verifyToken = await service.verifyJWT(token)
     if (!verifyToken) return false
     
-    let listGameRoomJSON = []
     allGameRooms = await repoRedis.getInfoOfAllGR()
     if (allGameRooms == null) return null
-
-    allGameRooms.forEach(element => {
-        let valJSON = JsonGameRoomInfo(element)
-        listGameRoomJSON.push(valJSON)
-    });
-
-    return listGameRoomJSON
+    return allGameRooms
 }
 
 // Get info of one gameroom
@@ -315,7 +302,7 @@ service.getInfoOneGameRoom = async (token, keyRoom) => {
     if (!verifyToken) return false
 
     val = await repoRedis.getInfoOfOneGR(keyRoom)
-    return ((val==null) ? false : JsonGameRoomInfo(val))
+    return ((val==null) ? false : val)
 }
 
 // Add/Update gameroom info
