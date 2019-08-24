@@ -6,7 +6,7 @@ import InputText from "../subcomponents/InputText";
 import { Modal, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import {createGameRoom} from '../actions/roomAction'
+import { createGameRoom } from "../actions/roomAction";
 
 class CreateRoom extends React.Component {
   constructor(props) {
@@ -21,7 +21,6 @@ class CreateRoom extends React.Component {
     this.handleChangeRoomPassword = this.handleChangeRoomPassword.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.clearInputState = this.clearInputState.bind(this);
-
   }
 
   closeModal() {
@@ -82,10 +81,7 @@ class CreateRoom extends React.Component {
               >
                 back
               </Button>
-              <Button
-                type="submit"
-                className="rect-btn text-black small-width"
-              >
+              <Button type="submit" className="rect-btn text-black small-width">
                 create
               </Button>
             </div>
@@ -97,38 +93,41 @@ class CreateRoom extends React.Component {
 
   async handleSubmit(e) {
     e.preventDefault();
-    let errorMessage = await this.props.createGameRoom(this.props.user.id, this.state.roomName, this.state.roomPassword, this.state.betPoints, this.props.history);
+    let errorMessage = await this.props.createGameRoom(
+      this.props.user.id,
+      this.state.roomName,
+      this.state.roomPassword,
+      this.state.betPoints,
+      this.props.history
+    );
     this.setState({ error: errorMessage });
     this.clearInputState();
   }
 
-
   clearInputState() {
     this.setState({
-        betPoints: 0,
-        roomName: '',
-        roomPassword: '',
+      betPoints: 0,
+      roomName: "",
+      roomPassword: ""
       // displayedName: ""
     });
   }
 
-  handleChangeBetPoints(value){
+  handleChangeBetPoints(value) {
     this.setState({ betPoints: value });
   }
 
-  handleChangeRoomName(value){
+  handleChangeRoomName(value) {
     this.setState({ roomName: value });
   }
-  handleChangeRoomPassword(value){
+  handleChangeRoomPassword(value) {
     this.setState({ roomPassword: value });
   }
 }
 
-
 //props
 // User -> Host ID
 // User -> points
-
 
 // action
 // createGameRoom
@@ -141,8 +140,24 @@ function mapStateToProps(state, index) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    createGameRoom(hostId,roomName,password,betPoints,history) {
-      return dispatch(createGameRoom(hostId,roomName,password,betPoints,history));
+    createGameRoom(
+      hostId,
+      hostDisplayedName,
+      roomName,
+      password,
+      betPoints,
+      history
+    ) {
+      return dispatch(
+        createGameRoom(
+          hostId,
+          hostDisplayedName,
+          roomName,
+          password,
+          betPoints,
+          history
+        )
+      );
     }
   };
 }

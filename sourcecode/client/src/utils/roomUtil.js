@@ -6,7 +6,7 @@ export function initState() {
   }
   
 
-export function creaRoomReq(hostId, roomName, passWord, betPoints){
+export function creaRoomReq(hostId, hostDisplayedName, roomName, passWord, betPoints){
     const uuidv1 = require('uuid/v1');
     return{
       gameroom:{
@@ -14,7 +14,8 @@ export function creaRoomReq(hostId, roomName, passWord, betPoints){
         'room_name': roomName,
         'password':passWord?passWord:'',
         'bet_points':betPoints?betPoints:0,
-        'host_id':hostId
+        'host_id':hostId,
+        'host_displayed_name':hostDisplayedName
       }
     }
 }
