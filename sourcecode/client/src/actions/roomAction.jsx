@@ -90,6 +90,7 @@ function callGetGameRoomsApi() {
     api
       .get(`/gameroom/all`)
       .then(res => {
+        console.log(res);
         resolve(res);
       })
       .catch(res => {

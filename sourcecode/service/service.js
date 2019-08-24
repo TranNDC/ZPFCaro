@@ -197,7 +197,6 @@ service.isUniqueUsername = async (username) => {
 // Parameter: STRING username, password, email, displayedname
 // Result: User | Null
 service.addNewUser = async (username, password, email, displayedname) => {
-    console.log(displayedname);
     hashpass = await service.hashPassword(password)
     newUser = '{"username" : "' + username + '", "password" : "' + hashpass + '", "email" : "' + email + '", "display_name" : "' + displayedname + '"}'
     newUser = JSON.parse(newUser);
@@ -287,6 +286,12 @@ service.getMyRanking = async (token) => {
     return JSON.parse(result);
 }
 
+// Convert array info to JSON info
+function JsonGameRoomInfo(info) {
+    result = '{"uuid" : "'+ info[1] + '", "room_name" : "' + info[3] + '", "password" : "' + info[5] + '", "bet_points" : ' + info[7] + ', "guest_id" : "' + info[9] + '", "host_id" : "' + info[11] + '", "is_waiting" : ' + info[13] + '}'
+    return JSON.parse(result)
+}
+
 // Get info of all gamerooms
 // Parameter: STRING token
 // Result: False | List gameroom
@@ -294,13 +299,9 @@ service.getInfoAllGameRoom = async (token) => {
     verifyToken = await service.verifyJWT(token)
     if (!verifyToken) return false
     
+    let allGameRooms = []
     allGameRooms = await repoRedis.getInfoOfAllGR()
-
-    if (allGameRooms != null)
-        allGameRooms.forEach(room => {
-            console.log(room)
-            // room['host_display_name'] = await repoMongo.
-        });
+    if (allGameRooms == null) return null
 
     return allGameRooms
 }
@@ -321,7 +322,7 @@ service.getInfoOneGameRoom = async (token, keyRoom) => {
     if (!verifyToken) return false
 
     val = await repoRedis.getInfoOfOneGR(keyRoom)
-    return ((val==null) ? false : val)
+    return ((val==null) ? false : JsonGameRoomInfo(val))
 }
 
 // Add/Update gameroom info
