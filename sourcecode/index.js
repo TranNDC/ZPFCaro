@@ -459,19 +459,19 @@ io.on('connection', function(socket) {
    })
    
    // Set interval for broadcast info Leaderboard & ListGameRoom
-   setInterval(async function(token) {
-      // Leaderboard
-      leaderboard = await service.getTop6LB(token)
-      if (leaderboard == false) return
-      socket.broadcast.emit('server-send-info-leaderboard', leaderboard)
+   // setInterval(async function(token) {
+   //    // Leaderboard
+   //    leaderboard = await service.getTop6LB(token)
+   //    if (leaderboard == false) return
+   //    socket.broadcast.emit('server-send-info-leaderboard', leaderboard)
 
-      // List Game Room
-      listgameroom = await service.getInfoAllGameRoom(token)
-      if (listgameroom == null) return
-      if (listgameroom == false) return
-      socket.broadcast.emit('server-send-info-listgameroom', listgameroom)
+   //    // List Game Room
+   //    listgameroom = await service.getInfoAllGameRoom(token)
+   //    if (listgameroom == null) return
+   //    if (listgameroom == false) return
+   //    socket.broadcast.emit('server-send-info-listgameroom', listgameroom)
       
-   }, 20000)
+   // }, 20000)
 
    // Send flag for starting game in 5s for both
    socket.on('client-request-start-game', function(roomid) {
@@ -487,7 +487,6 @@ io.on('connection', function(socket) {
    // Parameter: JSON gameroom (uuid, room_name, password, bet_points, host_id, host_displayed_name), STRING token
    socket.on('client-request-create-room', async function(gameroom, token) {
       hostInfo = await service.getUserInfo(token)
-      
       if (hostInfo == false) {
          socket.emit('server-send-result-create-room', {statusCode: 400, message: "Wrong/Expired token or get info fail"})
          return

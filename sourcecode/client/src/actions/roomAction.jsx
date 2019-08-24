@@ -2,8 +2,9 @@ import { api } from "../api/api";
 import {store} from "../index";
 import  { Redirect } from 'react-router-dom'
 import {creaRoomReq} from "../utils/roomUtil";
-
-
+import {getJwtFromStorage} from '../utils/storageUtil'
+import {loadGame} from './gameAction'
+import io from "socket.io-client"
 export const INIT_GAMEROOM = "room.INIT_GAMEROOM";
 export const LOAD_GAMEROOMS = "room.LOAD_GAMEROOMS";
 export const CREATE_GAMEROOM = "room.CREATE_GAMEROOM";
@@ -18,16 +19,41 @@ export function initGameRoom() {
 export function createGameRoom(hostId,displayedName, roomName,password,betPoints,history) {
   let request = creaRoomReq(hostId,displayedName,roomName,password,betPoints);
   return function(dispatch) {
-    return callCreateGameRoomApi(request)
-      .then(result => {
-        history.push('/game')
-      }).catch((err) => {
-        history.push('/login')
-      })
+    let socket = store.getState().ioReducer.socket;
+    socket.emit('client-request-create-room',request.gameroom,getJwtFromStorage())
+    socket.on('server-send-result-create-room', function(res){
+      if (res.statusCode == 200){
+        dispatch(loadGame(request.gameroom));
+        history.push('/game');
+      }
+      else{
+        history.push('/login');
+      }
+    })
 
   };
 }
 
+export function joinGameRoom(userId, displayedName, roomId, betPoints ,history) {
+  // (guest_id, guest_displayed_name)
+  let guest = joinGameGuestReq(userId,displayedName);
+  // roomid, bet_points
+  let infogame = joinGameInfoRoomReq(roomId, betPoints);
+  return function(dispatch) {
+    let socket = store.getState().ioReducer.socket;
+    socket.emit('client-request-join-room',guest,infogame,getJwtFromStorage())
+    socket.on('server-send-result-create-room', function(res){
+      if (res.statusCode == 200){
+        dispatch(loadGame(request.gameroom));
+        history.push('/game');
+      }
+      else{
+        history.push('/login');
+      }
+    })
+
+  };
+}
 
 
 export function loadGameRooms(history) {

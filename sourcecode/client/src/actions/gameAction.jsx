@@ -4,6 +4,8 @@ export const COUNTDOWN_START = "game.COUNTDOWN_RESTART";
 export const CREATE_RANDOM_MOVE = "game.CREATE_RANDOM_MOVE";
 export const COUNTDOWN_CLEAR = "game.COUNTDOWN_CLEAR";
 export const COUNTDOWN_RESET = "game.COUNTDOWN_RESET ";
+export const LOAD_GAME = "game.LOAD_GAME";
+export const JOIN_GAME = "game.JOIN_GAME";
 
 export function placePattern(x, y) {
   return {
@@ -11,6 +13,19 @@ export function placePattern(x, y) {
     x: x,
     y: y
   };
+}
+export function loadGame(game){
+  return {
+    type:LOAD_GAME,
+    game:game
+  }
+}
+
+export function joinGame(game){
+  return {
+    type:JOIN_GAME,
+    game:game
+  }
 }
 
 export function countDownTick() {

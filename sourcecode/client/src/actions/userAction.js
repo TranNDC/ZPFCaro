@@ -43,12 +43,11 @@ export function login(user,history) {
       .then(result => {
         setJwtToStorage(result.data.token); 
         history.push('/')
-      }).catch((err) => {
-        console.log(err);
+      },(err) => {
         return err.response.data.message;
       })
 
-  };
+  }
 }
 
 
@@ -59,7 +58,6 @@ export function loadUserInfo(history) {
       .then(result => {
         dispatch(loadUser(result.data));
       }).catch((err) => {
-        console.log(err);
         history.push('/login')
       })
 

@@ -6,6 +6,9 @@ import { Modal, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { createGameRoom } from "../actions/roomAction";
+// import { creaRoomReq } from "../utils/roomUtil";
+import { getJwtFromStorage } from "../utils/storageUtil"
+
 import TitleModal from '../subcomponents/TitleModal';
 class CreateRoom extends React.Component {
   constructor(props) {
@@ -132,7 +135,8 @@ class CreateRoom extends React.Component {
 
 function mapStateToProps(state, index) {
   return {
-    user: state.userReducer
+    user: state.userReducer,
+    socket: state.ioReducer.socket
   };
 }
 

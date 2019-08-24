@@ -6,6 +6,8 @@ import { addMessage } from "../actions/chatAction";
 import { connect } from "react-redux";
 import { Button } from "react-bootstrap";
 
+import io from 'socket.io-client';
+
 import "./ChatFrame.css";
 import "../subcomponents/BlackButton.css";
 
@@ -33,8 +35,6 @@ class ChatFrame extends React.Component {
   }
 
   componentWillMount() {
-    console.log(this.props.user);
-    console.log(this.props.messages);
   }
 
   componentDidUpdate() {
@@ -109,15 +109,12 @@ class ChatFrame extends React.Component {
               onKeyPress={this.enterPressed.bind(this)}
             />
           </FormGroup>
-          {/* <ChatInput className="cfr-input" /> */}
           <Button
             type="submit"
             className="black-button cfr-btn"
             onClick={this.handleClick.bind(this)}
           >
-            >
           </Button>
-          {/* <BlackButton className="cfr-btn" text=">" /> */}
         </div>
       </div>
     );

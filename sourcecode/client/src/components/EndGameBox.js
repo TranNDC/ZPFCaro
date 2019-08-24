@@ -32,7 +32,6 @@ class EndGameBox extends React.Component {
         let titleEndGame;
         let subTitleEndGame;
         let isContinue;
-        console.log(this.props.type)
         switch (this.props.type) {
           case "win":
             headingEndGame = "YOU WIN";
