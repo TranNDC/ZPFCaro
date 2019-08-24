@@ -37,6 +37,14 @@ repoMongo.getUserByEmail = async (email) => {
     return (val != null) ? val : null
 }
 
+
+// Get user by id
+repoMongo.getUserById = async (id) => {
+    let val = await collectionUsers.findOne({_id: id}) 
+    return (val != null) ? val : null
+}
+
+
 // Add user 
 // Function receives JSON "newUser" parameters with string structure:
 // '{"username" : "xxxxx", "password" : "xxxxx", "email" : "xxxxx", "display_name" : "xxxxx"}'

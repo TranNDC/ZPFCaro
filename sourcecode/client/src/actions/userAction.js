@@ -44,23 +44,28 @@ export function login(user,history) {
         setJwtToStorage(result.data.token); 
         history.push('/')
       }).catch((err) => {
+        console.log(err);
         return err.response.data.message;
       })
 
   };
 }
 
-export async function loadUserInfo(history){
-  await callGetUserInfoApi().then(
-    (res)=>{
-      store.dispatch(loadUser(res.data));
-    }
-  ).catch(
-    (err)=>{
-      history.push('/login')
-    }
-  )
+
+
+export function loadUserInfo(history) {
+  return function(dispatch) {
+    return callGetUserInfoApi()
+      .then(result => {
+        dispatch(loadUser(result.data));
+      }).catch((err) => {
+        console.log(err);
+        history.push('/login')
+      })
+
+  };
 }
+
 
 export function loadUser(data){
   return{

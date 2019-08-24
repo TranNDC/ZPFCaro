@@ -170,7 +170,7 @@ app.post('/register', cors(corsOptions), async (req, res) => {
    email = req.body.email
    displayedName = req.body.displayedName
    if (! (await service.isUniqueUsername(username))) {
-      res.status(400).json({statusCode: 404, message: "This username existed, please choose another"})
+      res.status(400).json({ message: "This username existed, please choose another"})
       return
    }
 
@@ -192,11 +192,12 @@ app.post('/register', cors(corsOptions), async (req, res) => {
 // Response: listGameRoom
 app.options('/gameroom/all', cors())
 app.get('/gameroom/all', cors(corsOptions), cors(corsOptions), async (req, res) => {
-   console.log('req');
    token = req.headers.authorization
-
+   
    listGameRoom = await service.getInfoAllGameRoom(token)
-   if (listGameRoom==null) {
+   
+
+   if (listGameRoom==null || listGameRoom==[]) {
       res.status(200).json({listGameRoom: []})
       return  
    }
@@ -206,6 +207,7 @@ app.get('/gameroom/all', cors(corsOptions), cors(corsOptions), async (req, res) 
       return
    }
 
+   console.log(listGameRoom);
    res.status(200).json({listGameRoom: listGameRoom})
 })
 
@@ -218,11 +220,11 @@ app.get('/gameroom/one', cors(corsOptions), async (req, res) => {
 
    grInfo = await service.getInfoOneGameRoom(token, gid)
    if (!grInfo) {
-      res.json({statusCode: 404, message: "Wrong/Expired token or room not found"})
+      res.status(400).json({ message: "Wrong/Expired token or room not found"})
       return
    }
 
-   res.json({statusCode: 200, gameRoom: grInfo})
+   res.status(200).json({gameRoom: grInfo})
 })
 
 // Request: token, gameroom
@@ -232,29 +234,29 @@ app.options('/gameroom', cors())
 app.post('/gameroom', cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
    gameroom = req.body.gameroom
-
    result = service.setGameRoom(token, gameroom)
    if (!result) {
-      res.json({statusCode: 404, message: "Wrong/Expired token"})
+      res.status(400).json({ message: "Wrong/Expired token"})
       return
    }
 
-   res.json({statusCode: 200, message: "Update successfully"})
+   res.status(200).json({ message: "Update successfully"})
 })
 
 // Request: token, json uuid, json guest_id
-app.post('/gameroom/guest', async (req, res) => {
+app.options('/gameroom/guest', cors())
+app.post('/gameroom/guest',cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
    uuid = req.body.gid
    guest_id = req.body.guest_id
 
    result = await service.updateGuestAndStatusGR(token, uuid, guest_id)
    if (!result) {
-      res.status(400).json({statusCode: 400, message: "Wrong/Expired token or room not empty"})
+      res.status(400).json({message: "Wrong/Expired token or room not empty"})
       return
    }
 
-   res.json({statusCode: 200, message: "Update successfully"})
+   res.status(200).json({ message: "Update successfully"})
 })
 
 // Request: token
@@ -269,7 +271,7 @@ app.get('/leaderboard/top6', cors(corsOptions), async (req, res) => {
       return
    }
 
-   res.status(200).json({statusCode: 200, leaderboard: leaderboard})
+   res.status(200).json({  leaderboard: leaderboard})
 })
 
 // Request: token
@@ -284,7 +286,7 @@ app.get('/leaderboard/all', cors(corsOptions), async (req, res) => {
       return
    }
 
-   res.status(200).json({statusCode: 200, leaderboard: leaderboard})
+   res.status(200).json({  leaderboard: leaderboard})
 })
 
 // Request: token
@@ -432,6 +434,7 @@ app.post('/user/losenum', cors(corsOptions), async (req, res) => {
 
 // Request: token
 // Response: JSON(username, ranking)\
+app.options('/user/ranking', cors())
 app.get('/user/ranking', cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
 
