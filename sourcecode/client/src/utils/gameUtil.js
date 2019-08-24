@@ -1,5 +1,6 @@
 export function initState(width, height, coutDownValue) {
   let initStateValue = {
+    roomId:{},
     gameBoard: [],
     width: width,
     height: height,
@@ -9,7 +10,8 @@ export function initState(width, height, coutDownValue) {
     },
     gamePattern: "x",
     result: "",
-    emtyCellNum: width * height
+    emtyCellNum: width * height,
+    opponent: {},
   };
   for (let i = 0; i < height; i++) {
     let gameRow = [];

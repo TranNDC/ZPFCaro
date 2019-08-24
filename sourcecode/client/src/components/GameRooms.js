@@ -15,8 +15,11 @@ class GameRooms extends React.Component {
   render() {
     const listGameRoom = [];
 
-    for (var room in this.props.gameRooms) {
-      listGameRoom.push(this.props.gameRooms[room]);
+    for (var key in this.props.gameRooms) {
+      let room = this.props.gameRooms[key];
+      room.uuid = room;
+      listGameRoom.push(room);
+      
     }
 
     return (
@@ -27,6 +30,7 @@ class GameRooms extends React.Component {
             if (ele.isPlaying == 0) {
               return (
                 <RoomInfoRow
+                  uuid={ele.uuid}
                   roomid={ele.id}
                   roomname={ele.roomName}
                   displayedname={ele.hostDisplayedName}

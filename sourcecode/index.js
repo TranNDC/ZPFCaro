@@ -154,11 +154,11 @@ app.post('/logout', cors(corsOptions), async (req, res) => {
 
    result = await service.addTokenToBLJWT(token)
    if (!result) {
-      res.status(200).json({message: "Logout successfully"})
+      res.status(404).json({message: "Wrong token, logout fail"})
       return
    }
-
-   res.status(404).json({message: "Wrong token, logout fail"})
+  
+    res.status(200).json({message: "Logout successfully"})
 })
 
 // Request: username, password, email, displayedName

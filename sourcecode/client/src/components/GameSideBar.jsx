@@ -4,6 +4,7 @@ import Message from "../subcomponents/Message";
 import GameTime from "../subcomponents/GameTime";
 import BlackButton from "../subcomponents/BlackButton";
 import BetPoints from "../subcomponents/BetPoints";
+import { connect } from "react-redux";
 
 import "./GameSideBar.css";
 
@@ -20,28 +21,9 @@ class GameSideBar extends React.Component {
       isHost: 0
     };
 
-    // let messages = [
-    //   {
-    //     type: "response",
-    //     avatar: avatar,
-    //     message: "hello What are you doing mannnn??"
-    //   },
-    //   {
-    //     type: "resquest",
-    //     avatar: avatar,
-    //     message: "hello What the heooo mann??ahoifshoiahfsoiahfsssssssss"
-    //   },
-    //   {
-    //     type: "resquest",
-    //     avatar: avatar,
-    //     message: "hello What the heooo mann??ahoifshoiahfsoiahfsssssssss"
-    //   },
-    //   {
-    //     type: "response",
-    //     avatar: avatar,
-    //     message: "hello What are you doing mannnn??"
-    //   }
-    // ];
+    let hostAva = this.props.opponent.isHost?this.props.opponent.avatar:this.props.user.avatar;
+    let guestAva = this.props.opponent.isHost?this.props.user.avatar:this.props.opponent.avatar;
+    
     return (
       <Container  className="gsb-game-size-bar w-100 p-0" xs={3}>
         <div className="row gsb-countdown-exitbtn w-100 flex-nowrap justify-content-center ">
@@ -53,7 +35,7 @@ class GameSideBar extends React.Component {
         </div>
 
         <div className="row betpoints">
-          <BetPoints value="1,000,000 pts" />
+          <BetPoints value={this.props.betPoints} />
         </div>
 
         <Container
@@ -62,10 +44,12 @@ class GameSideBar extends React.Component {
           <Row className="d-flex justify-content-center">
             <Col className="gsb-game-ava-container p-0 left" sx={6}>
               <GameAvatar type="active" avatar={avatar} pattern="x" />
+              {/* <GameAvatar type="active" avatar={hostAva} pattern="x" /> */}
             </Col>
             <Col className="gsb-game-ava-container p-0 right" sx={6}>
               <GameAvatar avatar={avatar} pattern="o" />
-            </Col>
+              {/* <GameAvatar type="active" avatar={guestAva} pattern="x" /> */}
+              </Col>
           </Row>
         </Container>
 
@@ -77,4 +61,30 @@ class GameSideBar extends React.Component {
   }
 }
 
-export default GameSideBar;
+
+function mapStateToProps(state, index) {
+  return {
+    betPoints: state.gameReducer.betPoints,
+    user: state.userReducer,
+    opponent: state.gameReducer.opponent
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    // placePattern(x, y) {
+    //   dispatch(placePattern(x, y));
+    // },
+    // countDownReset(){
+    //   dispatch(countDownReset());
+    // }
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(GameSideBar);
+
+
+// export default GameSideBar;

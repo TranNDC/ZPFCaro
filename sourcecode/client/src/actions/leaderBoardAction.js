@@ -32,7 +32,7 @@ export async function loadLeaderBoard(history){
 function loadLeaderBoardAction(data){
   return{
     type: LOAD_LEADERBOARD,
-    rooms: data
+    leaderboard: data
   }
 }
 

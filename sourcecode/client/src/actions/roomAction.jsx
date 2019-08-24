@@ -17,16 +17,10 @@ export function initGameRoom() {
 
 export function createGameRoom(hostId,displayedName, roomName,password,betPoints,history) {
   let request = creaRoomReq(hostId,displayedName,roomName,password,betPoints);
-      // await store.dispatch(loadGameRooms(history));
-      // store.dispatch(loadGamePage(betPoints));
-      // history.push('/game')
-      // store.dispatch(loadGameRoom(res.data));
-
   return function(dispatch) {
     return callCreateGameRoomApi(request)
       .then(result => {
         history.push('/game')
-      // dispatch(loadUser(result.data));
       }).catch((err) => {
         history.push('/login')
       })

@@ -38,15 +38,20 @@ class ChatFrame extends React.Component {
   }
 
   componentDidUpdate() {
-    document.querySelector('.cfr-message-frame').scrollTo(0, document.querySelector('.cfr-message-frame').scrollHeight)
-} 
+    document
+      .querySelector(".cfr-message-frame")
+      .scrollTo(0, document.querySelector(".cfr-message-frame").scrollHeight);
+  }
 
   handleTextChange(e) {
     this.setState({ message: e.target.value });
   }
 
   handleClick() {
-    this.setState({ message: '' });
+    if (this.state.message.trim() == "") return;
+
+    this.setState({ message: "" });
+
     this.props.addMessage(
       this.state.message,
       this.props.user.avatar,
@@ -57,12 +62,21 @@ class ChatFrame extends React.Component {
 
   enterPressed(event) {
     var code = event.keyCode || event.which;
-    if(code === 13) { 
+    if (code === 13) {
       this.handleClick();
-        //Do stuff in here
-    } 
-}
+      //Do stuff in here
+    }
+  }
 
+  //socket on recieve message
+  // {   
+  //   this.props.addMessage(
+  //     message.message,
+  //     message.avatar,
+  //     message.displayedName,
+  //     "recieve"
+  //   );
+  // }
 
   render() {
     return (
@@ -113,7 +127,8 @@ class ChatFrame extends React.Component {
 function mapStateToProps(state, index) {
   return {
     messages: state.chatReducer.messages,
-    user: state.userReducer
+    user: state.userReducer,
+    opponent: state.gameReducer.opponent
   };
 }
 
