@@ -83,12 +83,12 @@ function keyGR(uuid) {
 }
 
 // Add/Update info of gameroom to Redis
-// Parameter: JSON gameroom (uuid, room_name, password, bet_points, host_id, is_waiting)
+// Parameter: JSON gameroom (uuid, room_name, password, bet_points, host_id, host_displayed_name, is_waiting)
 // is_waiting {0,1} => 1 means room is playing
 repoRedis.setFieldGR = (gameroom) => {
     getAsync = promisify(client.hdel).bind(client)
     return getAsync(keyGR(gameroom.uuid), "guest_id").then((res) => {
-        client.hmset(keyGR(gameroom.uuid), ["uuid", gameroom.uuid, "room_name", gameroom.room_name, "password", gameroom.password, "bet_points", gameroom.bet_points, "host_id", gameroom.host_id, "is_waiting", 0])  
+        client.hmset(keyGR(gameroom.uuid), ["uuid", gameroom.uuid, "room_name", gameroom.room_name, "password", gameroom.password, "bet_points", gameroom.bet_points, "host_id", gameroom.host_id, "host_displayed_name", gameroom.host_displayed_name, "is_waiting", 0])  
     })
 }
 
@@ -129,7 +129,6 @@ repoRedis.getAllKeysGR = async () => {
 repoRedis.getInfoOfAllGR = async () => {
     allKeysGR = await repoRedis.getAllKeysGR()
     if (allKeysGR == null) return null
-
 
     var promises = []
     allKeysGR.forEach(element => {

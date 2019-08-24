@@ -25,7 +25,6 @@ class GameRooms extends React.Component {
         <Row className="gr-row">
           {listGameRoom.map(ele => {
             if (ele.isPlaying == 0) {
-              console .log(ele);
               return (
                 <RoomInfoRow
                   roomid={ele.id}
