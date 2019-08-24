@@ -473,11 +473,6 @@ io.on('connection', function(socket) {
       
    }, 20000)
 
-   // Send flag for starting game in 5s for both
-   socket.on('client-request-start-game', function(roomid) {
-      socket.in(roomid).emit('server-start-game', true)
-   })
-
    // Chat in gameroom
    socket.on('client-request-chat-in-room', function(roomid, message) {
       socket.to(roomid).emit('server-send-chat-in-room', message)
@@ -516,7 +511,7 @@ io.on('connection', function(socket) {
       }
 
       socket.join(gameroom.uuid) 
-      socket.emit('server-send-result-create-room', {statusCode: 200, message: "Create room successfully"})
+      socket.to(gameroom.uuid).emit('server-send-result-create-room', {statusCode: 200, message: "Create room successfully"})
    })
 
    // Join gameroom
@@ -551,8 +546,10 @@ io.on('connection', function(socket) {
          return
       }
 
+      currentRoom = await service.getInfoOneGameRoomNoToken(infogame.roomid)
+
       socket.join(infogame.roomid)
-      socket.to(infogame.roomid).emit('server-send-result-join-room', {statusCode: 200, message: "Join room successfully"})
+      socket.in(infogame.roomid).emit('server-send-result-join-room', {statusCode: 200, message: "Join room successfully", data: currentRoom})
    })
 
    // Mark pattern or win/draw
@@ -714,17 +711,112 @@ io.on('connection', function(socket) {
       }
    })
 
+   // Client request out room => Determine win-lose for game
+   // Parameter: roomid, isHostLeave
+   // Result: data (statusCode, message("draw"))
+   socket.on('client-request-out-room', function(roomid, isHostLeave) {
+      currentRoom = await service.getInfoOneGameRoomNoToken(roomid)
+
+      if (currentRoom == false) {
+         data = '{"statusCode": 500, "message": "Can not find room data & connect fail"}'
+         socket.to(roomid).emit("server-send-data-out-game", data)
+         return
+      }
+
+      hostInfo = await service.getUserInfoByIDNoToken(currentRoom.host_id)
+
+      if (hostInfo == null) {
+         data = '{"statusCode": 500, "message": "Can not find host info"}'
+         socket.to(roomid).emit("server-send-data-out-game", data)
+         return
+      }
+
+      guestInfo = await service.getUserInfoByIDNoToken(currentRoom.guest_id)
+
+      if (guestInfo == null) {
+         data = '{"statusCode": 500, "message": "Can not find guest info"}'
+         socket.to(roomid).emit("server-send-data-out-game", data)
+         return
+      }
+
+      let statusGame, hostNewPoints, guestNewPoints
+
+      if (!isHostLeave) {
+         statusGame = 1
+
+         hostOldPoints = hostInfo.points + currentRoom.bet_points
+         hostNewPoints = (currentRoom.bet_points * 2 + 30 + hostOldPoints)
+         updateHostPoints = await service.updateUserPointsByIDNoToken(currentRoom.host_id, hostNewPoints)
+         if (updateHostPoints == false) {
+            data = '{"statusCode": 500, "message": "Can not update points for host"}'
+            socket.to(roomid).emit("server-send-data-out-game", data)
+            return
+         }
+
+         guestNewPoints = (guestInfo.points + 10)
+         updateGuestPoints = await service.updateUserPointsByIDNoToken(currentRoom.guest_id, guestNewPoints)
+         if (updateGuestPoints == false) {
+            await service.updateUserPointsByIDNoToken(currentRoom.host_id, hostOldPoints)
+            data = '{"statusCode": 500, "message": "Can not update points for guest"}'
+            socket.to(roomid).emit("server-send-data-out-game", data)
+            return
+         }
+      }
+      else {
+         statusGame = -1
+
+         hostOldPoints = hostInfo.points + currentRoom.bet_points
+         hostNewPoints = (hostInfo.points + 10)
+         updateHostPoints = await service.updateUserPointsByIDNoToken(currentRoom.host_id, hostNewPoints)
+         if (updateHostPoints == false) {
+            data = '{"statusCode": 500, "message": "Can not update points for host"}'
+            socket.to(roomid).emit("server-send-data-out-game", data)
+            return
+         }
+
+         guestNewPoints = (currentRoom.bet_points * 2 + guestInfo.points + 30)
+         updateGuestPoints = await service.updateUserPointsByIDNoToken(currentRoom.guest_id, guestNewPoints)
+         if (updateGuestPoints == false) {
+            await service.updateUserPointsByIDNoToken(currentRoom.host_id, hostOldPoints)
+            data = '{"statusCode": 500, "message": "Can not update points for guest"}'
+            socket.to(roomid).emit("server-send-data-out-game", data)
+            return
+         }
+      }
+
+      // newGame = '{"id" : "' + currentRoom.uuid + '", "user_id" : "' + currentRoom.host_id + '", "guest_id" : "' + currentRoom.guest_id + '", "bet_points" : ' + currentRoom.bet_points + ', "status" : ' + statusGame + '}'
+
+      // addNewGame = await service.addGame(newGame)
+      // if (addNewGame == false) {
+      //    data = '{"statusCode": 500, "message": "Add new game to DB fail"}'
+      //    socket.to(roomid).emit("server-send-data-game", turn, data)
+      //    return
+      // }
+
+      // service.updatePointsLB(hostInfo.username, hostNewPoints)
+      // service.updatePointsLB(guestInfo.username, guestNewPoints)
+      // data = '{"statusCode": 200, "message": "lose"}'
+      // socket.to(info.roomid).emit("server-send-data-game", turn, data)
+   })   
+
+
+
+
+
+
+
+
+
+
+
    
 
 
-   // continue | cancel
 
 
 
-
-
-   socket.on('disconnect', function(){
-     console.log(socket.id + ': disconnected')
+   socket.on('disconnect', function() {
+      //console.log(socket.id + ': disconnected')
    })
  
  

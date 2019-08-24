@@ -132,7 +132,9 @@ repoRedis.getInfoOfAllGR = async () => {
 
     var promises = []
     allKeysGR.forEach(element => {
-        promises.push(repoRedis.getInfoOfOneGR(element));
+        key = element.split(':', 2)
+        uuid = key[1]
+        promises.push(repoRedis.getInfoOfOneGR(uuid));
     })
 
     return Promise.all(promises)
