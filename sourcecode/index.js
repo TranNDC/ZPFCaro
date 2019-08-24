@@ -478,10 +478,12 @@ io.on('connection', function(socket) {
    setInterval(function() {
       listgameroom = service.getInfoAllGameRoomNoToken()
       if (listgameroom == null) return
-      socket.broadcast.emit(listgameroom)
+      leaderboard = service.getTop6LBNoToken()
+      socket.broadcast.emit('server-send-info-listgameroom', listgameroom)
+      socket.broadcast.emit('server-send-info-leaderboard', leaderboard)
    }, 20000)
 
-
+   
 
 
 
