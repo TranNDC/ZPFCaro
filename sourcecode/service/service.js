@@ -81,7 +81,7 @@ service.checkLogin = async (username, password) => {
     return token
 }
 
-// Get user info
+// Get user info (by username)
 // Parameter: STRING token
 // Result: False | User info
 service.getUserInfo = async (token) => {
@@ -89,6 +89,11 @@ service.getUserInfo = async (token) => {
     if (!verifyToken) return false
     username = verifyToken.username
     return (await repoMongo.getUserByUsername(username))
+}
+
+// Get user info (by id & no token)
+service.getUserInfoByIDNoToken = async (id) => {
+    return (await repoMongo.getUserById(id))
 }
 
 // Update losenum
@@ -129,6 +134,13 @@ service.updateUserPoints = async (token, points) => {
     if (!verifyToken) return false
     username = verifyToken.username
     return (await repoMongo.updatePointsOfUser(username, points))
+}
+
+// Update points by ID (no token)
+// Parameter: STRING id, INT points
+// Result: True | False
+service.updateUserPointsByIDNoToken = async (id, points) => {
+    return (await repoMongo.updatePointsOfUserByID(id, points))
 }
 
 // Update avatar
@@ -202,7 +214,16 @@ service.addNewUser = async (username, password, email, displayedname) => {
     newUser = JSON.parse(newUser);
     return (await repoMongo.addUser(newUser))
 }
- 
+
+// Add game to MongoDB after having result
+// Function receives JSON "newGame" parameters with string structure:
+// '{"id" : "xxxxx", "user_id" : "xxxxx", "guest_id" : "xxxxx", "bet_points" : xxxxx, "status" : xxxxx}'
+// status has one of three values : -1 (host lost), 0 (both of persions drew), 1 (host won)
+service.addGame = async (newGame) => {
+    result = await repoMongo.addGame(newGame)
+    return ((result == null) ? false : true)
+}   
+
 /* --------------------------------------------------------------
                         REPOSITORY OF REDIS 
    -------------------------------------------------------------- */
@@ -231,7 +252,7 @@ service.addTokenToBLJWT = async (token) => {
 }
 
 // Add/Update points into leaderboard
-// Parameter: STRING username, displayedName, INT points
+// Parameter: STRING username, INT points
 service.updatePointsLB = (username, points) => {
     repoRedis.setFieldLB(username, points)
 }
@@ -258,11 +279,6 @@ service.getTop6LB = async (token) => {
     return JsonTopUserInfoLB(await repoRedis.getTop6LB())
 }
 
-// Get leaderboard (top6) (no token)
-service.getTop6LBNoToken = async () => {
-    return JsonTopUserInfoLB(await repoRedis.getTop6LB())
-}
-
 // Get leaderboard (all top)
 // Parameter: STRING token
 // Result: False | Leaderboard
@@ -286,12 +302,6 @@ service.getMyRanking = async (token) => {
     return JSON.parse(result);
 }
 
-// Convert array info to JSON info
-function JsonGameRoomInfo(info) {
-    result = '{"uuid" : "'+ info[1] + '", "room_name" : "' + info[3] + '", "password" : "' + info[5] + '", "bet_points" : ' + info[7] + ', "guest_id" : "' + info[9] + '", "host_id" : "' + info[11] + '", "is_waiting" : ' + info[13] + '}'
-    return JSON.parse(result)
-}
-
 // Get info of all gamerooms
 // Parameter: STRING token
 // Result: False | List gameroom
@@ -306,44 +316,43 @@ service.getInfoAllGameRoom = async (token) => {
     return allGameRooms
 }
 
-// Get info of all gamerooms (no token)
-// Result: List gameroom
-service.getInfoAllGameRoomNoToken = async () => {
-    allGameRooms = await repoRedis.getInfoOfAllGR()
-    if (allGameRooms == null) return null
-    return allGameRooms
-}
-
 // Get info of one gameroom
-// Parameter: STRING token, keyRoom
+// Parameter: STRING token, uuid
 // Result: False | Gameroom info
-service.getInfoOneGameRoom = async (token, keyRoom) => {
+service.getInfoOneGameRoom = async (token, uuid) => {
     verifyToken = await service.verifyJWT(token)
     if (!verifyToken) return false
 
-    val = await repoRedis.getInfoOfOneGR(keyRoom)
-    return ((val==null) ? false : JsonGameRoomInfo(val))
+    val = await repoRedis.getInfoOfOneGR(uuid)
+    return ((val==null) ? false : val)
+}
+
+// Get info of one gameroom (no token)
+// Parameter: STRING uuid
+// Result: False | Gameroom info
+service.getInfoOneGameRoomNoToken = async (uuid) => {
+    val = await repoRedis.getInfoOfOneGR(uuid)
+    return ((val==null) ? false : val)
 }
 
 // Add/Update gameroom info
-// Parameter: JSON gameroom (uuid, room_name, password, bet_points, host_id, is_waiting) | Token
+// Parameter: JSON gameroom (uuid, room_name, password, bet_points, host_id) | Token
 // is_waiting {0,1} => 1 means room is playing
 // Result: False | True
 service.setGameRoom = async (token, gameroom) => {
     verifyToken = await service.verifyJWT(token)
     if (!verifyToken) return false
-    repoRedis.setFieldGR(gameroom)
-    return true
+    return (await repoRedis.setFieldGR(gameroom))
 }
 
 // Update guest_id & status of gameroom
-// Parameter: STRING uuid, guest_id
+// Parameter: STRING uuid, token, JSON guest (guest_id, guest_displayed_name)
 // Result: False | True
-service.updateGuestAndStatusGR = async (token, uuid, guest_id) => {
+service.updateGuestAndStatusGR = async (token, uuid, guest) => {
     verifyToken = await service.verifyJWT(token)
     if (!verifyToken) return false
 
-    return (await repoRedis.updateGuestAndStatusGR(uuid, guest_id))
+    return (await repoRedis.updateGuestAndStatusGR(uuid, guest))
 }
 
 module.exports = service;

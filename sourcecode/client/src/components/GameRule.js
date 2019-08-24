@@ -63,16 +63,16 @@ class GameRule extends React.Component {
                             <b>How to get bet points?</b>
                             <br/>
                             <label className="gamerule-paddingleft">
-                                Until you are winner, you can get bet points from the other who accepted competition. Besides that, both of you also receive points from the game for completing successfully.
+                                Until you are winner, you can get bet points from the other who accepted competition. Besides that, both of you also receive points from the game for completing successfully. However, if you quit the game when it is running, you will lose and do not receive any points.
                                 <br/>
                                 <i>For winner, </i>
-                                the game will send to you 20 points.
+                                the game will send to you 30 points.
+                                <br/>
+                                <i>For draw, </i>
+                                the game will send to both of you 20 points.
                                 <br/>
                                 <i>For loser, </i>
                                 the game will send to you 10 points.
-                                <br/>
-                                <i>For draw, </i>
-                                the game will send to both of you 5 points.
                             </label>
                         </label>
                     </div>
