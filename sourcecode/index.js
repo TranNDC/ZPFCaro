@@ -498,6 +498,7 @@ io.on('connection', function(socket) {
          return
       }
 
+      oldPoints = hostInfo.points
       newPoints = hostInfo.points - gameroom.bet_points
       updatePoints = await service.updateUserPoints(token, newPoints)
 
@@ -509,7 +510,7 @@ io.on('connection', function(socket) {
       newRoom = await service.setGameRoom(token, gameroom)
 
       if (newRoom == false) {
-         await service.updateUserPoints(token, hostInfo.points)
+         await service.updateUserPoints(token, oldPoints)
          socket.emit('server-send-result-create-room', {statusCode: 400, message: "Wrong/Expired token or create room fail"})
          return
       }
@@ -555,7 +556,7 @@ io.on('connection', function(socket) {
 
    // Mark pattern or win/draw
    // Parameter: JSON turn (x, y), gameStatus ("" | "win" | "draw"), infogame (roomid, isHost)
-   // Result: turn (x, y), data (statusCode, message("" | "lose" | "win" | "draw"))
+   // Result: turn (x, y), data (statusCode, message("" | "lose" | "draw" | anything))
    socket.on('client-request-mark-pattern', async function(turn, gameStatus, infogame) {
       switch (gameStatus) {
          case "":
@@ -701,7 +702,7 @@ io.on('connection', function(socket) {
             socket.to(info.roomid).emit("server-send-data-game", turn, data)
             break;
          default:
-            data = '{"statusCode": 400, "message": "Wrong game status"}'
+            data = '{"statusCode": 500, "message": "Wrong game status"}'
             socket.to(roomid).emit("server-send-data-game", turn, data)
             return
       }
