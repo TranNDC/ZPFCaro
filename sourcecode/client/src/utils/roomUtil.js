@@ -1,3 +1,5 @@
+import {store} from "../index";
+
 export function initState() {
     let initStateValue = {
       gameRooms:{},
@@ -27,16 +29,17 @@ export function joinGameGuestReq(id,name){
   }
 }
 
-export function joinGameInfoRoomReq(id,points){
+export function joinGameInfoRoomReq(id,points,password){
   return {
     roomid:id,
-    bet_points:points
+    bet_points:points,
+    password:password
   }
 }
-export function convertResponseToState(rooms){
+export function convertResponseToState(rooms,userId){
   let res = {};
   rooms.forEach(room => {
-    if (room['is_waiting'] == 0){
+    if (room['is_waiting'] == 0 && room['host_id']!=userId){
       let id = room.uuid.split('-');
       res[room.uuid] =  {
         id: 'R-'+id[3],

@@ -7,10 +7,13 @@ import { Container, Button } from "react-bootstrap";
 import { login } from "../actions/userAction";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import { getJwtFromStorage } from "../utils/storageUtil";
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
+    if(getJwtFromStorage() && getJwtFromStorage()!="")
+      this.props.history.push('/');
     this.state={}
     this.handleChangeUsername = this.handleChangeUsername.bind(this);
     this.handleChangePassword = this.handleChangePassword.bind(this);
@@ -47,9 +50,9 @@ class Login extends React.Component {
             <Button type="submit" className="rect-btn">login</Button>
           </div>
           <div className="login-paddingtop">
-            <a href="#" className="login-link"><label className="login-labelStyle">Forgot password?</label></a>
+            <a href="#" className="login-link"><label className="login-lableStyle">Forgot password?</label></a>
             <label className="login-paddingLink"></label>
-            <a href="#" className="login-link"><label className="login-labelStyle">Don't have account?</label></a>
+            <a href="#" className="login-link"><label className="login-lableStyle">Don't have account?</label></a>
           </div>
         </form>
       </Container>

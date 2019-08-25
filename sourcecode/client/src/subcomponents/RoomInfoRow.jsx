@@ -17,6 +17,7 @@ class RoomInfoRow extends React.Component {
         this.closeModal = this.closeModal.bind(this);
         this.openModal = this.openModal.bind(this);
         this.handleJoinRoom = this.handleJoinRoom.bind(this);
+        this.handleChangePasswordRoom = this.handleChangePasswordRoom.bind(this);
     }
 
     closeModal() {
@@ -28,7 +29,7 @@ class RoomInfoRow extends React.Component {
     }
 
     handleJoinRoom(){
-        this.props.joinGameRoom(this.props.user.id, this.props.user.displayedName,this.props.fullId,this.props.betpoints,this.props.history )
+        this.props.joinGameRoom(this.props.user.id, this.props.user.displayedName,this.props.fullId,this.props.betpoints,this.state.userRoomPassword,this.props.history )
     }
 
     render() {
@@ -97,7 +98,11 @@ class RoomInfoRow extends React.Component {
                         if (this.props.password != "" && this.props.password != null) {
                             return (
                                 <div className="rir-marginbot">
-                                    <InputText type="roompassword" />
+                                    <InputText 
+                                    onChangeValue={this.handleChangePasswordRoom}
+                                    type="roompassword"
+                                    value={this.state.userRoomPassword}
+                                    />
                                 </div>
                             );
                         }
@@ -110,7 +115,14 @@ class RoomInfoRow extends React.Component {
             </>
         );
     }
+
+    handleChangePasswordRoom(value) {
+        this.setState({ userRoomPassword: value });
+      }
+    
 }
+
+
 
 
 function mapStateToProps(state, index) {
@@ -121,18 +133,9 @@ function mapStateToProps(state, index) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    joinGameRoom(userId, displayedName, roomId, betPoints ,history) {
-      return dispatch(joinGameRoom(userId, displayedName, roomId, betPoints ,history));
+    joinGameRoom(userId, displayedName, roomId, betPoints,password ,history) {
+      return dispatch(joinGameRoom(userId, displayedName, roomId, betPoints,password ,history));
     },
-    // loadGameRooms(history) {
-    //   return dispatch(loadGameRooms(history));
-    // },
-    // initGameRoom() {
-    //   return dispatch(initGameRoom());
-    // },
-    // initIo() {
-    //   return dispatch(initIo());
-    // }
   };
 }
 

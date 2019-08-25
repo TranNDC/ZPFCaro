@@ -7,10 +7,13 @@ import { Container, Button } from "react-bootstrap";
 import { register } from "../actions/userAction";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import { getJwtFromStorage } from "../utils/storageUtil";
 
 class Register extends React.Component {
   constructor(props) {
     super(props);
+    if(getJwtFromStorage() && getJwtFromStorage()!="")
+      this.props.history.push('/');
     this.state = {};
     this.handleChangeUsername = this.handleChangeUsername.bind(this);
     this.handleChangePassword = this.handleChangePassword.bind(this);

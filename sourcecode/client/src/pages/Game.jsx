@@ -22,7 +22,6 @@ import {
   listenOnOpponentLeaveGame,
 } from "../actions/gameAction";
 import { initMessages,listenOpponentChat } from "../actions/chatAction";
-import { timingSafeEqual } from "crypto";
 
 class Game extends React.Component {
   constructor(props) {
