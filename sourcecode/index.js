@@ -401,11 +401,6 @@ io.on('connection', function(socket) {
       200: Success
    */
 
-
-
-
-
-
    // Create gameroom
    // Parameter: JSON gameroom (uuid, room_name, password, bet_points, host_id, host_displayed_name), STRING token
    socket.on('client-request-create-room', async function(gameroom, token) {
