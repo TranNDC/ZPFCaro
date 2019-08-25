@@ -213,7 +213,7 @@ repoMongo.updateUserInfo = (username, userInfo) => {
 // status has one of three values : -1 (host lost), 0 (both of persions drew), 1 (host won)
 repoMongo.addGame = (newGame) => {
     getAsync = promisify(collectionGames.insertOne).bind(collectionGames)
-    return getAsync({_id: new ObjectID(newGame.id), user_id: newGame.user_id, guest_id: newGame.guest_id, bet_points: newGame.bet_points, status: newGame.status}).then((res) => {
+    return getAsync({_id: newGame.id, user_id: newGame.user_id, guest_id: newGame.guest_id, bet_points: newGame.bet_points, status: newGame.status}).then((res) => {
         return res
     }).catch((err) => {
         console.log(err)
