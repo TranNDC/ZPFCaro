@@ -4,7 +4,8 @@ import {
   COUNTDOWN_START,
   COUNTDOWN_CLEAR,
   COUNTDOWN_RESET,
-  CREATE_RANDOM_MOVE
+  CREATE_RANDOM_MOVE,
+  LOAD_GAME,
 } from "../actions/gameAction";
 import { initState, createRandomMove, calculateResult } from "../utils/gameUtil";
 
@@ -62,6 +63,22 @@ const gameReducer = (state = initialState, action) => {
             state.gamePattern)
         ]
       };
+    case LOAD_GAME:
+        // 'uuid':uuidv1(),
+        // 'room_name': roomName,
+        // 'password':passWord?passWord:'',
+        // 'bet_points':betPoints?betPoints:0,
+        // 'host_id':hostId,
+        // 'host_displayed_name':hostDisplayedName
+        return{
+        ...state,
+        roomId:action.game.uuid,
+        betPoints:action.game['bet_points']+' pts',
+        gamePattern:'x',
+        opponent: {},
+        result:'',
+      }
+
     case COUNTDOWN_CLEAR:
       clearInterval(state.countDown.intervalId);
       return {

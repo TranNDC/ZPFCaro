@@ -10,6 +10,7 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import {isAuthenticated} from "../utils/storageUtil";
 import {Redirect} from "react-router-dom";
 import { loadUserInfo } from "../actions/userAction";
+import { initIo } from "../actions/ioAction";
 import { loadGameRooms, initGameRoom } from "../actions/roomAction";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -22,6 +23,8 @@ class Homepage extends React.Component {
     async componentWillMount(){
         await this.props.loadUserInfo(this.props.history);
         await this.props.loadGameRooms(this.props.history);
+        await this.props.initIo();
+        
         // this.props.initGameRoom();
     } 
 
@@ -31,7 +34,6 @@ class Homepage extends React.Component {
         }
         
         let className = this.props.className + " animated bounceInRight slow";
-        console.log(this.props.user.displayedName)
         return (
             <Container fluid={true} className={className}>
                 <Header />
@@ -78,6 +80,9 @@ function mapStateToProps(state, index) {
       },
       initGameRoom() {
         return dispatch(initGameRoom());
+      },
+      initIo(){
+        return dispatch(initIo());
       }
     };
   }

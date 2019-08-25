@@ -459,19 +459,19 @@ io.on('connection', function(socket) {
    })
    
    // Set interval for broadcast info Leaderboard & ListGameRoom
-   setInterval(async function(token) {
-      // Leaderboard
-      leaderboard = await service.getTop6LB(token)
-      if (leaderboard == false) return
-      socket.broadcast.emit('server-send-info-leaderboard', leaderboard)
+   // setInterval(async function(token) {
+   //    // Leaderboard
+   //    leaderboard = await service.getTop6LB(token)
+   //    if (leaderboard == false) return
+   //    socket.broadcast.emit('server-send-info-leaderboard', leaderboard)
 
-      // List Game Room
-      listgameroom = await service.getInfoAllGameRoom(token)
-      if (listgameroom == null) return
-      if (listgameroom == false) return
-      socket.broadcast.emit('server-send-info-listgameroom', listgameroom)
+   //    // List Game Room
+   //    listgameroom = await service.getInfoAllGameRoom(token)
+   //    if (listgameroom == null) return
+   //    if (listgameroom == false) return
+   //    socket.broadcast.emit('server-send-info-listgameroom', listgameroom)
       
-   }, 20000)
+   // }, 20000)
 
    // Chat in gameroom
    socket.on('client-request-chat-in-room', function(roomid, message) {
@@ -482,7 +482,6 @@ io.on('connection', function(socket) {
    // Parameter: JSON gameroom (uuid, room_name, password, bet_points, host_id, host_displayed_name), STRING token
    socket.on('client-request-create-room', async function(gameroom, token) {
       hostInfo = await service.getUserInfo(token)
-      
       if (hostInfo == false) {
          socket.emit('server-send-result-create-room', {statusCode: 400, message: "Wrong/Expired token or get info fail"})
          return
@@ -517,6 +516,10 @@ io.on('connection', function(socket) {
    // Join gameroom
    // Parameter: JSON guest (guest_id, guest_displayed_name), JSON infogame (roomid, bet_points), STRING token
    socket.on('client-request-join-room', async function(guest, infogame, token) {
+      
+      console.log(infogame);
+      console.log('guest');
+
       guestInfo = await service.getUserInfo(token)
 
       if (guestInfo == false) {
@@ -547,7 +550,6 @@ io.on('connection', function(socket) {
       }
 
       currentRoom = await service.getInfoOneGameRoomNoToken(infogame.roomid)
-
       socket.join(infogame.roomid)
       io.in(infogame.roomid).emit('server-send-result-join-room', {statusCode: 200, message: "Join room successfully", data: currentRoom})
    })
@@ -626,13 +628,14 @@ io.on('connection', function(socket) {
    // Parameter: STRING roomid
    // Result: data (statusCode, message
    socket.on('client-send-error-in-game', async function (roomid) {
+
       await processDrawGame(roomid)
       socket.emit("server-ask-client-leave-room")
    })
 
    // Client request out room when host is in room, no guest.
    // Parameter: roomid
-   socket.on('host-out-room-not-started', function(roomid) {
+   socket.on('host-out-room-not-started', async function(roomid) {
       await service.deleteGRNoToken(roomid)
       socket.emit("server-ask-client-leave-room")
    })
@@ -652,19 +655,21 @@ io.on('connection', function(socket) {
    // Parameter: roomid, isHostLeave
    // Result: data (statusCode, message("draw"))
 
-   
-
-
-
-
 
    
 
 
 
 
+
    
-   socket.on('client-request-out-room', function(roomid, isHostLeave) {
+
+
+
+
+   
+   
+   socket.on('client-request-out-room', async function(roomid, isHostLeave) {
       currentRoom = await service.getInfoOneGameRoomNoToken(roomid)
 
       if (currentRoom == false) {

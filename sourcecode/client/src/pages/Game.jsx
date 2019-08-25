@@ -101,11 +101,11 @@ class Game extends React.Component {
   render() {
     let avatar = this.props.avatar;
 
-    let opponent = {
-      avatar: { avatar },
-      username: "Trann Nguyen",
-      isHost: 0
-    };
+    // let opponent = {
+    //   avatar: { avatar },
+    //   username: "Trann Nguyen",
+    //   isHost: 0
+    // };
 
     let className = this.props.className + " animated bounceInRight slow";
 
@@ -141,6 +141,7 @@ class Game extends React.Component {
 function mapStateToProps(state, index) {
   return {
     value: state.gameReducer.countDown.value,
+    opponent: state.gameReducer.countDown.opponent,
      // messages: state.chatReducer.messages,
     // user: state.userReducer.user
   };

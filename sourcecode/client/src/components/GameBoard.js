@@ -2,6 +2,7 @@ import React from 'react';
 import './GameBoard.css';
 import {connect} from "react-redux";
 import GameRow from './GameRow'
+import BetPoints from '../subcomponents/BetPoints';
 
 class GameBoard extends React.Component {
     constructor(props){
@@ -35,7 +36,7 @@ class GameBoard extends React.Component {
 function mapStateToProps(state) {
     return {
       width: state.gameReducer.width,
-      height : state.gameReducer.height
+      height : state.gameReducer.height,
     }   
   }
   

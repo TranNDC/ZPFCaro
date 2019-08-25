@@ -20,13 +20,27 @@ export function creaRoomReq(hostId, hostDisplayedName, roomName, passWord, betPo
     }
 }
 
+export function joinGameGuestReq(id,name){
+  return {
+    guest_id:id,
+    guest_displayed_name:name
+  }
+}
+
+export function joinGameInfoRoomReq(id,points){
+  return {
+    roomid:id,
+    bet_points:points
+  }
+}
 export function convertResponseToState(rooms){
   let res = {};
   rooms.forEach(room => {
     if (room['is_waiting'] == 0){
       let id = room.uuid.split('-');
       res[room.uuid] =  {
-        id: 'R-'+id[2],
+        id: 'R-'+id[3],
+        'fullId':room.uuid,
         roomName:room['room_name'],
         hasPassword:room['password'],
         betPoints:room['bet_points'],
