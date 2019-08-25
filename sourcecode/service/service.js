@@ -241,7 +241,6 @@ service.addNewUser = async (username, password, email, displayedname) => {
 // '{"id" : "xxxxx", "user_id" : "xxxxx", "guest_id" : "xxxxx", "bet_points" : xxxxx, "status" : xxxxx}'
 // status has one of three values : -1 (host lost), 0 (both of persions drew), 1 (host won)
 service.addGame = async (newGame) => {
-    console.log(newGame);
     result = await repoMongo.addGame(newGame)
     return ((result == null) ? false : true)
 }   

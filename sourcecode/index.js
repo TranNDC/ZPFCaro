@@ -463,11 +463,6 @@ io.on('connection', function(socket) {
       
       oldPoints = guestInfo.points
       newPoints = guestInfo.points - infogame.bet_points
-
-      console.log("TEST POINTS JOIN ROOM 2")
-      console.log(oldPoints)
-      console.log(newPoints)
-
       updatePoints = await service.updateUserPoints(token, newPoints)
 
       if (updatePoints == false) {
@@ -486,6 +481,7 @@ io.on('connection', function(socket) {
       // Set socket session for disconnection
       socket.room = infogame.roomid
 
+      currentRoom = await service.getInfoOneGameRoomNoToken(infogame.roomid)
       socket.join(infogame.roomid)
       io.in(infogame.roomid).emit('server-send-result-join-room', {statusCode: 200, message: "Join room successfully", data: currentRoom})
    })
@@ -513,12 +509,12 @@ io.on('connection', function(socket) {
       }
       else {
          statusGame = -1
-         
+
          hostNewPoints = (hostInfo.points + 10)
          updateHostPoints = await service.updateUserPointsByIDNoToken(currentRoom.host_id, hostNewPoints)
          guestNewPoints = (currentRoom.bet_points * 2 + guestInfo.points + 30)
          updateGuestPoints = await service.updateUserPointsByIDNoToken(currentRoom.guest_id, guestNewPoints)
-         
+
          await service.updateUserWinNumByIDNoToken(currentRoom.guest_id, guestInfo.win_num + 1)
          await service.updateUserLoseNumByIDNoToken(currentRoom.host_id, hostInfo.lose_num + 1)
       }
@@ -543,7 +539,7 @@ io.on('connection', function(socket) {
       updateHostPoints = await service.updateUserPointsByIDNoToken(currentRoom.host_id, hostNewPoints)
       guestNewPoints = (currentRoom.bet_points + guestInfo.points + 20)
       updateGuestPoints = await service.updateUserPointsByIDNoToken(currentRoom.guest_id, guestNewPoints)
-
+      
       await service.updateUserDrawNumByIDNoToken(currentRoom.host_id, hostInfo.draw_num + 1)
       await service.updateUserDrawNumByIDNoToken(currentRoom.guest_id, guestInfo.draw_num + 1)
 
