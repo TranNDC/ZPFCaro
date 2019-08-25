@@ -445,32 +445,30 @@ io.on('connection', function(socket) {
    // Parameter: STRING token
    socket.on('client-request-info-listgameroom', async function(token) {
       result = await service.getInfoAllGameRoom(token)
-      if (result == null) return
-      if (result == false) return
-      socket.broadcast.emit('server-send-info-listgameroom', result)
+      if (!result) return
+      socket.emit('server-send-info-listgameroom', result)
    })
 
    // Broadcast info about Leaderboard
    // Parameter: STRING token
    socket.on('client-request-info-leaderboard', async function(token) {
       result = await service.getTop6LB(token)
-      if (result == false) return
-      socket.broadcast.emit('server-send-info-leaderboard', result)
+      if (!result) return
+      socket.emit('server-send-info-leaderboard', result)
    })
    
    // Set interval for broadcast info Leaderboard & ListGameRoom
    setInterval(async function(token) {
+      console.log("TEST: SET-INTERVAL")
       // Leaderboard
       leaderboard = await service.getTop6LB(token)
-      if (leaderboard == false) return
+      if (!leaderboard) return
       socket.broadcast.emit('server-send-info-leaderboard', leaderboard)
 
       // List Game Room
       listgameroom = await service.getInfoAllGameRoom(token)
-      if (listgameroom == null) return
-      if (listgameroom == false) return
+      if (!listgameroom) return
       socket.broadcast.emit('server-send-info-listgameroom', listgameroom)
-      
    }, 20000)
 
    // Chat in gameroom
@@ -519,7 +517,6 @@ io.on('connection', function(socket) {
    // Join gameroom
    // Parameter: JSON guest (guest_id, guest_displayed_name), JSON infogame (roomid, bet_points), STRING token
    socket.on('client-request-join-room', async function(guest, infogame, token) {
-      
       guestInfo = await service.getUserInfo(token)
 
       if (guestInfo == false) {
@@ -566,7 +563,6 @@ io.on('connection', function(socket) {
       hostInfo = await service.getUserInfoByIDNoToken(currentRoom.host_id)
       guestInfo = await service.getUserInfoByIDNoToken(currentRoom.guest_id)
 
-      console.log(hostInfo,guestInfo)
       let statusGame, hostNewPoints, guestNewPoints
 
       if (isHost) {
@@ -700,16 +696,20 @@ io.on('connection', function(socket) {
    })
    // Disconnection
    socket.on('disconnect', async function() {
+      console.log("TEST: DISCONNECT WITHOUT ROOM")
       if (socket.room != "") {
+         console.log("TEST: DISCONNECT with ROOM")
          roomid = socket.room
          currentRoom = await service.getInfoOneGameRoomNoToken(roomid)
 
          // Nếu phòng chỉ có mỗi host
          if (currentRoom.guest_id == "") {
+            console.log("TEST: DISCONNECT with ROOM WITHOUT GUEST")
             await service.deleteGRNoToken(roomid)
          }
          // Phòng có cả 2, đang chơi
          else {
+            console.log("TEST: DISCONNECT with ROOM with GUEST")
             data = {"statusCode": 200, "message": "win"}
             socket.to(roomid).emit('room-has-player-out', data)
          }
