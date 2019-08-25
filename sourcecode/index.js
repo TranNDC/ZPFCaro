@@ -443,12 +443,12 @@ io.on('connection', function(socket) {
    // Parameter: JSON guest (guest_id, guest_displayed_name), JSON infogame (roomid, bet_points, password), STRING token
    socket.on('client-request-join-room', async function(guest, infogame, token) {
       guestInfo = await service.getUserInfo(token)
-
+      
       if (guestInfo == false) {
          socket.emit('server-send-result-join-room', {statusCode: 400, message: "Wrong/Expired token"})
          return
       }
-
+      
       if (guestInfo.points < infogame.bet_points) {
          socket.emit('server-send-result-join-room', {statusCode: 401, message: "Bet points isn't enough"})
          return
@@ -460,9 +460,14 @@ io.on('connection', function(socket) {
          socket.emit('server-send-result-join-room', {statusCode: 402, message: "Wrong room password"})
          return
       }
-
+      
       oldPoints = guestInfo.points
       newPoints = guestInfo.points - infogame.bet_points
+
+      console.log("TEST POINTS JOIN ROOM 2")
+      console.log(oldPoints)
+      console.log(newPoints)
+
       updatePoints = await service.updateUserPoints(token, newPoints)
 
       if (updatePoints == false) {
