@@ -496,12 +496,12 @@ io.on('connection', function(socket) {
    socket.on('client-request-create-room', async function(gameroom, token) {
       hostInfo = await service.getUserInfo(token)
       if (hostInfo == false) {
-         socket.emit('server-send-result-create-room', {statusCode: 400, message: "Wrong/Expired token or get info fail"})
+         socket.emit('server-send-result-create-room', {statusCode: 400, message: "Wrong/Expired token"})
          return
       }
 
       if (hostInfo.points < gameroom.bet_points) {
-         socket.emit('server-send-result-create-room', {statusCode: 400, message: "Bet points isn't enough"})
+         socket.emit('server-send-result-create-room', {statusCode: 401, message: "Bet points isn't enough"})
          return
       }
 
@@ -510,7 +510,7 @@ io.on('connection', function(socket) {
       updatePoints = await service.updateUserPoints(token, newPoints)
 
       if (updatePoints == false) {
-         socket.emit('server-send-result-create-room', {statusCode: 400, message: "Wrong/Expired token or update points fail"})
+         socket.emit('server-send-result-create-room', {statusCode: 501, message: "Update points fail"})
          return
       }
 
@@ -518,14 +518,12 @@ io.on('connection', function(socket) {
 
       if (newRoom == false) {
          await service.updateUserPoints(token, oldPoints)
-         socket.emit('server-send-result-create-room', {statusCode: 400, message: "Wrong/Expired token or create room fail"})
+         socket.emit('server-send-result-create-room', {statusCode: 500, message: "Create room fail"})
          return
       }
 
       // Set socket session for disconnection
       socket.room = gameroom.uuid
-
-      console.log("TEST CREATE ROOM: " + socket.room)
 
       socket.join(gameroom.uuid) 
       socket.emit('server-send-result-create-room', {statusCode: 200, message: "Create room successfully"})
@@ -537,12 +535,19 @@ io.on('connection', function(socket) {
       guestInfo = await service.getUserInfo(token)
 
       if (guestInfo == false) {
-         socket.emit('server-send-result-join-room', {statusCode: 400, message: "Wrong/Expired token or get info fail"})
+         socket.emit('server-send-result-join-room', {statusCode: 400, message: "Wrong/Expired token"})
          return
       }
 
       if (guestInfo.points < infogame.bet_points) {
-         socket.emit('server-send-result-join-room', {statusCode: 400, message: "Bet points isn't enough"})
+         socket.emit('server-send-result-join-room', {statusCode: 401, message: "Bet points isn't enough"})
+         return
+      }
+
+      currentRoom = await service.getInfoOneGameRoomNoToken(infogame.roomid)
+      
+      if (infogame.password != currentRoom.password) {
+         socket.emit('server-send-result-join-room', {statusCode: 402, message: "Wrong room password"})
          return
       }
 
@@ -551,7 +556,7 @@ io.on('connection', function(socket) {
       updatePoints = await service.updateUserPoints(token, newPoints)
 
       if (updatePoints == false) {
-         socket.emit('server-send-result-join-room', {statusCode: 400, message: "Update points fail"})
+         socket.emit('server-send-result-join-room', {statusCode: 501, message: "Update points fail"})
          return
       }
 
@@ -559,16 +564,13 @@ io.on('connection', function(socket) {
 
       if (updateStatusGuest == false) {
          await service.updateUserPoints(token, oldPoints)
-         socket.emit('server-send-result-join-room', {statusCode: 400, message: "Update guest status fail"})
+         socket.emit('server-send-result-join-room', {statusCode: 502, message: "Update guest status fail"})
          return
       }
 
       // Set socket session for disconnection
       socket.room = infogame.roomid
 
-      console.log("TEST JOIN ROOM: " + socket.room)
-
-      currentRoom = await service.getInfoOneGameRoomNoToken(infogame.roomid)
       socket.join(infogame.roomid)
       io.in(infogame.roomid).emit('server-send-result-join-room', {statusCode: 200, message: "Join room successfully", data: currentRoom})
    })
