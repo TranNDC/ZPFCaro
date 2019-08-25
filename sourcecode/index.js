@@ -526,7 +526,7 @@ io.on('connection', function(socket) {
       await service.deleteGRNoToken(roomid)
    }
 
-      // Function process draw game
+   // Function process draw game
    // Parameter: roomid
    async function processDrawGame(roomid) {
       currentRoom = await service.getInfoOneGameRoomNoToken(roomid)
