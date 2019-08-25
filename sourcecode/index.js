@@ -461,7 +461,6 @@ io.on('connection', function(socket) {
    
    // Set interval for broadcast info Leaderboard & ListGameRoom
    setInterval(async function(token) {
-      console.log("TEST: SET-INTERVAL")
       // Leaderboard
       leaderboard = await service.getTop6LB(token)
       if (!leaderboard) return
