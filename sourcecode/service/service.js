@@ -24,6 +24,8 @@ service.generateJWT = async (data) => {
 // Parameter: STRING token
 // Result: JSON username | Error about token (wrong characters/expired)
 service.verifyJWT = async (token) => {
+    if (token.length == 0) return false
+
     if (await service.existTokenInBLJWT(token)) return false
 
     let val = jwt.verify(token, tokenKey, function(err, decoded) {
@@ -300,12 +302,24 @@ service.getTop6LB = async (token) => {
     return JsonTopUserInfoLB(await repoRedis.getTop6LB())
 }
 
+// Get leaderboard (top 6) (no token)
+// Result: Leaderboard
+service.getTop6LBNoToken = async () => {
+    return JsonTopUserInfoLB(await repoRedis.getTop6LB())
+}
+
 // Get leaderboard (all top)
 // Parameter: STRING token
 // Result: False | Leaderboard
 service.getAllTopLB = async (token) => {
     verifyToken = await service.verifyJWT(token)
     if (!verifyToken) return false
+    return JsonTopUserInfoLB(await repoRedis.getAllTopLB())
+}
+
+// Get leaderboard (all top) (no token)
+// Result: Leaderboard
+service.getAllTopLBNoToken = async () => {
     return JsonTopUserInfoLB(await repoRedis.getAllTopLB())
 }
 
@@ -325,11 +339,21 @@ service.getMyRanking = async (token) => {
 
 // Get info of all gamerooms
 // Parameter: STRING token
-// Result: False | List gameroom
+// Result: False | Null | List gameroom
 service.getInfoAllGameRoom = async (token) => {
     verifyToken = await service.verifyJWT(token)
     if (!verifyToken) return false
     
+    let allGameRooms = []
+    allGameRooms = await repoRedis.getInfoOfAllGR()
+    if (allGameRooms == null) return null
+
+    return allGameRooms
+}
+
+// Get info of all gamerooms (no token)
+// Result: Null | List gameroom
+service.getInfoAllGameRoomNoToken = async () => {
     let allGameRooms = []
     allGameRooms = await repoRedis.getInfoOfAllGR()
     if (allGameRooms == null) return null

@@ -370,14 +370,14 @@ io.on('connection', function(socket) {
    })
    
    // Set interval for broadcast info Leaderboard & ListGameRoom
-   setInterval(async function(token) {
+   setInterval(async function() {
       // Leaderboard
-      leaderboard = await service.getTop6LB(token)
+      leaderboard = await service.getTop6LBNoToken()
       if (!leaderboard) return
       socket.broadcast.emit('server-send-info-leaderboard', leaderboard)
 
       // List Game Room
-      listgameroom = await service.getInfoAllGameRoom(token)
+      listgameroom = await service.getInfoAllGameRoomNoToken()
       if (!listgameroom) return
       socket.broadcast.emit('server-send-info-listgameroom', listgameroom)
    }, 20000)
