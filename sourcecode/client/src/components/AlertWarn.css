@@ -1,9 +1,13 @@
 .alertwarn-heightmodal .modal-content {
     width: 450px !important;
-    height: 425px !important;
+    height: 375px !important;
     border-radius: 10px !important;
     border: none;
     align-items: center;
+}
+
+.alertwarn-biggerheightmodal .modal-content {
+    height: 405px !important;
 }
 
 .alertwarn-imgStyle {
@@ -41,11 +45,6 @@
     font-size: 22px;
     color: black;
     text-align: center;
-    width: 350px;
+    width: 370px;
     font-weight: bold;
-}
-
-.alerwarn-hoverred:hover {
-    background: red !important;
-    color: white;
 }

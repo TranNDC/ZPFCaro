@@ -21,15 +21,22 @@ class AlertWarn extends React.Component {
     }
 
     render() {
+        let className = "alertwarn-heightmodal "
+        let numBtn = 1
+        if (this.props.numBtn == "2") numBtn = 2
         let msg = this.props.msg
-        if (msg == null) msg = "Are you sure to quit the game? You will lose..."
+        if (msg == null || msg.length == 0) msg = "Are you sure to quit the game? You will lose!"
+        if (msg.length > 34) {
+            className += "alertwarn-biggerheightmodal"
+        }
+
         return (
             <>
                 {/* --------------------------------
                     Button here if need 
                     -------------------------------- */}
-
-                <Modal show={this.state.showAWModal} onHide={this.closeModal} className="alertwarn-heightmodal">
+                
+                <Modal show={this.state.showAWModal} onHide={this.closeModal} className={className}>
                     <div className="alertwarn-marginbot alertwarn-margintop">
                         <img src={require('../media/warning.png')} alt="Warning img" className="alertwarn-imgStyle"/>
                     </div>
@@ -40,8 +47,18 @@ class AlertWarn extends React.Component {
                         <label className="alertwarn-label">{msg}</label>
                     </div>
                     <div className="alertwarn-margintop">
-                        <Button className="rect-btn text-black small-width background-gray alertwarn-marginRight" onClick={this.closeModal}>cancel</Button>
-                        <Button className="rect-btn text-black small-width alerwarn-hoverred">ok</Button>
+                        {
+                            (numBtn == 1) ? 
+                            (
+                                <Button className="rect-btn text-black small-width btn-for-modal" onClick={this.closeModal}>ok</Button>
+                            ) : 
+                            (
+                                <>
+                                <Button className="rect-btn text-black small-width background-gray btn-for-modal alertwarn-marginRight" onClick={this.closeModal}>cancel</Button>
+                                <Button className="rect-btn text-black small-width btn-for-modal">ok</Button>
+                                </>
+                            )
+                        }
                     </div>
                 </Modal>
             </>
