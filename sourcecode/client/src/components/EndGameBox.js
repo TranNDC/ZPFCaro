@@ -36,21 +36,21 @@ class EndGameBox extends React.Component {
           case "win":
             headingEndGame = "YOU WIN";
             titleEndGame = "Congratulations, you won the game!";
-            subTitleEndGame= 'Do you want to play new game?'
-            isContinue = true;
+            // subTitleEndGame= 'Do you want to play new game?'
+            isContinue = false;
             break;
           case "lose":
             headingEndGame = "YOU LOSE";
             titleEndGame = "Don't be sad, try harder!";
-            isContinue = true;
-            subTitleEndGame= 'Do you want to play new game?'
-            break;
-          case "lowPoint":
-            headingEndGame = "YOU LOSE";
-            titleEndGame = "Congratulations, you won the game!";
-            subTitleEndGame= "Low points, can't play new game!";
             isContinue = false;
+            // subTitleEndGame= 'Do you want to play new game?'
             break;
+           case "draw":
+                headingEndGame = "DRAW GAME";
+                titleEndGame = "Both of you do great!";
+                isContinue = false;
+                // subTitleEndGame= 'Do you want to play new game?'
+                break;
         }
 
         return (

@@ -14,17 +14,20 @@ export const WAITTING = "game.WAITTING";
 export const JOIN_GAME = "game.JOIN_GAME";
 export const START_GAME = "game.START_GAME";
 export const UPDATE_GAME = "game.UPDATE_GAME";
+export const END_GAME = "game.END_GAME";
 
 export function placeMyPattern(x, y) {
   let socket = store.getState().ioReducer.socket; 
   let gameState =  store.getState().gameReducer; 
   let turn = {x:x,y:y};
-  let gameStatus = calculateResult(gameState.gameBoard,x,y,gameState.gamePattern,gameState.emtyCellNum);
+  let gameStatus = calculateResult(gameState.gameBoard,x,y,gameState.gamePattern,gameState.emptyCellNum);
   let infoGame = {roomid:gameState.roomId, isHost:!gameState.opponent.isHost};
-  console.log(turn,gameStatus,infoGame);
   socket.emit('client-request-mark-pattern',turn,gameStatus,infoGame);
   return function(dispatch){
     dispatch(placePattern(x,y,gameStatus,gameState.gamePattern))
+    if (gameStatus != ''){
+      dispatch(endGame(gameStatus));
+    }
   }
 }
 
@@ -38,6 +41,9 @@ export function listenOpponentTurn(){
       console.log(turn,data)
       if (data.statusCode == 200){
         dispatch(placePattern(turn.x,turn.y,data.mesage,(gameState.gamePattern=='x')?'o':'x'));
+        if (data.message != ''){
+          dispatch(endGame(data.message));
+        }
       }
     })
   }
@@ -77,7 +83,6 @@ export function loadGame(game){
 }
 
 
-
 export function updateGame(game){
   console.log('UPDATE GAME')
   return {
@@ -114,6 +119,37 @@ export function joinGame(currentGame){ //update opponent, pattern  o
   }
 }
 
+
+export function listenOnServerAskLeave(){
+  return function(){
+    let socket = store.getState().ioReducer.socket;
+    socket.on("server-ask-client-leave-room", function() {
+      socket.emit("client-request-leave-room");
+    });
+  }
+}
+
+
+export function listenOnOpponentLeaveGame(){
+  return function (dispatch){
+    let socket = store.getState().ioReducer.socket;
+    socket.on('room-has-player-out',function(res){
+      if (res.statusCode == 200){
+        //xu li thang
+        dispatch(endGame(res.message));
+      }
+    })
+    
+  }
+}
+
+export function endGame(result){
+  return{
+    type: END_GAME,
+    result:result
+  }
+}
+
 export function countDownTick() {
   return {
     type: COUNTDOWN_TICK
@@ -133,14 +169,3 @@ export function countDownClear() {
   };
 }
 
-export function countDownReset() {
-  return {
-    type: COUNTDOWN_RESET
-  };
-}
-
-// export function initBoard(){
-//     return{
-//         type: INIT_BOARD
-//     }
-// }

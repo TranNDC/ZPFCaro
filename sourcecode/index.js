@@ -592,6 +592,23 @@ io.on('connection', function(socket) {
       await service.updatePointsLB(guestInfo.username, guestNewPoints)
       await service.deleteGRNoToken(roomid)
    }
+
+   async function processDrawGame(roomid) {
+      currentRoom = await service.getInfoOneGameRoomNoToken(roomid)
+
+      hostInfo = await service.getUserInfoByIDNoToken(currentRoom.host_id)
+      guestInfo = await service.getUserInfoByIDNoToken(currentRoom.guest_id)
+
+      updateHostPoints = await service.updateUserPointsByIDNoToken(currentRoom.host_id, (currentRoom.bet_points + hostInfo.points + 20))
+      updateGuestPoints = await service.updateUserPointsByIDNoToken(currentRoom.guest_id, (currentRoom.bet_points + guestInfo.points + 20))
+
+      newGame = '{"id" : "' + currentRoom.uuid + '", "user_id" : "' + currentRoom.host_id + '", "guest_id" : "' + currentRoom.guest_id + '", "bet_points" : ' + currentRoom.bet_points + ', "status" : 0}'
+      addNewGame = await service.addGame(newGame)
+      
+      await service.updatePointsLB(hostInfo.username, hostNewPoints)
+      await service.updatePointsLB(guestInfo.username, guestNewPoints)
+      await service.deleteGRNoToken(roomid)
+   }
    
    // Mark pattern or win/draw
    // Parameter: JSON turn (x, y), gameStatus ("" | "win" | "draw"), infogame (roomid, isHost)
@@ -610,7 +627,7 @@ io.on('connection', function(socket) {
             break;
          case "draw":
             await processDrawGame(infogame.roomid)
-            data = {"statusCode": 200, "message": "lose"}
+            data = {"statusCode": 200, "message": "draw"}
             socket.to(infogame.roomid).emit("server-send-data-game", turn, data)
             io.in(infogame.roomid).emit("server-ask-client-leave-room")
             break;

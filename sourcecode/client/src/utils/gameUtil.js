@@ -11,8 +11,8 @@ export function initState(width, height, coutDownValue) {
     },
     gamePattern: "x",
     result: "",
-    emtyCellNum: width * height,
-    isWaiting: true
+    emptyCellNum: width * height,
+    isWaiting: true, // only for host
   };
   for (let i = 0; i < height; i++) {
     let gameRow = [];
@@ -109,6 +109,6 @@ export function createNewRandomMove(width, height, gameBoard) {
   return randomMove;
 }
 
-export function calculateResult(gameBoard, x, y, pattern, emtyCellNum) {
-  return emtyCellNum - 1 == 0 ? "draw" : calculateRes(gameBoard, x, y, pattern);
+export function calculateResult(gameBoard, x, y, pattern, emptyCellNum) {
+  return emptyCellNum - 1 == 0 ? "draw" : calculateRes(gameBoard, x, y, pattern);
 }

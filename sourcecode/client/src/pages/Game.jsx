@@ -17,6 +17,8 @@ import {
   countDownClear,
   waittingGame,
   listenOpponentTurn,
+  listenOnServerAskLeave,
+  listenOnOpponentLeaveGame,
 } from "../actions/gameAction";
 import { initMessages,listenOpponentChat } from "../actions/chatAction";
 import { timingSafeEqual } from "crypto";
@@ -39,7 +41,7 @@ class Game extends React.Component {
       this.props.waittingGame(this.props.history)
     }
     else{
-      this.startCountDown();
+      this.startGame();
     }
 
   }
@@ -47,7 +49,6 @@ class Game extends React.Component {
   componentWillMount() {
     this.props.initUser();
     this.props.initMessages();
-    
     // this.startCountDown();
     // this.openEndModal('win')
   }
@@ -69,7 +70,11 @@ class Game extends React.Component {
 
   componentWillReceiveProps(nextProps){
     if (this.props.isWaiting !== nextProps.isWaiting){
-      this.startCountDown();
+      this.startGame();
+    }
+    if (nextProps.result && nextProps.result != ''){
+      console.log(nextProps.result)
+      this.openEndModal(nextProps.result)
     }
   }
 
@@ -89,8 +94,15 @@ class Game extends React.Component {
         });
       }
     }, 1000);
+    
+  }
+  
+  startGame(){
+    this.startCountDown();
     this.props.listenOpponentTurn();
     this.props.listenOpponentChat();
+    this.props.listenOnServerAskLeave();
+    this.props.listenOnOpponentLeaveGame();
   }
 
   openEndModal(type) {
@@ -119,11 +131,7 @@ class Game extends React.Component {
   }
 
   render() {
-
-
-
     let avatar = this.props.avatar;
-
     let className = this.props.className + " animated bounceInRight slow";
 
     return (
@@ -159,7 +167,8 @@ function mapStateToProps(state, index) {
   return {
     value: state.gameReducer.countDown.value,
     opponent: state.gameReducer.opponent,
-    isWaiting: state.gameReducer.isWaiting
+    isWaiting: state.gameReducer.isWaiting,
+    result: state.gameReducer.result,
   };
 }
 
@@ -191,8 +200,13 @@ function mapDispatchToProps(dispatch) {
     },
     listenOpponentChat(){
       dispatch(listenOpponentChat());
+    },
+    listenOnOpponentLeaveGame(){
+      dispatch(listenOnOpponentLeaveGame());
+    },
+    listenOnServerAskLeave(){
+      dispatch(listenOnServerAskLeave());
     }
-
   };
 }
 

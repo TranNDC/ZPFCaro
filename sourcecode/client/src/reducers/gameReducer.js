@@ -8,26 +8,32 @@ import {
   LOAD_GAME,
   JOIN_GAME,
   UPDATE_GAME,
-  START_GAME,
+  END_GAME,
 } from "../actions/gameAction";
 import { initState, createRandomMove } from "../utils/gameUtil";
 
-const CELL_WIDTH = 32;
-const CELL_HEIGHT = 22;
+// const CELL_WIDTH = 32;
+const CELL_WIDTH = 3;
+// const CELL_HEIGHT = 22;
+const CELL_HEIGHT = 2;
 const COUNTDOWN_MAX = 15;
 const initialState = initState(CELL_WIDTH, CELL_HEIGHT, COUNTDOWN_MAX);
 
 const gameReducer = (state = initialState, action) => {
   switch (action.type) {
     case PLACE_PATTERN:
-      return {
+    return {
         ...state,
-        emptyCellNum: state.emtyCellNum - 1,
-        result: action.result,
+        emptyCellNum: state.emptyCellNum - 1,
         gameBoard: [
           ...state.gameBoard,
           (state.gameBoard[action.y][action.x].pattern = action.gamePattern)
-        ]
+        ],
+        countDown: {
+          ...state.countDown,
+          value: COUNTDOWN_MAX
+        },
+        result: action.result,
       };
     case COUNTDOWN_TICK:
       return {
@@ -101,6 +107,16 @@ const gameReducer = (state = initialState, action) => {
           isHost:true
         },
         isWaiting:false
+      }
+    case END_GAME:
+      clearInterval(state.countDown.intervalId);
+      return{
+        ...state,
+        result:action.result,
+        countDown: {
+          ...state.countDown,
+          intervalId: -1
+        }
       }
     case COUNTDOWN_CLEAR:
       clearInterval(state.countDown.intervalId);

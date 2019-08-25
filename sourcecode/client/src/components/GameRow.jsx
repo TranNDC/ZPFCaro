@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { placeMyPattern,countDownReset } from "../actions/gameAction";
+import { placeMyPattern } from "../actions/gameAction";
 import GameCell from "../subcomponents/GameCell";
 import React from "react";
 
@@ -12,7 +12,6 @@ class GameRow extends React.Component {
   }
   handlePlacePattern(x, y) {
     this.props.placeMyPattern(x, y);
-    this.props.countDownReset();
   }
 
   render() {
@@ -50,10 +49,6 @@ function mapDispatchToProps(dispatch) {
     placeMyPattern(x, y) {
       dispatch(placeMyPattern(x, y));
     },
-    countDownReset(){
-      console.log('countDownReset');
-      dispatch(countDownReset());
-    }
   };
 }
 
