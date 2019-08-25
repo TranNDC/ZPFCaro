@@ -2,7 +2,9 @@ import React from 'react';
 import './AlertWarn.css';
 import '../subcomponents/RectButton.css';
 import { Modal, Button } from 'react-bootstrap';
-
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import {leaveGame} from '../actions/gameAction'
 
 // -------------------------------
 // TEST ALERTWARN
@@ -18,9 +20,15 @@ class AlertWarn extends React.Component {
     constructor(props) {
         super(props);
         this.state = { showAWModal: this.props.isOpen};
-
         this.closeModal = this.closeModal.bind(this);
         this.openModal = this.openModal.bind(this);
+        this.handleExit = this.handleExit.bind(this);
+    }
+
+    componentWillReceiveProps(nprops){
+        if (nprops.isOpen != this.state.showAWModal){
+            this.setState({showAWModal:nprops.isOpen})
+        }
     }
 
     closeModal() {
@@ -29,6 +37,11 @@ class AlertWarn extends React.Component {
 
     openModal() {
         this.setState({ showAWModal: true });
+    }
+
+    handleExit(){
+        let isLogOut = this.props.isLogOut;
+        this.props.leaveGame(this.props.history,isLogOut);
     }
 
     render() {
@@ -66,7 +79,8 @@ class AlertWarn extends React.Component {
                             (
                                 <>
                                 <Button className="rect-btn text-black small-width background-gray btn-for-modal alertwarn-marginRight" onClick={this.closeModal}>cancel</Button>
-                                <Button className="rect-btn text-black small-width btn-for-modal">ok</Button>
+                                <Button className="rect-btn text-black small-width btn-for-modal"
+                                onClick ={this.handleExit}>ok</Button>
                                 </>
                             )
                         }
@@ -77,4 +91,21 @@ class AlertWarn extends React.Component {
     }
 }
 
-export default AlertWarn;
+
+function mapStateToProps(state, index) {
+  return {};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    leaveGame(history) {
+      return dispatch(leaveGame(history));
+    }
+  };
+}
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(AlertWarn)
+);

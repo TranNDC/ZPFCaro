@@ -14,6 +14,7 @@ import { initIo } from "../actions/ioAction";
 import { loadGameRooms, initGameRoom } from "../actions/roomAction";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import AlertWarn from '../components/AlertWarn'
 
 class Homepage extends React.Component {
     constructor(props) {
@@ -37,6 +38,7 @@ class Homepage extends React.Component {
         return (
             <Container fluid={true} className={className}>
                 <Header />
+                <AlertWarn isOpen={(!this.props.error || this.props.error=='') ? false : true} msg={this.props.error}/>
                 <Row className="hp-row">
                     <Col xs="8" className="hp-padRight">
                         <GameRooms />
@@ -66,7 +68,8 @@ class Homepage extends React.Component {
 
 function mapStateToProps(state, index) {
     return {
-        user: state.userReducer
+        user: state.userReducer,
+        error: state.roomReducer.error
     };
   }
   

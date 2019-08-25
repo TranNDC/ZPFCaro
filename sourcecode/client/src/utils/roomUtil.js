@@ -3,6 +3,7 @@ import {store} from "../index";
 export function initState() {
     let initStateValue = {
       gameRooms:{},
+      error:''
     };
     return initStateValue;
   }
@@ -18,7 +19,8 @@ export function creaRoomReq(hostId, hostDisplayedName, roomName, passWord, betPo
         'bet_points':betPoints?betPoints:0,
         'host_id':hostId,
         'host_displayed_name':hostDisplayedName
-      }
+      },
+      error:''
     }
 }
 

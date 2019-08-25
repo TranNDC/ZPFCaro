@@ -8,6 +8,8 @@ import io from "socket.io-client"
 export const INIT_GAMEROOM = "room.INIT_GAMEROOM";
 export const LOAD_GAMEROOMS = "room.LOAD_GAMEROOMS";
 export const CREATE_GAMEROOM = "room.CREATE_GAMEROOM";
+export const ERR_CREATE_ROOM = "room.ERR_CREATE_ROOM";
+export const ERR_JOIN_ROOM = "room.ERR_CREATE_ROOM";
 
 //type: response
 export function initGameRoom() {
@@ -26,14 +28,37 @@ export function createGameRoom(hostId,displayedName, roomName,password,betPoints
         dispatch(loadGame(request.gameroom));
         history.push('/game');
       }
-      else{ //jwt fail
+      else if (res.statusCode == 501 || res.statusCode == 502){
+        dispatch(createError('Sorry :( Something went wrong!'));
+        history.push('/');
+      }
+      else if (res.statusCode == 400){ //jwt fail
         clearStorage();
         history.push('/login');
+      }
+      else{
+        dispatch(createError(res.message));
+        history.push('/');
       }
     })
 
   };
 }
+
+export function createError(message){
+  return{
+    type:ERR_CREATE_ROOM,
+    message: message
+  }
+}
+
+export function joinError(message){
+  return{
+    type:ERR_JOIN_ROOM,
+    message: message
+  }
+}
+
 
 export function joinGameRoom(userId, displayedName, roomId, betPoints, password,history) {
   let guest = joinGameGuestReq(userId,displayedName);
@@ -43,11 +68,21 @@ export function joinGameRoom(userId, displayedName, roomId, betPoints, password,
     let socket = store.getState().ioReducer.socket;
     socket.emit('client-request-join-room',guest,infogame,getJwtFromStorage())
     socket.on('server-send-result-join-room', function(res){
+      console.log(res);
       if (res.statusCode == 200){
         dispatch(joinGame(res.data));
         history.push('/game');
       }
+      else if (res.statusCode == 501 || res.statusCode == 502){
+        dispatch(createError("Room's Full"));
+        history.push('/');
+      }
+      else if (res.statusCode == 400){ //jwt fail
+        clearStorage();
+        history.push('/login');
+      }
       else{
+        dispatch(createError(res.message));
         history.push('/');
       }
     })

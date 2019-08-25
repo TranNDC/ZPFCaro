@@ -8,7 +8,9 @@ import {
   LOAD_GAME,
   JOIN_GAME,
   UPDATE_GAME,
-  END_GAME
+  END_GAME,
+  WANT_TO_QUIT_GAME,
+  LEAVE_GAME
 } from "../actions/gameAction";
 import { initState, createRandomMove } from "../utils/gameUtil";
 
@@ -70,7 +72,7 @@ const gameReducer = (state = initialState, action) => {
         betPoints: action.game["bet_points"] + " pts",
         gamePattern: "x",
         opponent: {
-          ...initState(CELL_WIDTH, CELL_HEIGHT, COUNTDOWN_MAX).opponent,
+          ...state,
           userId: action.game["guest_id"],
           displayedName: action.game["guest_displayed_name"],
           isHost: false
@@ -96,6 +98,15 @@ const gameReducer = (state = initialState, action) => {
         isWaiting: false,
         isMyTurn: action.isMyTurn
       };
+    case WANT_TO_QUIT_GAME:
+      return{
+        ...state,
+        alert:action.alert
+      }
+    case LEAVE_GAME:
+      return{
+        ...initState(CELL_WIDTH, CELL_HEIGHT, COUNTDOWN_MAX),
+      }
     case END_GAME:
       clearInterval(state.countDown.intervalId);
       return {
@@ -104,7 +115,7 @@ const gameReducer = (state = initialState, action) => {
         countDown: {
           ...state.countDown,
           intervalId: -1
-        },
+      },
         isMyTurn: false
       };
 

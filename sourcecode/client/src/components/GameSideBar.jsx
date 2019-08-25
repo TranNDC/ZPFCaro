@@ -8,30 +8,30 @@ import { connect } from "react-redux";
 
 import "./GameSideBar.css";
 
+import {wantToQuitGame} from '../actions/gameAction'
+
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 
 class GameSideBar extends React.Component {
+  handleClick() {
+    this.props.wantToQuitGame();
+  }
+  
   render() {
     let avatar = this.props.avatar;
 
-    let opponent = {
-      avatar: { avatar },
-      username: "Trann Nguyen",
-      isHost: 0
-    };
-
-    // let hostAva = this.props.opponent.isHost?this.props.opponent.avatar:this.props.user.avatar;
-    // let guestAva = this.props.opponent.isHost?this.props.user.avatar:this.props.opponent.avatar;
-    
     return (
       <Container  className="gsb-game-size-bar w-100 p-0" xs={3}>
         <div className="row gsb-countdown-exitbtn w-100 flex-nowrap justify-content-center ">
           <GameTime className="d-block gsb-left" />
-          <BlackButton
-            className="pl-3 pr-3 d-inline-block gsb-right"
+          <Button
+            className="pl-3 pr-3 d-inline-block gsb-right black-button"
             text="Exit"
-          />
+            onClick={this.handleClick.bind(this)}
+          >
+          Exit
+          </Button>
         </div>
 
         <div className="row betpoints">
@@ -58,7 +58,7 @@ class GameSideBar extends React.Component {
         </Container>
         {this.props.opponent && 
         <div className="gsb-chat-container">
-          <ChatFrame opponent={opponent} />
+          <ChatFrame opponent={this.props.opponent} />
         </div>
         }
       </Container>
@@ -77,13 +77,10 @@ function mapStateToProps(state, index) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    // placePattern(x, y) {
-    //   dispatch(placePattern(x, y));
-    // },
-    // countDownReset(){
-    //   dispatch(countDownReset());
-    // }
-  };
+    wantToQuitGame(){
+      dispatch(wantToQuitGame())
+    },
+}
 }
 
 export default connect(

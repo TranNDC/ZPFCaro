@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import CountDownBox from '../subcomponents/CountDownBox'
 import EndGameBox from '../components/EndGameBox'
 import { withRouter } from "react-router-dom";
-
+import AlertWarn from '../components/AlertWarn'
 import "./Game.css";
 import { connect } from "react-redux";
 import { Prompt } from 'react-router'
@@ -149,7 +149,7 @@ class Game extends React.Component {
         type={this.state.game.result} 
         stateEGB={this.state.game.stateEGB}
         />
-        
+        <AlertWarn isOpen={(!this.props.alert) ? false : true} msg={this.props.alert} numBtn="2"/>
 
         <Header />
         <Row className="m-0">
@@ -171,7 +171,8 @@ function mapStateToProps(state, index) {
     opponent: state.gameReducer.opponent,
     isWaiting: state.gameReducer.isWaiting,
     result: state.gameReducer.result,
-    isMyTurn: state.gameReducer.isMyTurn
+    isMyTurn: state.gameReducer.isMyTurn,
+    alert: state.gameReducer.alert,
   };
 }
 

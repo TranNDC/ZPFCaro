@@ -15,6 +15,8 @@ export const JOIN_GAME = "game.JOIN_GAME";
 export const START_GAME = "game.START_GAME";
 export const UPDATE_GAME = "game.UPDATE_GAME";
 export const END_GAME = "game.END_GAME";
+export const WANT_TO_QUIT_GAME = "game.QUIT_GAME";
+export const LEAVE_GAME = "game.LEAVE_GAME";
 
 export function placeMyPattern(x, y) {
   let socket = store.getState().ioReducer.socket; 
@@ -79,7 +81,7 @@ export function loadGame(game){
     game:game,
     isMyTurn: false,
   }
-}
+} 
 
 
 export function updateGame(game){
@@ -101,6 +103,7 @@ export function waittingGame(history){
     }
     socket.on('server-send-result-join-room',function(res){
       if (res.statusCode == 200){
+        console.log(res.data)
         dispatch(updateGame(res.data));
       }
       else{
@@ -108,7 +111,6 @@ export function waittingGame(history){
       }
     })
   }
-
 }
 
 export function joinGame(currentGame){ //update opponent, pattern  o
@@ -120,17 +122,47 @@ export function joinGame(currentGame){ //update opponent, pattern  o
   }
 }
 
-export function quitGame(history){
-  return function (dispatch){
-    history.push('/');
-  }
-}
-
 export function endGame(result){
   return{
     type: END_GAME,
     result:result
   }
+}
+
+export function leaveGame(history,isLogOut=false){
+  return function (dispatch){
+    let socket = store.getState().ioReducer.socket;
+    socket.emit('client-request-out-room');
+    if (isLogOut){
+      history.push('/login')
+    }
+    else
+      history.push('/');
+    return{
+      type:LEAVE_GAME
+    }
+  }
+}
+export function wantToQuitGame(isLogOut=false){
+  let gameState =  store.getState().gameReducer;
+  let socket = store.getState().ioReducer.socket;  
+  if (!gameState.opponent.userId || gameState.opponent.userId==''){
+    socket.emit('host-out-room-not-started',gameState.roomId);
+    return{
+      type: WANT_TO_QUIT_GAME,
+      alert: 'Are you sure to quit the game?',
+      isLogOut:isLogOut
+    }
+  }else{
+    let isHostWin = gameState.opponent.isHost;
+    socket.emit('client-request-out-room',gameState.roomId,isHostWin)
+    return{
+      type: WANT_TO_QUIT_GAME,
+      alert: "",
+      isLogOut:isLogOut
+    }
+  }
+  
 }
 
 export function countDownTick() {
@@ -157,7 +189,8 @@ export function listenOnServerAskLeave(){
   return function(){
     let socket = store.getState().ioReducer.socket;
     socket.on("server-ask-client-leave-room", function() {
-      socket.emit("client-request-leave-room");
+      let gameState =  store.getState().gameReducer;
+      socket.emit("client-request-leave-room",gameState.roomId);
     });
   }
 }
@@ -168,10 +201,11 @@ export function listenOnOpponentLeaveGame(){
     let socket = store.getState().ioReducer.socket;
     socket.on('room-has-player-out',function(res){
       if (res.statusCode == 200){
-        //xu li thang
+        let gameState =  store.getState().gameReducer;
+        let isHostWin = !gameState.opponent.isHost;
+        socket.emit('client-request-being-winner',gameState.roomId,isHostWin)
         dispatch(endGame(res.message));
       }
     })
-    
   }
-}
+} 
