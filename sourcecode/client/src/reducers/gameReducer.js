@@ -8,12 +8,14 @@ import {
   LOAD_GAME,
   JOIN_GAME,
   UPDATE_GAME,
-  START_GAME,
+  END_GAME
 } from "../actions/gameAction";
 import { initState, createRandomMove } from "../utils/gameUtil";
 
 const CELL_WIDTH = 32;
+// const CELL_WIDTH = 3;
 const CELL_HEIGHT = 22;
+// const CELL_HEIGHT = 2;
 const COUNTDOWN_MAX = 15;
 const initialState = initState(CELL_WIDTH, CELL_HEIGHT, COUNTDOWN_MAX);
 
@@ -22,12 +24,17 @@ const gameReducer = (state = initialState, action) => {
     case PLACE_PATTERN:
       return {
         ...state,
-        emptyCellNum: state.emtyCellNum - 1,
-        result: action.result,
+        emptyCellNum: state.emptyCellNum - 1,
         gameBoard: [
           ...state.gameBoard,
           (state.gameBoard[action.y][action.x].pattern = action.gamePattern)
-        ]
+        ],
+        countDown: {
+          ...state.countDown,
+          value: COUNTDOWN_MAX
+        },
+        result: action.result,
+        isMyTurn: action.isMyTurn
       };
     case COUNTDOWN_TICK:
       return {
@@ -61,47 +68,62 @@ const gameReducer = (state = initialState, action) => {
     //     ]
     //   };
     case LOAD_GAME: // host load when enter game
-        return{
-        ...state,
-        roomId:action.game.uuid,
-        roomName:action.game['room_name'],
-        betPoints:action.game['bet_points']+' pts',
-        gamePattern:'x',
-        result:'',
-        isWaiting:true
-      }
-    case UPDATE_GAME: // host update game when guest join
-        return{
-          ...state,
-          roomId:action.game.uuid,
-          roomName:action.game['room_name'],
-          betPoints:action.game['bet_points']+' pts',
-          gamePattern:'x',
-          opponent:{
-            ...state.opponent,
-            userId: action.game['guest_id'],
-            displayedName: action.game['guest_displayed_name'],
-            isHost:false
-          },
-          result:'',
-          isWaiting:false
-        }
-    case JOIN_GAME:  // guest update when join game
       return {
         ...state,
-        roomId:action.game.uuid,
-        roomName:action.game['room_name'],
-        betPoints: action.game['bet_points']+' pts',
-        gamePattern:'o',
-        result:'',
-        opponent:{
+        roomId: action.game.uuid,
+        roomName: action.game["room_name"],
+        betPoints: action.game["bet_points"] + " pts",
+        gamePattern: "x",
+        result: "",
+        isWaiting: true,
+        isMyTurn: action.isMyTurn
+      };
+    case UPDATE_GAME: // host update game when guest join
+      return {
+        ...state,
+        roomId: action.game.uuid,
+        roomName: action.game["room_name"],
+        betPoints: action.game["bet_points"] + " pts",
+        gamePattern: "x",
+        opponent: {
           ...state.opponent,
-          userId: action.game['host_id'],
-          displayedName: action.game['host_displayed_name'],
-          isHost:true
+          userId: action.game["guest_id"],
+          displayedName: action.game["guest_displayed_name"],
+          isHost: false
         },
-        isWaiting:false
-      }
+        result: "",
+        isWaiting: false,
+        isMyTurn: action.isMyTurn
+      };
+    case JOIN_GAME: // guest update when join game
+      return {
+        ...state,
+        roomId: action.game.uuid,
+        roomName: action.game["room_name"],
+        betPoints: action.game["bet_points"] + " pts",
+        gamePattern: "o",
+        result: "",
+        opponent: {
+          ...state.opponent,
+          userId: action.game["host_id"],
+          displayedName: action.game["host_displayed_name"],
+          isHost: true
+        },
+        isWaiting: false,
+        isMyTurn: action.isMyTurn
+      };
+    case END_GAME:
+      clearInterval(state.countDown.intervalId);
+      return {
+        ...state,
+        result: action.result,
+        countDown: {
+          ...state.countDown,
+          intervalId: -1
+        },
+        isMyTurn: false
+      };
+
     case COUNTDOWN_CLEAR:
       clearInterval(state.countDown.intervalId);
       return {

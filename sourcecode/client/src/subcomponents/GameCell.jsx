@@ -14,7 +14,7 @@ class GameCell extends React.Component {
     }
 
     render(){
-        let classes = 'gc-game-cell d-flex justify-content-center align-content-center'+ this.props.className + ' ' + this.props.pattern;
+        let classes = 'gc-game-cell d-flex justify-content-center align-content-center '+ this.props.className + ' ' + this.props.pattern;
         classes += (this.disable)?" disable":"";
         return (
             <div className={classes}>
@@ -29,3 +29,4 @@ class GameCell extends React.Component {
 }
 
 export default GameCell;
+ 
