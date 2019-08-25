@@ -440,6 +440,8 @@ server.listen(port, () => {
 
 
 io.on('connection', function(socket) {
+   // Set value for socket.room
+   socket.room = ""
 
    // Broadcast info about ListGameRoom
    // Parameter: STRING token
@@ -549,7 +551,7 @@ io.on('connection', function(socket) {
       }
 
       // Set socket session for disconnection
-      socket.room = infogame.uuid
+      socket.room = infogame.roomid
 
       console.log("TEST JOIN ROOM: " + socket.room)
 
@@ -576,6 +578,9 @@ io.on('connection', function(socket) {
          updateHostPoints = await service.updateUserPointsByIDNoToken(currentRoom.host_id, hostNewPoints)
          guestNewPoints = (guestInfo.points + 10)
          updateGuestPoints = await service.updateUserPointsByIDNoToken(currentRoom.guest_id, guestNewPoints)
+
+         await service.updateUserWinNumByIDNoToken(currentRoom.host_id, hostInfo.win_num + 1)
+         await service.updateUserLoseNumByIDNoToken(currentRoom.guest_id, guestInfo.lose_num + 1)
       }
       else {
          statusGame = -1
@@ -584,10 +589,14 @@ io.on('connection', function(socket) {
          updateHostPoints = await service.updateUserPointsByIDNoToken(currentRoom.host_id, hostNewPoints)
          guestNewPoints = (currentRoom.bet_points * 2 + guestInfo.points + 30)
          updateGuestPoints = await service.updateUserPointsByIDNoToken(currentRoom.guest_id, guestNewPoints)
+         
+         await service.updateUserWinNumByIDNoToken(currentRoom.guest_id, guestInfo.win_num + 1)
+         await service.updateUserLoseNumByIDNoToken(currentRoom.host_id, hostInfo.lose_num + 1)
       }
       console.log(hostNewPoints)
       newGame = '{"id" : "' + currentRoom.uuid + '", "user_id" : "' + currentRoom.host_id + '", "guest_id" : "' + currentRoom.guest_id + '", "bet_points" : ' + currentRoom.bet_points + ', "status" : ' + statusGame + '}'
-      addNewGame = await service.addGame(newGame)
+      addNewGame = await service.addGame(JSON.parse(newGame))
+
       await service.updatePointsLB(hostInfo.username, hostNewPoints)
       await service.updatePointsLB(guestInfo.username, guestNewPoints)
       await service.deleteGRNoToken(roomid)
@@ -606,9 +615,17 @@ io.on('connection', function(socket) {
       guestNewPoints = (currentRoom.bet_points + guestInfo.points + 20)
       updateGuestPoints = await service.updateUserPointsByIDNoToken(currentRoom.guest_id, guestNewPoints)
 
+      await service.updateUserDrawNumByIDNoToken(currentRoom.host_id, hostInfo.draw_num + 1)
+      await service.updateUserDrawNumByIDNoToken(currentRoom.guest_id, guestInfo.draw_num + 1)
+
       newGame = '{"id" : "' + currentRoom.uuid + '", "user_id" : "' + currentRoom.host_id + '", "guest_id" : "' + currentRoom.guest_id + '", "bet_points" : ' + currentRoom.bet_points + ', "status" : 0}'
+<<<<<<< HEAD
       addNewGame = await service.addGame(newGame)
       console.log(addNewGame);
+=======
+      addNewGame = await service.addGame(JSON.parse(newGame))
+      
+>>>>>>> 06f3767023a61810f4114462df68c37addc5386a
       await service.updatePointsLB(hostInfo.username, hostNewPoints)
       await service.updatePointsLB(guestInfo.username, guestNewPoints)
       await service.deleteGRNoToken(roomid)
@@ -682,6 +699,9 @@ io.on('connection', function(socket) {
          updateHostPoints = await service.updateUserPointsByIDNoToken(currentRoom.host_id, hostNewPoints)
          guestNewPoints = (guestInfo.points + 10)
          updateGuestPoints = await service.updateUserPointsByIDNoToken(currentRoom.guest_id, guestNewPoints)
+
+         await service.updateUserWinNumByIDNoToken(currentRoom.host_id, hostInfo.win_num + 1)
+         await service.updateUserLoseNumByIDNoToken(currentRoom.guest_id, guestInfo.lose_num + 1)
       }
       else {
          statusGame = -1
@@ -690,10 +710,13 @@ io.on('connection', function(socket) {
          updateHostPoints = await service.updateUserPointsByIDNoToken(currentRoom.host_id, hostNewPoints)
          guestNewPoints = (currentRoom.bet_points * 2 + guestInfo.points + 30)
          updateGuestPoints = await service.updateUserPointsByIDNoToken(currentRoom.guest_id, guestNewPoints)
+
+         await service.updateUserWinNumByIDNoToken(currentRoom.guest_id, guestInfo.win_num + 1)
+         await service.updateUserLoseNumByIDNoToken(currentRoom.host_id, hostInfo.lose_num + 1)
       }
 
       newGame = '{"id" : "' + currentRoom.uuid + '", "user_id" : "' + currentRoom.host_id + '", "guest_id" : "' + currentRoom.guest_id + '", "bet_points" : ' + currentRoom.bet_points + ', "status" : ' + statusGame + '}'
-      addNewGame = await service.addGame(newGame)
+      addNewGame = await service.addGame(JSON.parse(newGame))
 
       await service.updatePointsLB(hostInfo.username, hostNewPoints)
       await service.updatePointsLB(guestInfo.username, guestNewPoints)
@@ -705,13 +728,13 @@ io.on('connection', function(socket) {
    // Disconnection
    socket.on('disconnect', async function() {
       console.log("TEST: DISCONNECT WITHOUT ROOM")
+      console.log("TEST SOCkETROOM IN DISCONNECT: " + socket.room)
       if (socket.room != "") {
          console.log("TEST: DISCONNECT with ROOM")
          roomid = socket.room
-         currentRoom = await service.getInfoOneGameRoomNoToken(roomid)
 
          // Nếu phòng chỉ có mỗi host
-         if (currentRoom.guest_id == "") {
+         if (await service.findGuestIDInRoomNoToken(roomid) == false) {
             console.log("TEST: DISCONNECT with ROOM WITHOUT GUEST")
             await service.deleteGRNoToken(roomid)
          }

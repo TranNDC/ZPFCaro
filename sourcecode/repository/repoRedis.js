@@ -156,4 +156,13 @@ repoRedis.deleteGR = async (uuid) => {
     })
 }
 
+// Check current room has guest_id or not
+repoRedis.findGuestIDInRoom = async (uuid) => {
+    getAsync = promisify(client.hget).bind(client)
+    return await getAsync(keyGR(uuid), "guest_id").then((res) => {
+        if (res == null) return false
+        return res
+    })
+}
+
 module.exports = repoRedis;

@@ -106,6 +106,13 @@ service.updateUserLoseNum = async (token, losenum) => {
     return (await repoMongo.updateLoseNumOfUser(username, losenum))
 }
 
+// Update losenum by ID (no token)
+// Parameter: INT losenum
+// Result: True | False
+service.updateUserLoseNumByIDNoToken = async (id, losenum) => {
+    return (await repoMongo.updateLoseNumOfUserByID(id, losenum))
+}
+
 // Update drawnum
 // Parameter: STRING token, INT drawnum
 // Result: True | False
@@ -116,6 +123,13 @@ service.updateUserDrawNum = async (token, drawnum) => {
     return (await repoMongo.updateDrawNumOfUser(username, drawnum))
 }
 
+// Update drawnum by ID (no token)
+// Parameter: INT drawnum
+// Result: True | False
+service.updateUserDrawNumByIDNoToken = async (id, drawnum) => {
+    return (await repoMongo.updateDrawNumOfUserByID(id, drawnum))
+}
+
 // Update winnum
 // Parameter: STRING token, INT winnum
 // Result: True | False
@@ -124,6 +138,13 @@ service.updateUserWinNum = async (token, winnum) => {
     if (!verifyToken) return false
     username = verifyToken.username
     return (await repoMongo.updateWinNumOfUser(username, winnum))
+}
+
+// Update winnum by id (no token)
+// Parameter: INT winnum
+// Result: True | False
+service.updateUserWinNumByIDNoToken = async (id, winnum) => {
+    return (await repoMongo.updateWinNumOfUserByID(id, winnum))
 }
 
 // Update points
@@ -359,6 +380,11 @@ service.updateGuestAndStatusGR = async (token, uuid, guest) => {
 // Delete game room (no token)
 service.deleteGRNoToken = async (uuid) => {
     return (await repoRedis.deleteGR(uuid))
+}
+
+// Check current room has guest_id or not (no token)
+service.findGuestIDInRoomNoToken = async (uuid) => { 
+    return (await repoRedis.findGuestIDInRoom(uuid))
 }
 
 module.exports = service;

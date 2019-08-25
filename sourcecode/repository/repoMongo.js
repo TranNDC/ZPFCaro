@@ -135,6 +135,17 @@ repoMongo.updateWinNumOfUser = (username, win_num) => {
     })
 }
 
+// Update win_num of user by id
+repoMongo.updateWinNumOfUserByID = (id, win_num) => {
+    getAsync = promisify(collectionUsers.updateOne).bind(collectionUsers)
+    return getAsync({_id: new ObjectID(id)}, {$set: {win_num: win_num}}).then((res) => {
+        return true
+    }).catch((err) => {
+        console.log(err)
+        return false
+    })
+}
+
 // Update draw_num of user by username
 repoMongo.updateDrawNumOfUser = (username, draw_num) => {
     getAsync = promisify(collectionUsers.updateOne).bind(collectionUsers)
@@ -146,10 +157,32 @@ repoMongo.updateDrawNumOfUser = (username, draw_num) => {
     })
 }
 
+// Update draw_num of user by id
+repoMongo.updateDrawNumOfUserByID = (id, draw_num) => {
+    getAsync = promisify(collectionUsers.updateOne).bind(collectionUsers)
+    return getAsync({_id: new ObjectID(id)}, {$set: {draw_num: draw_num}}).then((res) => {
+        return true
+    }).catch((err) => {
+        console.log(err)
+        return false
+    })
+}
+
 // Update lose_num of user by username
 repoMongo.updateLoseNumOfUser = (username, lose_num) => {
     getAsync = promisify(collectionUsers.updateOne).bind(collectionUsers)
     return getAsync({username: username}, {$set: {lose_num: lose_num}}).then((res) => {
+        return true
+    }).catch((err) => {
+        console.log(err)
+        return false
+    })
+}
+
+// Update lose_num of user by id
+repoMongo.updateLoseNumOfUserByID = (id, lose_num) => {
+    getAsync = promisify(collectionUsers.updateOne).bind(collectionUsers)
+    return getAsync({_id: new ObjectID(id)}, {$set: {lose_num: lose_num}}).then((res) => {
         return true
     }).catch((err) => {
         console.log(err)
