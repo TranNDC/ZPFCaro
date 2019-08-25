@@ -648,17 +648,22 @@ io.on('connection', function(socket) {
       leaveGR(roomid)
    })
 
-   
-
-   
-
-
-
-
-
    // Client request out room => Determine win-lose for game
    // Parameter: roomid, isHostLeave
    // Result: data (statusCode, message("draw"))
+
+   
+
+
+
+
+
+   
+
+
+
+
+   
    socket.on('client-request-out-room', function(roomid, isHostLeave) {
       currentRoom = await service.getInfoOneGameRoomNoToken(roomid)
 
