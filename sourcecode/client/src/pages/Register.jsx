@@ -71,6 +71,9 @@ class Register extends React.Component {
               register
             </Button>
           </div>
+          <div className="register-paddingtop">
+            <a href="#" className="register-link"><label className="register-labelStyle">Back to login</label></a>
+          </div>
         </form>
       </Container>
     );
