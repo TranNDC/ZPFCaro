@@ -370,14 +370,14 @@ io.on('connection', function(socket) {
    })
    
    // Set interval for broadcast info Leaderboard & ListGameRoom
-   setInterval(async function(token) {
+   setInterval(async function() {
       // Leaderboard
-      leaderboard = await service.getTop6LB(token)
+      leaderboard = await service.getTop6LBNoToken()
       if (!leaderboard) return
       socket.broadcast.emit('server-send-info-leaderboard', leaderboard)
 
       // List Game Room
-      listgameroom = await service.getInfoAllGameRoom(token)
+      listgameroom = await service.getInfoAllGameRoomNoToken()
       if (!listgameroom) return
       socket.broadcast.emit('server-send-info-listgameroom', listgameroom)
    }, 20000)
@@ -465,11 +465,6 @@ io.on('connection', function(socket) {
       
       oldPoints = guestInfo.points
       newPoints = guestInfo.points - infogame.bet_points
-
-      console.log("TEST POINTS JOIN ROOM 2")
-      console.log(oldPoints)
-      console.log(newPoints)
-
       updatePoints = await service.updateUserPoints(token, newPoints)
 
       if (updatePoints == false) {
@@ -494,7 +489,7 @@ io.on('connection', function(socket) {
    })
 
    // Function process win/lose game
-   // Parameter: roomid, isHost
+   // Parameter: roomid, isHost (host is winner or not)
    async function processWinloseGame(roomid, isHost) {
       currentRoom = await service.getInfoOneGameRoomNoToken(roomid)
 
@@ -516,12 +511,12 @@ io.on('connection', function(socket) {
       }
       else {
          statusGame = -1
-         
+
          hostNewPoints = (hostInfo.points + 10)
          updateHostPoints = await service.updateUserPointsByIDNoToken(currentRoom.host_id, hostNewPoints)
          guestNewPoints = (currentRoom.bet_points * 2 + guestInfo.points + 30)
          updateGuestPoints = await service.updateUserPointsByIDNoToken(currentRoom.guest_id, guestNewPoints)
-         
+
          await service.updateUserWinNumByIDNoToken(currentRoom.guest_id, guestInfo.win_num + 1)
          await service.updateUserLoseNumByIDNoToken(currentRoom.host_id, hostInfo.lose_num + 1)
       }
@@ -546,7 +541,7 @@ io.on('connection', function(socket) {
       updateHostPoints = await service.updateUserPointsByIDNoToken(currentRoom.host_id, hostNewPoints)
       guestNewPoints = (currentRoom.bet_points + guestInfo.points + 20)
       updateGuestPoints = await service.updateUserPointsByIDNoToken(currentRoom.guest_id, guestNewPoints)
-
+      
       await service.updateUserDrawNumByIDNoToken(currentRoom.host_id, hostInfo.draw_num + 1)
       await service.updateUserDrawNumByIDNoToken(currentRoom.guest_id, guestInfo.draw_num + 1)
 
@@ -559,7 +554,7 @@ io.on('connection', function(socket) {
    }
    
    // Mark pattern or win/draw
-   // Parameter: JSON turn (x, y), gameStatus ("" | "win" | "draw"), infogame (roomid, isHost)
+   // Parameter: JSON turn (x, y), gameStatus ("" | "win" | "draw"), infogame (roomid, isHost) => (host is winner or not)
    // Result: turn (x, y), data (statusCode, message("" | "lose" | "draw" | anything))
    socket.on('client-request-mark-pattern', async function(turn, gameStatus, infogame) {
       switch (gameStatus) {
@@ -598,7 +593,7 @@ io.on('connection', function(socket) {
    })
 
    // Client request out room => Determine win-lose for game
-   // Parameter: roomid, isHost (host is winner  or loser)
+   // Parameter: roomid, isHost (host is winner or not)
    // Result: data (statusCode, message("win"))
    socket.on('client-request-out-room', async function(roomid, isHost) {
       await processWinloseGame(roomid, isHost)
@@ -608,12 +603,9 @@ io.on('connection', function(socket) {
    })   
 
    // Someone disconnect, so the other becomes winner
-   // Parameter: roomid, winnerID
-   socket.on('client-request-being-winner', async function(roomid, winnerID) {
+   // Parameter: roomid, isHost (host is winner or not)
+   socket.on('client-request-being-winner', async function(roomid, isHost) {
       currentRoom = await service.getInfoOneGameRoomNoToken(roomid)
-
-      let isHost = false
-      if (currentRoom.host_id == winnerID) isHost = true
 
       hostInfo = await service.getUserInfoByIDNoToken(currentRoom.host_id)
       guestInfo = await service.getUserInfoByIDNoToken(currentRoom.guest_id)
@@ -678,7 +670,7 @@ io.on('connection', function(socket) {
    }
 
    // Socket for leaving game room
-   // Used for ending game (have winner, loser or drawers) | receiving "server-ask-client-leave-room"
+   // Used for ending game (have winner, loser or drawers) | receiving "server-ask-client-leave-room" | ...
    socket.on('client-request-leave-room', function(roomid) {
       socket.room = "" // Set socket session for disconnection
       leaveGR(roomid)

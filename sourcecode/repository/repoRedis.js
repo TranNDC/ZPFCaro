@@ -113,6 +113,7 @@ repoRedis.updateGuestAndStatusGR = async (uuid, guest) => {
 repoRedis.getInfoOfOneGR = async (uuid) => {
     getAsync = promisify(client.hgetall).bind(client)
     return await getAsync(keyGR(uuid)).then((res) => {
+        if (res != null) res.bet_points = parseInt(res.bet_points, 10)
         return res
     })
 }
