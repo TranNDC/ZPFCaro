@@ -529,13 +529,8 @@ io.on('connection', function(socket) {
       await service.updateUserDrawNumByIDNoToken(currentRoom.guest_id, guestInfo.draw_num + 1)
 
       newGame = '{"id" : "' + currentRoom.uuid + '", "user_id" : "' + currentRoom.host_id + '", "guest_id" : "' + currentRoom.guest_id + '", "bet_points" : ' + currentRoom.bet_points + ', "status" : 0}'
-<<<<<<< HEAD
-      addNewGame = await service.addGame(newGame)
-      console.log(addNewGame);
-=======
       addNewGame = await service.addGame(JSON.parse(newGame))
       
->>>>>>> 06f3767023a61810f4114462df68c37addc5386a
       await service.updatePointsLB(hostInfo.username, hostNewPoints)
       await service.updatePointsLB(guestInfo.username, guestNewPoints)
       await service.deleteGRNoToken(roomid)
