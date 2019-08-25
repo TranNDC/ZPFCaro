@@ -14,7 +14,7 @@ const roomReducer = (state = initialState, action) => {
 // merge old state and new rooms
       return {
         ...state,
-        ...convertResponseToState(action.rooms)
+        ...convertResponseToState(action.rooms,action.userId)
       }
     default:
       return state;

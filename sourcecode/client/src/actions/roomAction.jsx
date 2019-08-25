@@ -2,7 +2,7 @@ import { api } from "../api/api";
 import {store} from "../index";
 import  { Redirect } from 'react-router-dom'
 import {joinGameGuestReq, creaRoomReq, joinGameInfoRoomReq} from "../utils/roomUtil";
-import {getJwtFromStorage} from '../utils/storageUtil'
+import {getJwtFromStorage,clearStorage} from '../utils/storageUtil'
 import {loadGame,joinGame} from './gameAction'
 import io from "socket.io-client"
 export const INIT_GAMEROOM = "room.INIT_GAMEROOM";
@@ -26,7 +26,8 @@ export function createGameRoom(hostId,displayedName, roomName,password,betPoints
         dispatch(loadGame(request.gameroom));
         history.push('/game');
       }
-      else{
+      else{ //jwt fail
+        clearStorage();
         history.push('/login');
       }
     })
@@ -34,9 +35,9 @@ export function createGameRoom(hostId,displayedName, roomName,password,betPoints
   };
 }
 
-export function joinGameRoom(userId, displayedName, roomId, betPoints ,history) {
+export function joinGameRoom(userId, displayedName, roomId, betPoints, password,history) {
   let guest = joinGameGuestReq(userId,displayedName);
-  let infogame = joinGameInfoRoomReq(roomId, betPoints);
+  let infogame = joinGameInfoRoomReq(roomId, betPoints, password);
 
   return function(dispatch) {
     let socket = store.getState().ioReducer.socket;
@@ -47,7 +48,7 @@ export function joinGameRoom(userId, displayedName, roomId, betPoints ,history) 
         history.push('/game');
       }
       else{
-        history.push('/login');
+        history.push('/');
       }
     })
 
@@ -61,6 +62,7 @@ export function loadGameRooms(history) {
       .then(result => {
         dispatch(loadGameRoom(result.data.listGameRoom));
       }).catch((err) => {
+        clearStorage();
         history.push('/login')
       })
 
@@ -68,9 +70,11 @@ export function loadGameRooms(history) {
 }
 
 function loadGameRoom(data){
+  let userId = store.getState().userReducer.id;
   return{
     type: LOAD_GAMEROOMS,
-    rooms: data
+    rooms: data,
+    userId: userId
   }
 }
 

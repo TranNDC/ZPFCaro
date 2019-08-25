@@ -41,9 +41,12 @@ export function login(user,history) {
   return function(dispatch) {
     return callLoginApi(user)
       .then(result => {
+        console.log('login ok')
         setJwtToStorage(result.data.token); 
         history.push('/')
       },(err) => {
+        console.log('error login')
+        console.log(err)
         return err.response.data.message;
       })
 

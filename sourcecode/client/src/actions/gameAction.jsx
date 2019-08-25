@@ -33,12 +33,9 @@ export function placeMyPattern(x, y) {
 
 export function listenOpponentTurn(){
   let gameState =  store.getState().gameReducer; 
-  console.log('LISTEN TURN')
-  console.log(gameState)
   return function(dispatch){
     let socket = store.getState().ioReducer.socket;    
     socket.on('server-send-data-game',function(turn,data){
-      console.log(turn,data)
       if (data.statusCode == 200){
         dispatch(placePattern(turn.x,turn.y,data.mesage,(gameState.gamePattern=='x')?'o':'x',true));
         if (data.message != ''){
@@ -154,9 +151,6 @@ export function countDownClear() {
     type: COUNTDOWN_CLEAR
   };
 }
-
-
-
 
 
 export function listenOnServerAskLeave(){
