@@ -1,7 +1,7 @@
 import { api } from "../api/api";
 import {store} from "../index";
 import  { Redirect } from 'react-router-dom'
-import {setJwtToStorage} from "../utils/storageUtil";
+import {setJwtToStorage,clearStorage} from "../utils/storageUtil";
 
 
 export const INIT_USER = "user.GET_INFO_FOR_MESS";
@@ -21,9 +21,19 @@ export function initUser() {
   };
 }
 
-export function logout() {
-  return { type: "LOGOUT" };
+export function logout(history) {
+  return function(dispatch) {
+    api
+      .post(`/logout`)
+      .then(res => {
+      history.push("/login");
+        clearStorage();
+        dispatch({ type: "LOGOUT" });
+      })
+      .catch(res => console.log(res.response));
+  };
 }
+
 
 export function register(user,history) {
   return function(dispatch) {
@@ -41,11 +51,9 @@ export function login(user,history) {
   return function(dispatch) {
     return callLoginApi(user)
       .then(result => {
-        console.log('login ok')
         setJwtToStorage(result.data.token); 
         history.push('/')
       },(err) => {
-        console.log('error login')
         console.log(err)
         return err.response.data.message;
       })

@@ -73,7 +73,6 @@ class Game extends React.Component {
       this.startGame();
     }
     if (nextProps.result && nextProps.result != ''){
-      console.log(nextProps.result)
       this.openEndModal(nextProps.result)
     }
   }
@@ -138,7 +137,7 @@ class Game extends React.Component {
 
     return (
       <Container fluid={true} className={className}>
-      <Prompt when={!this.canReload} message="Are you sure you want to leave? You will lose this match!"/>
+      {/* <Prompt when={!this.canReload} message="Are you sure you want to leave? You will lose this match!"/> */}
         <CountDownBox
           time={this.state.counterTime}
           go={this.state.counterGo}

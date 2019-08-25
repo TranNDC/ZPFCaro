@@ -14,7 +14,7 @@ import {
 } from "../actions/gameAction";
 import { initState, createRandomMove } from "../utils/gameUtil";
 
-const CELL_WIDTH = 33;
+const CELL_WIDTH = 32;
 const CELL_HEIGHT = 22;
 const COUNTDOWN_MAX = 15;
 const initialState = initState(CELL_WIDTH, CELL_HEIGHT, COUNTDOWN_MAX);
@@ -101,7 +101,8 @@ const gameReducer = (state = initialState, action) => {
     case WANT_TO_QUIT_GAME:
       return{
         ...state,
-        alert:action.alert
+        alert:action.alert,
+        quitType:action.quitType
       }
     case LEAVE_GAME:
       return{

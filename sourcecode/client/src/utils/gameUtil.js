@@ -1,6 +1,6 @@
 export function initState(width, height, coutDownValue) {
   let initStateValue = {
-    roomId:{},
+    roomId:"",
     roomName:'',
     gameBoard: [],
     width: width,
