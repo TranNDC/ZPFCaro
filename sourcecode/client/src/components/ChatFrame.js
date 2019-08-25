@@ -2,7 +2,7 @@ import Message from "../subcomponents/Message";
 import BlackButton from "../subcomponents/BlackButton";
 import React from "react";
 import { FormGroup, FormControl } from "react-bootstrap";
-import { addMessage } from "../actions/chatAction";
+import { addMyMessage } from "../actions/chatAction";
 import { connect } from "react-redux";
 import { Button } from "react-bootstrap";
 
@@ -52,11 +52,8 @@ class ChatFrame extends React.Component {
 
     this.setState({ message: "" });
 
-    this.props.addMessage(
+    this.props.addMyMessage(
       this.state.message,
-      this.props.user.avatar,
-      this.props.user.displayedName,
-      "response"
     );
   }
 
@@ -82,7 +79,7 @@ class ChatFrame extends React.Component {
     return (
       <div className="cfr-chat-frame">
         <div className="cfr-display-frame">
-          <div className="cfr-title">{this.props.opponent.username}</div>
+          <div className="cfr-title">{this.props.opponent.displayedName}</div>
           <div className="cfr-message-frame">
             {this.props.messages.map(message => {
               return (
@@ -114,6 +111,7 @@ class ChatFrame extends React.Component {
             className="black-button cfr-btn"
             onClick={this.handleClick.bind(this)}
           >
+          >
           </Button>
         </div>
       </div>
@@ -131,8 +129,8 @@ function mapStateToProps(state, index) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addMessage(message, avatar, username, type) {
-      dispatch(addMessage(message, avatar, username, type));
+    addMyMessage(message, avatar, username, type) {
+      dispatch(addMyMessage(message, avatar, username, type));
     }
   };
 }

@@ -14,9 +14,11 @@ import {
   createRandomMove,
   countDownTick,
   countDownStart,
-  countDownClear
+  countDownClear,
+  waittingGame,
+  listenOpponentTurn,
 } from "../actions/gameAction";
-import { initMessages } from "../actions/chatAction";
+import { initMessages,listenOpponentChat } from "../actions/chatAction";
 import { timingSafeEqual } from "crypto";
 
 class Game extends React.Component {
@@ -33,35 +35,52 @@ class Game extends React.Component {
     this.startCountDown = this.startCountDown.bind(this);
     this.startTimer = this.startTimer.bind(this);
     this.tick = this.tick.bind(this);
+    if(!this.props.opponent || this.props.opponent == {}){
+      this.props.waittingGame(this.props.history)
+    }
+    else{
+      this.startCountDown();
+    }
+
   }
 
   componentWillMount() {
     this.props.initUser();
     this.props.initMessages();
+    
     // this.startCountDown();
     // this.openEndModal('win')
   }
 
- 
-  // componentDidMount() {
-  //   this.props.router.setRouteLeaveHook(this.props.route, () => {
-  //     if (this.state.unsaved)
-  //       return 'You have unsaved information, are you sure you want to leave this page?'
-  //   })
-  // }
+  componentDidMount() {
+    window.addEventListener('beforeunload', this.handleLeavePage);
+  }
 
-  componentWillUnmout(){
+  componentWillUnmount() {
+    window.removeEventListener('beforeunload', this.handleLeavePage);
+  }
+
+  handleLeavePage(e) {
+    const confirmationMessage = 'Are you sure you want to leave? You will lose this match!';
+    e.returnValue = confirmationMessage;     // Gecko, Trident, Chrome 34+
+    return confirmationMessage;              // Gecko, WebKit, Chrome <34
+  }
+
+
+  componentWillReceiveProps(nextProps){
+    if (this.props.isWaiting !== nextProps.isWaiting){
+      this.startCountDown();
+    }
   }
 
   startCountDown() {
-    const intervalId = setInterval(() => {
-
+    const cdIntervalId = setInterval(() => {
       this.setState({
         counterTime: this.state.counterTime-1,
         counterHidden:''
       });
       if (this.state.counterTime == -1) {
-        clearInterval(this.state.intervalId);
+        clearInterval(cdIntervalId);
         this.startTimer();
         this.setState({
           counterTime: null,
@@ -70,7 +89,8 @@ class Game extends React.Component {
         });
       }
     }, 1000);
-    this.setState({ intervalId });
+    this.props.listenOpponentTurn();
+    this.props.listenOpponentChat();
   }
 
   openEndModal(type) {
@@ -99,19 +119,16 @@ class Game extends React.Component {
   }
 
   render() {
-    let avatar = this.props.avatar;
 
-    // let opponent = {
-    //   avatar: { avatar },
-    //   username: "Trann Nguyen",
-    //   isHost: 0
-    // };
+
+
+    let avatar = this.props.avatar;
 
     let className = this.props.className + " animated bounceInRight slow";
 
     return (
       <Container fluid={true} className={className}>
-      <Prompt message="Are you sure you want to leave?"/>
+      <Prompt when={!this.canReload} message="Are you sure you want to leave? You will lose this match!"/>
         <CountDownBox
           time={this.state.counterTime}
           go={this.state.counterGo}
@@ -141,9 +158,8 @@ class Game extends React.Component {
 function mapStateToProps(state, index) {
   return {
     value: state.gameReducer.countDown.value,
-    opponent: state.gameReducer.countDown.opponent,
-     // messages: state.chatReducer.messages,
-    // user: state.userReducer.user
+    opponent: state.gameReducer.opponent,
+    isWaiting: state.gameReducer.isWaiting
   };
 }
 
@@ -166,7 +182,17 @@ function mapDispatchToProps(dispatch) {
     },
     countDownClear(){
       dispatch(countDownClear());
+    },
+    waittingGame(history){      
+      dispatch(waittingGame(history));
+    },
+    listenOpponentTurn(){
+      dispatch(listenOpponentTurn());
+    },
+    listenOpponentChat(){
+      dispatch(listenOpponentChat());
     }
+
   };
 }
 
