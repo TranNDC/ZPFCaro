@@ -1,6 +1,7 @@
 
 import io from "socket.io-client"
 import {store} from "../index";
+import {calculateResult,createNewRandomMove} from "../utils/gameUtil"
 
 export const PLACE_PATTERN = "game.PLACE_PATTERN";
 export const COUNTDOWN_TICK = "game.COUNTDOWN_TICK";
@@ -14,16 +15,61 @@ export const JOIN_GAME = "game.JOIN_GAME";
 export const START_GAME = "game.START_GAME";
 export const UPDATE_GAME = "game.UPDATE_GAME";
 
-export function placePattern(x, y) {
+export function placeMyPattern(x, y) {
+  let socket = store.getState().ioReducer.socket; 
+  let gameState =  store.getState().gameReducer; 
+  let turn = {x:x,y:y};
+  let gameStatus = calculateResult(gameState.gameBoard,x,y,gameState.gamePattern,gameState.emtyCellNum);
+  let infoGame = {roomid:gameState.roomId, isHost:!gameState.opponent.isHost};
+  console.log(turn,gameStatus,infoGame);
+  socket.emit('client-request-mark-pattern',turn,gameStatus,infoGame);
+  return function(dispatch){
+    dispatch(placePattern(x,y,gameStatus,gameState.gamePattern))
+  }
+}
+
+export function listenOpponentTurn(){
+  let gameState =  store.getState().gameReducer; 
+  console.log('LISTEN TURN')
+  console.log(gameState)
+  return function(dispatch){
+    let socket = store.getState().ioReducer.socket;    
+    socket.on('server-send-data-game',function(turn,data){
+      console.log(turn,data)
+      if (data.statusCode == 200){
+        dispatch(placePattern(turn.x,turn.y,data.mesage,(gameState.gamePattern=='x')?'o':'x'));
+      }
+    })
+  }
+}
+
+
+export function createRandomMove(){
+  let gameState =  store.getState().gameReducer; 
+  var randomMove = createNewRandomMove(
+    gameState.width,
+    gameState.height,
+    gameState.gameBoard
+  );
+  return function(dispatch){
+    dispatch(placeMyPattern(randomMove.x,randomMove.y));
+  }
+}
+
+
+export function placePattern(x,y,result,gamePattern){
+  console.log("place",x,y,gamePattern)
   return {
     type: PLACE_PATTERN,
     x: x,
-    y: y
+    y: y,
+    result:result,
+    gamePattern:gamePattern
   };
 }
-
     
-    export function loadGame(game){
+export function loadGame(game){
+  console.log('LOAD GAME')
   return {
     type:LOAD_GAME,
     game:game
@@ -31,14 +77,9 @@ export function placePattern(x, y) {
 }
 
 
-export function startGame(){ //update state -> start count down
-  return {
-    type:START_GAME
-  }
-}
-
 
 export function updateGame(game){
+  console.log('UPDATE GAME')
   return {
     type:UPDATE_GAME,
     game: game
@@ -48,11 +89,14 @@ export function updateGame(game){
 
 export function waittingGame(history){
   return function(dispatch){
-    let socket = store.getState().ioReducer.socket;
+    let socket = store.getState().ioReducer.socket;  
+    if (!socket) { 
+      history.push('/');
+      return;
+    }
     socket.on('server-send-result-join-room',function(res){
       if (res.statusCode == 200){
         dispatch(updateGame(res.data));
-        dispatch(startGame());
       }
       else{
         history.push('/');
@@ -63,7 +107,7 @@ export function waittingGame(history){
 }
 
 export function joinGame(currentGame){ //update opponent, pattern  o
-  console.log(currentGame);
+  console.log('JOIN GAME');
   return {
     type:JOIN_GAME,
     game:currentGame
@@ -93,12 +137,6 @@ export function countDownReset() {
   return {
     type: COUNTDOWN_RESET
   };
-}
-
-export function createRandomMove(){
-  return{
-    type: CREATE_RANDOM_MOVE
-  }
 }
 
 // export function initBoard(){

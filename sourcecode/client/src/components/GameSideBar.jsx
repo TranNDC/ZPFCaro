@@ -21,8 +21,8 @@ class GameSideBar extends React.Component {
       isHost: 0
     };
 
-    let hostAva = this.props.opponent.isHost?this.props.opponent.avatar:this.props.user.avatar;
-    let guestAva = this.props.opponent.isHost?this.props.user.avatar:this.props.opponent.avatar;
+    // let hostAva = this.props.opponent.isHost?this.props.opponent.avatar:this.props.user.avatar;
+    // let guestAva = this.props.opponent.isHost?this.props.user.avatar:this.props.opponent.avatar;
     
     return (
       <Container  className="gsb-game-size-bar w-100 p-0" xs={3}>
@@ -46,16 +46,21 @@ class GameSideBar extends React.Component {
               <GameAvatar type="active" avatar={avatar} pattern="x" />
               {/* <GameAvatar type="active" avatar={hostAva} pattern="x" /> */}
             </Col>
+            {this.props.opponent && 
+            
             <Col className="gsb-game-ava-container p-0 right" sx={6}>
               <GameAvatar avatar={avatar} pattern="o" />
               {/* <GameAvatar type="active" avatar={guestAva} pattern="x" /> */}
-              </Col>
+            </Col>
+          }
+
           </Row>
         </Container>
-
+        {this.props.opponent && 
         <div className="gsb-chat-container">
           <ChatFrame opponent={opponent} />
         </div>
+        }
       </Container>
     );
   }

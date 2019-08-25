@@ -1,6 +1,7 @@
 export function initState(width, height, coutDownValue) {
   let initStateValue = {
     roomId:{},
+    roomName:'',
     gameBoard: [],
     width: width,
     height: height,
@@ -11,7 +12,7 @@ export function initState(width, height, coutDownValue) {
     gamePattern: "x",
     result: "",
     emtyCellNum: width * height,
-    opponent: {},
+    isWaiting: true
   };
   for (let i = 0; i < height; i++) {
     let gameRow = [];
@@ -40,13 +41,11 @@ function directionResult(gameBoard, x, y, dx, dy, pattern) {
     let x1 = x + i * dx;
     let y1 = y + i * dy;
     if (gameBoard[y1] == undefined || gameBoard[y1][x1] == undefined) {
-      console.log(x1, y1);
       blockR = true;
       break;
     } else if (gameBoard[y1][x1].pattern == pattern) {
       countR += 1;
     } else if (gameBoard[y1][x1].pattern != "") {
-      console.log(x1, y1);
       blockR = true;
       break;
     } else break;
@@ -61,13 +60,11 @@ function directionResult(gameBoard, x, y, dx, dy, pattern) {
     } else if (gameBoard[y1][x1].pattern == pattern) {
       countL += 1;
     } else if (gameBoard[y1][x1].pattern != "") {
-      console.log(x1, y1);
       blockL = true;
       break;
     } else break;
   }
 
-  console.log(blockL, blockR);
 
   if (countL + countR + 1 == 5 && (!blockL || !blockR)) {
     return true;
@@ -99,11 +96,11 @@ function calculateRes(gameBoard, newX, newY, pattern) {
     verticallResult ||
     majorDiagonalResult ||
     minorDiagonalResult
-    ? "WIN"
+    ? "win"
     : "";
 }
 
-export function createRandomMove(width, height, gameBoard) {
+export function createNewRandomMove(width, height, gameBoard) {
   let randomMove = { x: 0, y: 0 };
   do {
     randomMove.x = Math.floor(Math.random() * width);
@@ -113,5 +110,5 @@ export function createRandomMove(width, height, gameBoard) {
 }
 
 export function calculateResult(gameBoard, x, y, pattern, emtyCellNum) {
-  return emtyCellNum - 1 == 0 ? "TIE" : calculateRes(gameBoard, x, y, pattern);
+  return emtyCellNum - 1 == 0 ? "draw" : calculateRes(gameBoard, x, y, pattern);
 }

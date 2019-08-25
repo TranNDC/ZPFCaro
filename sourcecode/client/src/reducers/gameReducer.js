@@ -6,8 +6,11 @@ import {
   COUNTDOWN_RESET,
   CREATE_RANDOM_MOVE,
   LOAD_GAME,
+  JOIN_GAME,
+  UPDATE_GAME,
+  START_GAME,
 } from "../actions/gameAction";
-import { initState, createRandomMove, calculateResult } from "../utils/gameUtil";
+import { initState, createRandomMove } from "../utils/gameUtil";
 
 const CELL_WIDTH = 32;
 const CELL_HEIGHT = 22;
@@ -20,16 +23,10 @@ const gameReducer = (state = initialState, action) => {
       return {
         ...state,
         emptyCellNum: state.emtyCellNum - 1,
-        result: calculateResult(
-          state.gameBoard,
-          action.x,
-          action.y,
-          state.gamePattern,
-          state.emtyCellNum,
-        ),
+        result: action.result,
         gameBoard: [
           ...state.gameBoard,
-          (state.gameBoard[action.y][action.x].pattern = state.gamePattern)
+          (state.gameBoard[action.y][action.x].pattern = action.gamePattern)
         ]
       };
     case COUNTDOWN_TICK:
@@ -49,36 +46,62 @@ const gameReducer = (state = initialState, action) => {
           intervalId: action.intervalId
         }
       };
-    case CREATE_RANDOM_MOVE:
-      var randomMove = createRandomMove(
-        state.width,
-        state.height,
-        state.gameBoard
-      );
-      return {
-        ...state,
-        gameBoard: [
-          ...state.gameBoard,
-          (state.gameBoard[randomMove.y][randomMove.x].pattern =
-            state.gamePattern)
-        ]
-      };
-    case LOAD_GAME:
-        // 'uuid':uuidv1(),
-        // 'room_name': roomName,
-        // 'password':passWord?passWord:'',
-        // 'bet_points':betPoints?betPoints:0,
-        // 'host_id':hostId,
-        // 'host_displayed_name':hostDisplayedName
+    // case CREATE_RANDOM_MOVE:
+    //   var randomMove = createRandomMove(
+    //     state.width,
+    //     state.height,
+    //     state.gameBoard
+    //   );
+    //   return {
+    //     ...state,
+    //     gameBoard: [
+    //       ...state.gameBoard,
+    //       (state.gameBoard[randomMove.y][randomMove.x].pattern =
+    //         state.gamePattern)
+    //     ]
+    //   };
+    case LOAD_GAME: // host load when enter game
         return{
         ...state,
         roomId:action.game.uuid,
+        roomName:action.game['room_name'],
         betPoints:action.game['bet_points']+' pts',
         gamePattern:'x',
-        opponent: {},
         result:'',
+        isWaiting:true
       }
-
+    case UPDATE_GAME: // host update game when guest join
+        return{
+          ...state,
+          roomId:action.game.uuid,
+          roomName:action.game['room_name'],
+          betPoints:action.game['bet_points']+' pts',
+          gamePattern:'x',
+          opponent:{
+            ...state.opponent,
+            userId: action.game['guest_id'],
+            displayedName: action.game['guest_displayed_name'],
+            isHost:false
+          },
+          result:'',
+          isWaiting:false
+        }
+    case JOIN_GAME:  // guest update when join game
+      return {
+        ...state,
+        roomId:action.game.uuid,
+        roomName:action.game['room_name'],
+        betPoints: action.game['bet_points']+' pts',
+        gamePattern:'o',
+        result:'',
+        opponent:{
+          ...state.opponent,
+          userId: action.game['host_id'],
+          displayedName: action.game['host_displayed_name'],
+          isHost:true
+        },
+        isWaiting:false
+      }
     case COUNTDOWN_CLEAR:
       clearInterval(state.countDown.intervalId);
       return {
