@@ -2,6 +2,10 @@ import React from 'react';
 import './EndGameBox.css';
 import '../subcomponents/RectButton.css';
 import { Modal, Button } from 'react-bootstrap';
+import { quitGame } from '../actions/gameAction'
+
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 class EndGameBox extends React.Component {
     constructor(props) {
@@ -14,6 +18,7 @@ class EndGameBox extends React.Component {
 
     quitGame() {
         this.setState({ showEndGameModal: false });
+        this.props.quitGame(this.props.history);
         /* Process Quit Game
            .................
         */
@@ -46,7 +51,7 @@ class EndGameBox extends React.Component {
             // subTitleEndGame= 'Do you want to play new game?'
             break;
            case "draw":
-                headingEndGame = "DRAW GAME";
+                headingEndGame = "DRAW";
                 titleEndGame = "Both of you do great!";
                 isContinue = false;
                 // subTitleEndGame= 'Do you want to play new game?'
@@ -73,4 +78,17 @@ class EndGameBox extends React.Component {
     }
 }
 
-export default EndGameBox;
+  function mapDispatchToProps(dispatch) {
+    return {
+        quitGame(history) {
+        dispatch(quitGame(history));
+      }
+    };
+  }
+  
+  export default withRouter(
+    connect(
+      null,
+      mapDispatchToProps
+    )(EndGameBox)
+  );

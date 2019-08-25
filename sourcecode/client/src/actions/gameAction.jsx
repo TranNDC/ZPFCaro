@@ -24,7 +24,7 @@ export function placeMyPattern(x, y) {
   let infoGame = {roomid:gameState.roomId, isHost:!gameState.opponent.isHost};
   socket.emit('client-request-mark-pattern',turn,gameStatus,infoGame);
   return function(dispatch){
-    dispatch(placePattern(x,y,gameStatus,gameState.gamePattern))
+    dispatch(placePattern(x,y,gameStatus,gameState.gamePattern,false))
     if (gameStatus != ''){
       dispatch(endGame(gameStatus));
     }
@@ -40,7 +40,7 @@ export function listenOpponentTurn(){
     socket.on('server-send-data-game',function(turn,data){
       console.log(turn,data)
       if (data.statusCode == 200){
-        dispatch(placePattern(turn.x,turn.y,data.mesage,(gameState.gamePattern=='x')?'o':'x'));
+        dispatch(placePattern(turn.x,turn.y,data.mesage,(gameState.gamePattern=='x')?'o':'x',true));
         if (data.message != ''){
           dispatch(endGame(data.message));
         }
@@ -63,14 +63,15 @@ export function createRandomMove(){
 }
 
 
-export function placePattern(x,y,result,gamePattern){
+export function placePattern(x,y,result,gamePattern,isOppturn){
   console.log("place",x,y,gamePattern)
   return {
     type: PLACE_PATTERN,
     x: x,
     y: y,
     result:result,
-    gamePattern:gamePattern
+    gamePattern:gamePattern,
+    isMyTurn: isOppturn,
   };
 }
     
@@ -78,7 +79,8 @@ export function loadGame(game){
   console.log('LOAD GAME')
   return {
     type:LOAD_GAME,
-    game:game
+    game:game,
+    isMyTurn: false,
   }
 }
 
@@ -87,7 +89,8 @@ export function updateGame(game){
   console.log('UPDATE GAME')
   return {
     type:UPDATE_GAME,
-    game: game
+    game: game,
+    isMyTurn: true,
   }
 }
 
@@ -115,31 +118,14 @@ export function joinGame(currentGame){ //update opponent, pattern  o
   console.log('JOIN GAME');
   return {
     type:JOIN_GAME,
-    game:currentGame
+    game:currentGame,
+    isMyTurn: false,
   }
 }
 
-
-export function listenOnServerAskLeave(){
-  return function(){
-    let socket = store.getState().ioReducer.socket;
-    socket.on("server-ask-client-leave-room", function() {
-      socket.emit("client-request-leave-room");
-    });
-  }
-}
-
-
-export function listenOnOpponentLeaveGame(){
+export function quitGame(history){
   return function (dispatch){
-    let socket = store.getState().ioReducer.socket;
-    socket.on('room-has-player-out',function(res){
-      if (res.statusCode == 200){
-        //xu li thang
-        dispatch(endGame(res.message));
-      }
-    })
-    
+    history.push('/');
   }
 }
 
@@ -169,3 +155,29 @@ export function countDownClear() {
   };
 }
 
+
+
+
+
+export function listenOnServerAskLeave(){
+  return function(){
+    let socket = store.getState().ioReducer.socket;
+    socket.on("server-ask-client-leave-room", function() {
+      socket.emit("client-request-leave-room");
+    });
+  }
+}
+
+
+export function listenOnOpponentLeaveGame(){
+  return function (dispatch){
+    let socket = store.getState().ioReducer.socket;
+    socket.on('room-has-player-out',function(res){
+      if (res.statusCode == 200){
+        //xu li thang
+        dispatch(endGame(res.message));
+      }
+    })
+    
+  }
+}

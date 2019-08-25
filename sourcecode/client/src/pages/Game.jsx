@@ -3,6 +3,7 @@ import GameBoard from "../components/GameBoard";
 import Header from "../components/Header";
 import CountDownBox from '../subcomponents/CountDownBox'
 import EndGameBox from '../components/EndGameBox'
+import { withRouter } from "react-router-dom";
 
 import "./Game.css";
 import { connect } from "react-redux";
@@ -119,7 +120,9 @@ class Game extends React.Component {
   async tick() {
     this.props.countDownTick();
     if (this.props.value <= 0) {
-      this.props.createRandomMove();
+      if (this.props.isMyTurn){
+        this.props.createRandomMove();
+      }
       await this.props.countDownClear();
       this.startTimer();
     }
@@ -169,6 +172,7 @@ function mapStateToProps(state, index) {
     opponent: state.gameReducer.opponent,
     isWaiting: state.gameReducer.isWaiting,
     result: state.gameReducer.result,
+    isMyTurn: state.gameReducer.isMyTurn
   };
 }
 
@@ -210,7 +214,9 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Game);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Game)
+);

@@ -13,6 +13,7 @@ export function initState(width, height, coutDownValue) {
     result: "",
     emptyCellNum: width * height,
     isWaiting: true, // only for host
+    isMyTurn:false
   };
   for (let i = 0; i < height; i++) {
     let gameRow = [];

@@ -1,10 +1,4 @@
 import "./GameTime.css";
-import {
-  createRandomMove,
-  countDownTick,
-  countDownStart,
-  countDownClear
-} from "../actions/gameAction";
 import React from "react";
 import { connect } from "react-redux";
 class GameTime extends React.Component {

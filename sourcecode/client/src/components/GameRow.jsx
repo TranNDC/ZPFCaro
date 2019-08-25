@@ -6,12 +6,14 @@ import React from "react";
 class GameRow extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {};
     this.handlePlacePattern = this.handlePlacePattern.bind(this)
   }
   handlePlacePattern(x, y) {
-    this.props.placeMyPattern(x, y);
+    if(!this.props.isBlock && this.props.gameBoard[y][x].pattern==''){
+      console.log(this.props.gameBoard[y][x].pattern);
+      this.props.placeMyPattern(x, y);
+    }
   }
 
   render() {
@@ -26,7 +28,7 @@ class GameRow extends React.Component {
     for (let i = 0; i < this.props.size; i++) {
       let tmp = (
         <td onClick={() => this.handlePlacePattern(i, this.props.index)}>
-            <GameCell
+            <GameCell className={this.props.isBlock && "disable"}
               pattern={this.props.gameBoard[this.props.index][i].pattern}
             >{this.props.gameBoard[this.props.index][i].pattern}</GameCell>
         </td>
@@ -40,7 +42,8 @@ class GameRow extends React.Component {
 
 function mapStateToProps(state, index) {
   return {
-    gameBoard: state.gameReducer.gameBoard
+    gameBoard: state.gameReducer.gameBoard,
+    isBlock: !state.gameReducer.isMyTurn
   };
 }
 

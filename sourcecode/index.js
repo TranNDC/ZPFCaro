@@ -510,6 +510,8 @@ io.on('connection', function(socket) {
       // Set socket session for disconnection
       socket.room = gameroom.uuid
 
+      console.log("TEST CREATE ROOM: " + socket.room)
+
       socket.join(gameroom.uuid) 
       socket.emit('server-send-result-create-room', {statusCode: 200, message: "Create room successfully"})
    })
@@ -548,6 +550,8 @@ io.on('connection', function(socket) {
 
       // Set socket session for disconnection
       socket.room = infogame.uuid
+
+      console.log("TEST JOIN ROOM: " + socket.room)
 
       currentRoom = await service.getInfoOneGameRoomNoToken(infogame.roomid)
       socket.join(infogame.roomid)
@@ -589,18 +593,22 @@ io.on('connection', function(socket) {
       await service.deleteGRNoToken(roomid)
    }
 
+      // Function process draw game
+   // Parameter: roomid
    async function processDrawGame(roomid) {
       currentRoom = await service.getInfoOneGameRoomNoToken(roomid)
 
       hostInfo = await service.getUserInfoByIDNoToken(currentRoom.host_id)
       guestInfo = await service.getUserInfoByIDNoToken(currentRoom.guest_id)
 
-      updateHostPoints = await service.updateUserPointsByIDNoToken(currentRoom.host_id, (currentRoom.bet_points + hostInfo.points + 20))
-      updateGuestPoints = await service.updateUserPointsByIDNoToken(currentRoom.guest_id, (currentRoom.bet_points + guestInfo.points + 20))
+      hostNewPoints = (currentRoom.bet_points + hostInfo.points + 20)
+      updateHostPoints = await service.updateUserPointsByIDNoToken(currentRoom.host_id, hostNewPoints)
+      guestNewPoints = (currentRoom.bet_points + guestInfo.points + 20)
+      updateGuestPoints = await service.updateUserPointsByIDNoToken(currentRoom.guest_id, guestNewPoints)
 
       newGame = '{"id" : "' + currentRoom.uuid + '", "user_id" : "' + currentRoom.host_id + '", "guest_id" : "' + currentRoom.guest_id + '", "bet_points" : ' + currentRoom.bet_points + ', "status" : 0}'
       addNewGame = await service.addGame(newGame)
-      
+      console.log(addNewGame);
       await service.updatePointsLB(hostInfo.username, hostNewPoints)
       await service.updatePointsLB(guestInfo.username, guestNewPoints)
       await service.deleteGRNoToken(roomid)
