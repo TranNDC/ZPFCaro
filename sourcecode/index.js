@@ -487,7 +487,7 @@ io.on('connection', function(socket) {
    })
 
    // Function process win/lose game
-   // Parameter: roomid, isHost
+   // Parameter: roomid, isHost (host is winner or not)
    async function processWinloseGame(roomid, isHost) {
       currentRoom = await service.getInfoOneGameRoomNoToken(roomid)
 
@@ -552,7 +552,7 @@ io.on('connection', function(socket) {
    }
    
    // Mark pattern or win/draw
-   // Parameter: JSON turn (x, y), gameStatus ("" | "win" | "draw"), infogame (roomid, isHost)
+   // Parameter: JSON turn (x, y), gameStatus ("" | "win" | "draw"), infogame (roomid, isHost) => (host is winner or not)
    // Result: turn (x, y), data (statusCode, message("" | "lose" | "draw" | anything))
    socket.on('client-request-mark-pattern', async function(turn, gameStatus, infogame) {
       switch (gameStatus) {
@@ -591,7 +591,7 @@ io.on('connection', function(socket) {
    })
 
    // Client request out room => Determine win-lose for game
-   // Parameter: roomid, isHost (host is winner  or loser)
+   // Parameter: roomid, isHost (host is winner or not)
    // Result: data (statusCode, message("win"))
    socket.on('client-request-out-room', async function(roomid, isHost) {
       await processWinloseGame(roomid, isHost)
@@ -601,12 +601,9 @@ io.on('connection', function(socket) {
    })   
 
    // Someone disconnect, so the other becomes winner
-   // Parameter: roomid, winnerID
-   socket.on('client-request-being-winner', async function(roomid, winnerID) {
+   // Parameter: roomid, isHost (host is winner or not)
+   socket.on('client-request-being-winner', async function(roomid, isHost) {
       currentRoom = await service.getInfoOneGameRoomNoToken(roomid)
-
-      let isHost = false
-      if (currentRoom.host_id == winnerID) isHost = true
 
       hostInfo = await service.getUserInfoByIDNoToken(currentRoom.host_id)
       guestInfo = await service.getUserInfoByIDNoToken(currentRoom.guest_id)
@@ -671,7 +668,7 @@ io.on('connection', function(socket) {
    }
 
    // Socket for leaving game room
-   // Used for ending game (have winner, loser or drawers) | receiving "server-ask-client-leave-room"
+   // Used for ending game (have winner, loser or drawers) | receiving "server-ask-client-leave-room" | ...
    socket.on('client-request-leave-room', function(roomid) {
       socket.room = "" // Set socket session for disconnection
       leaveGR(roomid)
