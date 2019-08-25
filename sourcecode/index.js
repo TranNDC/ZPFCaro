@@ -551,7 +551,7 @@ io.on('connection', function(socket) {
       }
 
       // Set socket session for disconnection
-      socket.room = infogame.uuid
+      socket.room = infogame.roomid
 
       console.log("TEST JOIN ROOM: " + socket.room)
 
@@ -728,12 +728,8 @@ io.on('connection', function(socket) {
          console.log("TEST: DISCONNECT with ROOM")
          roomid = socket.room
 
-         console.log("TEST CURRENT ROOM IN DISCONNECT")
-         console.log(currentRoom)
-         console.log("-------------------------------------------")
-
          // Nếu phòng chỉ có mỗi host
-         if (service.findGuestIDInRoomNoToken(roomid) == false) {
+         if (await service.findGuestIDInRoomNoToken(roomid) == false) {
             console.log("TEST: DISCONNECT with ROOM WITHOUT GUEST")
             await service.deleteGRNoToken(roomid)
          }
