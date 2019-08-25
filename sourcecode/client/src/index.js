@@ -237,7 +237,11 @@ import EndGameBox from "./components/EndGameBox";
 // -------------------------------
 // TEST ALERTWARN
 // -------------------------------
+// Cho phép truyền msg="Blabla" và numBtn="1" (hoặc numBtn="2")
+// Mặc định numBtn = 1
 // ReactDOM.render(<AlertWarn />, document.getElementById('root'));
+// ReactDOM.render(<AlertWarn msg="Hello guys, how are u?"/>, document.getElementById('root'));
+// ReactDOM.render(<AlertWarn msg="Hello guys, how are u?" numBtn="2"/>, document.getElementById('root'));
 
 // -------------------------------
 // TEST TitleModal

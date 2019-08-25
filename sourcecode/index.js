@@ -12,101 +12,11 @@ let bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// test
-// let repoRedis = require('./repository/repoRedis')
-
-app.get('/test', async (req, res) => {
-   res.send('testing... !')
-
-   /* --------------------------------------------------------------
-                  HOW TO USE API OF MONGODB REPOSITORY 
-      -------------------------------------------------------------- */
-
-   // console.log(await repoMongo.getAllUsers())
-
-   // var bcrypt = require('bcrypt')
-   // userInfo = await repoMongo.getUserByUsername("quoctk08")
-   // var val = false
-   // if (userInfo != null) val = await bcrypt.compare("1234567", userInfo.password)
-   // console.log(val) // result : true or false
-
-   // console.log(await repoMongo.getUserByEmail("Kienquoctran08@gmail.com"))
-
-   // var bcrypt = require('bcrypt')
-   // pass = "123456"
-   // hashpass = await bcrypt.hash(pass, 12)
-   // newUser = '{"username" : "ndctran98", "password" : "' + hashpass + '", "email" : "tranndc@vng.com.vn", "displayedname" : "Nguyễn Đỗ Cát Trân"}'
-   // newUser = JSON.parse(newUser);
-   // repoMongo.addUser(newUser)
-
-   // const uuidv4 = require('uuid/v4'); // Random uuid (version 4)
-   // newGameID = uuidv4();
-   // newGame = '{"id" : "' + newGameID + '", "user_id" : "quoctk08", "guest_id" : "ndctran", "bet_points" : 0, "status" : 1}'
-   // newGame = JSON.parse(newGame);
-   // try {
-   //    repoMongo.addGame(newGame)
-   // }
-   // catch (e) {
-   //    console.log(e)
-   // }
-
-   // console.log(await repoMongo.getGameByID("ASDASD123"))
-
-   // repoMongo.updateNameOfUser("quoctk", "Trần Kiến Quốc")
-   // repoMongo.updateEmailOfUser("quoctk08", "quoctk@vng.com.vn")
-   // repoMongo.updatePasswordOfUser("quoctk08", "123321")
-   // repoMongo.updateAvatarOfUser("quoctk08", "C://.......")
-   // repoMongo.updatePointsOfUser("quoctk08", 412)
-   // repoMongo.updateWinNumOfUser("quoctk08", 41)
-   // repoMongo.updateDrawNumOfUser("quoctk08", 86)
-   // repoMongo.updateLoseNumOfUser("quoctk08", 12)
-
-   // userInfo = '{"password" : "098098", "email" : "quoctk@vng.com.vn", "display_name" : "Kiến Quốc Trần", "avatar" : "D://asdasd.....", "points" : 45, "win_num" : 12, "draw_num" : 64, "lose_num" : 21}'
-   // userInfo = JSON.parse(userInfo);
-   // repoMongo.updateUserInfo("quoctk08", userInfo)
-
-   /* --------------------------------------------------------------
-                  HOW TO USE API OF REDIS REPOSITORY 
-      -------------------------------------------------------------- */
-   
-   // result = await service.addTokenToBLJWT("SSSSS")
-   // console.log(result)
-
-   // result = await service.addTokenToBLJWT("SSSSS2")
-   // console.log(result)
-
-   // result = await service.existTokenInBLJWT("SSSSS1")
-   // console.log(result)
-
-   // result = await service.delExpiredTokenInBLJWT()
-
-   // service.updatePointsLB ("cattran", 1000000)
-   // service.updatePointsLB ("quoctk01", 800000)
-   // service.updatePointsLB ("quoctk01", 900000)
-   // service.updatePointsLB ("quoctk02", 800000)
-// service.updatePointsLB ("quoctk02", 700000)
-   // service.updatePointsLB ("quoctk08", 250000)
-   // service.updatePointsLB ("quoctk08", 220000)
-   // console.log("-------------------------------")
-   // console.log(await service.getTop6LB("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF1b2N0azA4IiwiaWF0IjoxNTY2NDQwMjgxLCJleHAiOjE1NjcwNDUwODF9.cZCLddwWwNvzGiH9oX3az0Q12B78qH9piSl1tm48htA"))
-   // console.log("-------------------------------")
-   // console.log(await service.getAllTopLB("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF1b2N0azA4IiwiaWF0IjoxNTY2NDQwMjgxLCJleHAiOjE1NjcwNDUwODF9.cZCLddwWwNvzGiH9oX3az0Q12B78qH9piSl1tm48htA"))
-   // console.log("-------------------------------")
-   // console.log(await service.getMyRanking("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF1b2N0azA4IiwiaWF0IjoxNTY2NDQwMjgxLCJleHAiOjE1NjcwNDUwODF9.cZCLddwWwNvzGiH9oX3az0Q12B78qH9piSl1tm48htA"))
-   // console.log("-------------------------------")
-   
-   // console.log(await repoRedis.getInfoOfAllGR());
-
-   // console.log(await service.getInfoOneGameRoom("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF1b2N0azA4IiwiaWF0IjoxNTY2NDQwMjgxLCJleHAiOjE1NjcwNDUwODF9.cZCLddwWwNvzGiH9oX3az0Q12B78qH9piSl1tm48htA", "GameRoom:123"))
-})
 
 
-
-//-------------------------------------------------------------------------
-//-------------------------------------------------------------------------
-//-------------------------------------------------------------------------
-//-------------------------------------------------------------------------
-//-------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// -------------------------------RESTFUL API---------------------------------
+// ---------------------------------------------------------------------------
 
 
 
@@ -530,7 +440,7 @@ io.on('connection', function(socket) {
    })
 
    // Join gameroom
-   // Parameter: JSON guest (guest_id, guest_displayed_name), JSON infogame (roomid, bet_points), STRING token
+   // Parameter: JSON guest (guest_id, guest_displayed_name), JSON infogame (roomid, bet_points, password), STRING token
    socket.on('client-request-join-room', async function(guest, infogame, token) {
       guestInfo = await service.getUserInfo(token)
 
@@ -578,7 +488,6 @@ io.on('connection', function(socket) {
    // Function process win/lose game
    // Parameter: roomid, isHost
    async function processWinloseGame(roomid, isHost) {
-      console.log('processWinloseGame')
       currentRoom = await service.getInfoOneGameRoomNoToken(roomid)
 
       hostInfo = await service.getUserInfoByIDNoToken(currentRoom.host_id)
@@ -608,7 +517,7 @@ io.on('connection', function(socket) {
          await service.updateUserWinNumByIDNoToken(currentRoom.guest_id, guestInfo.win_num + 1)
          await service.updateUserLoseNumByIDNoToken(currentRoom.host_id, hostInfo.lose_num + 1)
       }
-      console.log(hostNewPoints)
+
       newGame = '{"id" : "' + currentRoom.uuid + '", "user_id" : "' + currentRoom.host_id + '", "guest_id" : "' + currentRoom.guest_id + '", "bet_points" : ' + currentRoom.bet_points + ', "status" : ' + statusGame + '}'
       addNewGame = await service.addGame(JSON.parse(newGame))
 
@@ -737,20 +646,15 @@ io.on('connection', function(socket) {
    })
    // Disconnection
    socket.on('disconnect', async function() {
-      console.log("TEST: DISCONNECT WITHOUT ROOM")
-      console.log("TEST SOCkETROOM IN DISCONNECT: " + socket.room)
       if (socket.room != "") {
-         console.log("TEST: DISCONNECT with ROOM")
          roomid = socket.room
 
          // Nếu phòng chỉ có mỗi host
          if (await service.findGuestIDInRoomNoToken(roomid) == false) {
-            console.log("TEST: DISCONNECT with ROOM WITHOUT GUEST")
             await service.deleteGRNoToken(roomid)
          }
          // Phòng có cả 2, đang chơi
          else {
-            console.log("TEST: DISCONNECT with ROOM with GUEST")
             data = {"statusCode": 200, "message": "win"}
             socket.to(roomid).emit('room-has-player-out', data)
          }
