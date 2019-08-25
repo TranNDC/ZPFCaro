@@ -13,7 +13,7 @@ const roomReducer = (state = initialState, action) => {
     case LOAD_GAMEROOMS:
 // merge old state and new rooms
       return {
-        ...state,
+        // ...state,
         ...convertResponseToState(action.rooms,action.userId)
       }
     default:

@@ -13,7 +13,7 @@ import { withRouter } from "react-router-dom";
 class RoomInfoRow extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { showJRModal: false };
+        this.state = { showJRModal: false, userRoomPassword:'' };
         this.closeModal = this.closeModal.bind(this);
         this.openModal = this.openModal.bind(this);
         this.handleJoinRoom = this.handleJoinRoom.bind(this);

@@ -3,10 +3,21 @@ import './AlertWarn.css';
 import '../subcomponents/RectButton.css';
 import { Modal, Button } from 'react-bootstrap';
 
+
+// -------------------------------
+// TEST ALERTWARN
+// -------------------------------
+// Cho phép truyền msg="Blabla" và numBtn="1" (hoặc numBtn="2")
+// Mặc định numBtn = 1
+// ReactDOM.render(<AlertWarn />, document.getElementById('root'));
+// ReactDOM.render(<AlertWarn msg="Hello guys, how are u?"/>, document.getElementById('root'));
+// ReactDOM.render(<AlertWarn msg="Hello guys, how are u?" numBtn="2"/>, document.getElementById('root'));
+
+
 class AlertWarn extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { showAWModal: false};
+        this.state = { showAWModal: this.props.isOpen};
 
         this.closeModal = this.closeModal.bind(this);
         this.openModal = this.openModal.bind(this);
