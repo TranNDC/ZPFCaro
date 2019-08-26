@@ -502,7 +502,12 @@ io.on('connection', function(socket) {
       // Set socket session for disconnection
       socket.room = infogame.roomid
 
+      hostInfo = await service.getUserInfoByIDNoToken(currentRoom.host_id)
+
       currentRoom = await service.getInfoOneGameRoomNoToken(infogame.roomid)
+      currentRoom.guest_avatar = guestInfo.avatar
+      currentRoom.host_avatar = hostInfo.avatar
+
       socket.join(infogame.roomid)
       io.in(infogame.roomid).emit('server-send-result-join-room', {statusCode: 200, message: "Join room successfully", data: currentRoom})
    })
