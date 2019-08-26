@@ -33,14 +33,14 @@ class Aboutus extends React.Component {
                         <label className="aboutus-label aboutus-labelUnderline">INTRODUCTION</label>
                     </div>
                     <div className="aboutus-marginbot aboutus-labelContent">
-                        <div><label className="aboutus-label">ZPFCaro is a web game application which is establised on Summer 2019 by Quốc and Trân. It is one of the important modules that we have to study, so we not only complete it as an assignment but also try our best in coding. Thank you & please enjoy it!</label></div>
+                        <div><label className="aboutus-label">ZPFCaro is a web game application which is established on Summer 2019 by Quoc and Tran. It is one of the important modules that we have to study, so we not only complete it as an assignment but also try our best in coding. Thank you & please enjoy it!</label></div>
                     </div>
                     <div className="aboutus-paddingbot aboutus-labelHead">
                         <label className="aboutus-label aboutus-labelUnderline">DEVELOPER TEAM</label>
                     </div>
                     <div className="aboutus-marginbot aboutus-labelContent">
-                        <div><label className="aboutus-label">Nguyễn Đỗ Cát Trân - VNG Zalopay Fresher 2019</label></div>
-                        <div><label className="aboutus-label">Trần Kiến Quốc - VNG Zalopay Fresher 2019</label></div>
+                        <div><label className="aboutus-label">Nguyen Do Cat Tran - VNG Zalopay Fresher 2019</label></div>
+                        <div><label className="aboutus-label">Tran Kien Quoc - VNG Zalopay Fresher 2019</label></div>
                     </div>
                     <div className="aboutus-paddingbot aboutus-labelHead">
                         <label className="aboutus-label aboutus-labelUnderline">ZPFCARO VERSION</label>

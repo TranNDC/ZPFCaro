@@ -1,5 +1,0 @@
-Link Caro-UI : https://www.figma.com/file/LPlQn5YO70rqSxQpyaQRaE/Caro?node-id=0%3A1
-
-Link Business Usecase, Data Model, Sequence Diagram, System Architecture : https://www.draw.io/?state=%7B%22ids%22:%5B%221oSEWveYZ3lSANbjAN46SNVcgFfxhCaBd%22%5D,%22action%22:%22open%22,%22userId%22:%22117314713924989459588%22%7D#G1oSEWveYZ3lSANbjAN46SNVcgFfxhCaBd
-
-Link ZPF Caro Info : https://docs.google.com/document/d/151Kqe2cWqyw-etlqwTGEHkQjREddIMRtiWnQEnk2SeI/edit?fbclid=IwAR0YSROBbAq1CBuaKlFF6HGEAZMWv3MdsWclFjhvHo3uSqzSc5fxOelYac8
