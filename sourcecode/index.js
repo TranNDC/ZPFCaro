@@ -393,6 +393,7 @@ io.on('connection', function(socket) {
       400: Wrong/Expired token
       401: Bet points isn't enough
       402: Wrong room password
+      403: Room does not exist anymore
 
       500: Create room fail
       501: Update points fail
