@@ -442,8 +442,6 @@ io.on('connection', function(socket) {
    // Join gameroom
    // Parameter: JSON guest (guest_id, guest_displayed_name), JSON infogame (roomid, bet_points, password), STRING token
    socket.on('client-request-join-room', async function(guest, infogame, token) {
-      console.log(guest);
-
       guestInfo = await service.getUserInfo(token)
       
       if (guestInfo == false) {
@@ -598,7 +596,7 @@ io.on('connection', function(socket) {
    socket.on('client-request-out-room', async function(roomid, isHost) {
       await processWinloseGame(roomid, isHost)
       data = {"statusCode": 200, "message": "win"}
-      socket.to(info.roomid).emit("server-send-data-game", null, data)
+      socket.to(roomid).emit("server-send-data-game", null, data)
       io.in(roomid).emit("server-ask-client-leave-room")
    })   
 

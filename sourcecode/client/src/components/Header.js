@@ -11,60 +11,64 @@ import Aboutus from './Aboutus';
 import GameRule from './GameRule';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { logout } from "../actions/userAction";
+import { wantToQuitGame } from "../actions/gameAction";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
 class Header extends React.Component {
-    constructor(props) {
-        super(props);
-        this.logOut = this.logOut.bind(this); 
-    }
+  constructor(props) {
+    super(props);
+    this.logOut = this.logOut.bind(this);
+  }
 
-    logOut(e) {
-      this.props.history.push('/login');
-      api.post(`/logout`)
-          .then(res => {
-            console.log('logout');
-            clearStorage();
-            // this.props.closeWebSocket();
-            this.props.logout();
-          })
-          .catch(res=>console.log(res.response));
-      }
-
-    render() {
-        return (
-            <Container fluid={true}>
-                <Row className="justify-content-center" className="head-row">
-                    <Col className="h-logo" xs={3}>
-                        <LogoTitle text="ZPF Caro" />
-                    </Col>
-                    <Col className="h-iconCol" xs={9}>
-                        <Profile />
-                        <GameRule />
-                        <Aboutus />
-                        <Settings />
-                        <Button onClick={this.logOut} className="h-icon circleButton fa fa-sign-out" title="Logout"></Button>
-                    </Col>
-                </Row>
-            </Container>
-        );
+  logOut(e) {
+    if (this.props.roomId && this.props.roomId != "") {
+      this.props.wantToQuitGame(true);
+    } else {
+      this.props.logout(this.props.history);
     }
+  }
+
+  render() {
+    return (
+      <Container fluid={true}>
+        <Row className="justify-content-center" className="head-row">
+          <Col className="h-logo" xs={3}>
+            <LogoTitle text="ZPF Caro" />
+          </Col>
+          <Col className="h-iconCol" xs={9}>
+            <Profile />
+            <GameRule />
+            <Aboutus />
+            <Settings />
+            <Button
+              onClick={this.logOut}
+              className="h-icon circleButton fa fa-sign-out"
+              title="Logout"
+            ></Button>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
 }
 
 
 function mapStateToProps(state, index) {
-    return {
-        // user: state.userReducer
-    };
-  }
-  
-  function mapDispatchToProps(dispatch) {
-    return {
-        logout() {
-            dispatch(logout())
-          },
-  }
+  return {
+    roomId: state.gameReducer.roomId
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    logout(history) {
+      dispatch(logout(history));
+    },
+    wantToQuitGame(isLogOut) {
+      dispatch(wantToQuitGame(isLogOut));
+    }
+  };
 }
   
   export default withRouter(

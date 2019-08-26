@@ -5,6 +5,7 @@ import { Modal, Button } from 'react-bootstrap';
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import {leaveGame} from '../actions/gameAction'
+import { bindActionCreators } from 'redux';
 
 // -------------------------------
 // TEST ALERTWARN
@@ -40,8 +41,7 @@ class AlertWarn extends React.Component {
     }
 
     handleExit(){
-        let isLogOut = this.props.isLogOut;
-        this.props.leaveGame(this.props.history,isLogOut);
+        this.props.leaveGame(this.props.history,this.props.quitType);
     }
 
     render() {
@@ -93,13 +93,15 @@ class AlertWarn extends React.Component {
 
 
 function mapStateToProps(state, index) {
-  return {};
+  return {
+      quitType: state.gameReducer.quitType
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    leaveGame(history) {
-      return dispatch(leaveGame(history));
+    leaveGame(history,type) {
+      return dispatch(leaveGame(history,type));
     }
   };
 }

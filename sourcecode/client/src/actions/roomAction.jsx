@@ -68,7 +68,6 @@ export function joinGameRoom(userId, displayedName, roomId, betPoints, password,
     let socket = store.getState().ioReducer.socket;
     socket.emit('client-request-join-room',guest,infogame,getJwtFromStorage())
     socket.on('server-send-result-join-room', function(res){
-      console.log(res);
       if (res.statusCode == 200){
         dispatch(joinGame(res.data));
         history.push('/game');

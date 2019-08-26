@@ -2,6 +2,7 @@
 import io from "socket.io-client"
 import {store} from "../index";
 import {calculateResult,createNewRandomMove} from "../utils/gameUtil"
+import { logout } from "./userAction";
 
 export const PLACE_PATTERN = "game.PLACE_PATTERN";
 export const COUNTDOWN_TICK = "game.COUNTDOWN_TICK";
@@ -17,6 +18,9 @@ export const UPDATE_GAME = "game.UPDATE_GAME";
 export const END_GAME = "game.END_GAME";
 export const WANT_TO_QUIT_GAME = "game.QUIT_GAME";
 export const LEAVE_GAME = "game.LEAVE_GAME";
+export const HOST_OUT_ROOM_NOT_START = 1;
+export const OUT_ROOM_BY_EXIT = 2;
+export const OUT_ROOM_BY_LOGOUT = 3;
 
 export function placeMyPattern(x, y) {
   let socket = store.getState().ioReducer.socket; 
@@ -39,7 +43,8 @@ export function listenOpponentTurn(){
     let socket = store.getState().ioReducer.socket;    
     socket.on('server-send-data-game',function(turn,data){
       if (data.statusCode == 200){
-        dispatch(placePattern(turn.x,turn.y,data.mesage,(gameState.gamePattern=='x')?'o':'x',true));
+        if (turn)
+          dispatch(placePattern(turn.x,turn.y,data.mesage,(gameState.gamePattern=='x')?'o':'x',true));
         if (data.message != ''){
           dispatch(endGame(data.message));
         }
@@ -63,7 +68,6 @@ export function createRandomMove(){
 
 
 export function placePattern(x,y,result,gamePattern,isOppturn){
-  console.log("place",x,y,gamePattern)
   return {
     type: PLACE_PATTERN,
     x: x,
@@ -75,7 +79,6 @@ export function placePattern(x,y,result,gamePattern,isOppturn){
 }
     
 export function loadGame(game){
-  console.log('LOAD GAME')
   return {
     type:LOAD_GAME,
     game:game,
@@ -85,7 +88,6 @@ export function loadGame(game){
 
 
 export function updateGame(game){
-  console.log('UPDATE GAME')
   return {
     type:UPDATE_GAME,
     game: game,
@@ -103,7 +105,6 @@ export function waittingGame(history){
     }
     socket.on('server-send-result-join-room',function(res){
       if (res.statusCode == 200){
-        console.log(res.data)
         dispatch(updateGame(res.data));
       }
       else{
@@ -114,7 +115,6 @@ export function waittingGame(history){
 }
 
 export function joinGame(currentGame){ //update opponent, pattern  o
-  console.log('JOIN GAME');
   return {
     type:JOIN_GAME,
     game:currentGame,
@@ -129,40 +129,46 @@ export function endGame(result){
   }
 }
 
-export function leaveGame(history,isLogOut=false){
-  return function (dispatch){
+export function leaveGame(history, quitType) {
+  return function(dispatch) {
+    let gameState = store.getState().gameReducer;
     let socket = store.getState().ioReducer.socket;
-    socket.emit('client-request-out-room');
-    if (isLogOut){
-      history.push('/login')
+    if (quitType == OUT_ROOM_BY_LOGOUT) {
+      let isHostWin = gameState.opponent.isHost;
+      socket.emit("client-request-out-room", gameState.roomId, isHostWin);
+      dispatch({type: LEAVE_GAME})
+      dispatch(logout(history))
+    } else if (quitType == HOST_OUT_ROOM_NOT_START) {
+      socket.emit("host-out-room-not-started", gameState.roomId);
+      dispatch({type: LEAVE_GAME})
+      history.push("/");
+    } else {
+      let isHostWin = gameState.opponent.isHost;
+      socket.emit("client-request-out-room", gameState.roomId, isHostWin);
+      dispatch({type: LEAVE_GAME})
+      history.push("/");
     }
-    else
-      history.push('/');
-    return{
-      type:LEAVE_GAME
-    }
-  }
+    return {
+      type: LEAVE_GAME
+    };
+  };
 }
-export function wantToQuitGame(isLogOut=false){
-  let gameState =  store.getState().gameReducer;
-  let socket = store.getState().ioReducer.socket;  
-  if (!gameState.opponent.userId || gameState.opponent.userId==''){
-    socket.emit('host-out-room-not-started',gameState.roomId);
-    return{
+
+export function wantToQuitGame(isLogOut = false) {
+  let gameState = store.getState().gameReducer;
+  if (!gameState.opponent || gameState.opponent.userId == "") {
+    return {
       type: WANT_TO_QUIT_GAME,
-      alert: 'Are you sure to quit the game?',
-      isLogOut:isLogOut
-    }
-  }else{
-    let isHostWin = gameState.opponent.isHost;
-    socket.emit('client-request-out-room',gameState.roomId,isHostWin)
-    return{
+      alert: "Are you sure to quit the game?",
+      quitType: HOST_OUT_ROOM_NOT_START
+    };
+  } else {
+    return {
       type: WANT_TO_QUIT_GAME,
-      alert: "",
-      isLogOut:isLogOut
-    }
+      alert: "Are you sure you want to leave?\n You will lose this match!",
+      quitType: isLogOut ? OUT_ROOM_BY_LOGOUT : OUT_ROOM_BY_EXIT
+    };
   }
-  
 }
 
 export function countDownTick() {

@@ -101,7 +101,8 @@ const gameReducer = (state = initialState, action) => {
     case WANT_TO_QUIT_GAME:
       return{
         ...state,
-        alert:action.alert
+        alert:action.alert,
+        quitType:action.quitType
       }
     case LEAVE_GAME:
       return{
