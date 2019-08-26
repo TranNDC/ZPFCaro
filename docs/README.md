@@ -24,6 +24,9 @@
 * **Sơ nét:** Các SubComponents sẽ cấu tạo nên Components, và các Components sẽ tạo nên Pages.
 
 ## RESTFUL APIs
+* **Status Code:**
+    * 400 | 404: Lỗi phía client, tùy theo API mà có message khác nhau gửi về cho client.
+    * 500: Lỗi phía server thực hiện một hành động nào đó thất bại.
 * **Phương thức GET:**
     * Lấy danh sách thông tin của tất cả phòng chờ: /gameroom/all
     * Lấy thông tin của một phòng chờ: /gameroom/one?gid=xxx
