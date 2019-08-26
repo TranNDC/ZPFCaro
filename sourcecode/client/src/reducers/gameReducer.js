@@ -75,7 +75,8 @@ const gameReducer = (state = initialState, action) => {
           ...state,
           userId: action.game["guest_id"],
           displayedName: action.game["guest_displayed_name"],
-          isHost: false
+          isHost: false,
+          avatar: action.game["guest_avatar"]
         },
         result: "",
         isWaiting: false,
@@ -93,6 +94,7 @@ const gameReducer = (state = initialState, action) => {
           ...initialState.opponent,
           userId: action.game["host_id"],
           displayedName: action.game["host_displayed_name"],
+          avatar: action.game["host_avatar"],
           isHost: true
         },
         isWaiting: false,

@@ -20,7 +20,17 @@ class GameSideBar extends React.Component {
   
   render() {
     let avatar = this.props.avatar;
-
+    let isHost = (this.props.opponent)?!this.props.opponent.isHost:false;
+    let hostAvartar = this.props.user.avatar;
+    let guestAvartar = "";
+    let hostActive = false;
+    let guestActive = false;
+    if (this.props.opponent){
+      hostAvartar = isHost?this.props.user.avatar:this.props.opponent.avatar
+      guestAvartar = !isHost?this.props.user.avatar:this.props.opponent.avatar
+      hostActive =  (!this.props.isMyTurn && this.props.opponent.isHost) || (this.props.isMyTurn && !this.props.opponent.isHost)
+      guestActive = (!this.props.isMyTurn && !this.props.opponent.isHost) || (this.props.isMyTurn && this.props.opponent.isHost)
+    }
     return (
       <Container  className="gsb-game-size-bar w-100 p-0" xs={3}>
         <div className="row gsb-countdown-exitbtn w-100 flex-nowrap justify-content-center ">
@@ -43,13 +53,13 @@ class GameSideBar extends React.Component {
         >
           <Row className="d-flex justify-content-center">
             <Col className="gsb-game-ava-container p-0 left" sx={6}>
-              <GameAvatar type="active" avatar={this.props.user.avatar} pattern="x" />
+              <GameAvatar type={ hostActive && "active"} avatar={hostAvartar} pattern="x" />
               {/* <GameAvatar type="active" avatar={hostAva} pattern="x" /> */}
             </Col>
             {this.props.opponent && 
             
             <Col className="gsb-game-ava-container p-0 right" sx={6}>
-              <GameAvatar avatar={this.props.opponent.avatar} pattern="o" />
+              <GameAvatar  type={ guestActive && "active"} avatar={guestAvartar} pattern="o" />
               {/* <GameAvatar type="active" avatar={guestAva} pattern="x" /> */}
             </Col>
           }
@@ -71,7 +81,8 @@ function mapStateToProps(state, index) {
   return {
     betPoints: state.gameReducer.betPoints,
     user: state.userReducer,
-    opponent: state.gameReducer.opponent
+    opponent: state.gameReducer.opponent,
+    isMyTurn: state.gameReducer.isMyTurn,
   };
 }
 

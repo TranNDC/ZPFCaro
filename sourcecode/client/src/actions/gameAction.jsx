@@ -129,6 +129,7 @@ export function waittingGame(history) {
 
 export function joinGame(currentGame) {
   //update opponent, pattern  o
+  console.log(currentGame)
   return {
     type: JOIN_GAME,
     game: currentGame,

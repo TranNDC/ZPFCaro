@@ -17,9 +17,7 @@ class Register extends React.Component {
     this.state = {};
     this.handleChangeUsername = this.handleChangeUsername.bind(this);
     this.handleChangePassword = this.handleChangePassword.bind(this);
-    this.handleChangeConfirmedpassword = this.handleChangeConfirmedpassword.bind(
-      this
-    );
+    this.handleChangeConfirmedpassword = this.handleChangeConfirmedpassword.bind(this);
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
     this.handleChangeDisplayedname = this.handleChangeDisplayedname.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);

@@ -34,7 +34,6 @@ export function logout(history) {
   };
 }
 
-
 export function register(user,history) {
   return function(dispatch) {
     return callRegisterApi(user)
@@ -61,8 +60,6 @@ export function login(user,history) {
   }
 }
 
-
-
 export function loadUserInfo(history) {
   return function(dispatch) {
     return callGetUserInfoApi()
@@ -75,7 +72,6 @@ export function loadUserInfo(history) {
   };
 }
 
-
 export function loadUser(data){
   console.log(data);
   return{
@@ -83,7 +79,6 @@ export function loadUser(data){
     user: data
   }
 }
-
 
 function callRegisterApi(user) {
   var promise = new Promise(function(resolve, reject) {
@@ -97,6 +92,41 @@ function callRegisterApi(user) {
       });
   });
   return promise;
+}
+
+export function updateEmail(value){
+  return function(dispatch) {
+    return callEmailUpdateApi(value)
+      .then(result => {
+        return result.data.message
+      },(err) => {
+        return err.response.data.message;
+      })
+
+  }
+}
+
+export function updatePassword(value){
+  return function(dispatch) {
+    return callPasswordUpdateApi(value)
+      .then(result => {
+        return result.data.message
+      },(err) => {
+        return err.response.data.message;
+      })
+
+  }
+}
+
+export function updateDisplayedName(value){
+  return function(dispatch) {
+    return callUpdateDisplayedNameApi(value)
+      .then(result => {
+        return result.data.message
+      },(err) => {
+        return err.response.data.message;
+      })
+  }
 }
 
 function callLoginApi(user) {
@@ -136,6 +166,48 @@ function callGetUserRankApi() {
   var promise = new Promise(function(resolve, reject) {
     api
       .get(`/user/ranking`)
+      .then(res => {
+        resolve(res);
+      })
+      .catch(res => {
+        reject(res);
+      });
+  });
+  return promise;
+}
+
+function callUpdateDisplayedNameApi(value) {
+  var promise = new Promise(function(resolve, reject) {
+    api
+      .post(`/user/name`,{name:value})
+      .then(res => {
+        resolve(res);
+      })
+      .catch(res => {
+        reject(res);
+      });
+  });
+  return promise;
+}
+
+function callEmailUpdateApi(value) {
+  var promise = new Promise(function(resolve, reject) {
+    api
+      .post(`/user/email`,{email:value})
+      .then(res => {
+        resolve(res);
+      })
+      .catch(res => {
+        reject(res);
+      });
+  });
+  return promise;
+}
+
+function callPasswordUpdateApi(value) {
+  var promise = new Promise(function(resolve, reject) {
+    api
+      .post(`/user/password`,{password:value})
       .then(res => {
         resolve(res);
       })
