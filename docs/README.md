@@ -92,10 +92,9 @@
     * Cài đặt MongoDB (theo Hệ điều hành của máy tính).
     * Cài đặt MongoDB Compass Community (MCC) để dễ dàng quản lý các dữ liệu lưu trữ.
     * Khởi chạy MongoDB theo các bước bên dưới:
-        * Mở MongoDB đã tải về `.../MongoDB/Server/<version>/bin/mongod.exe`
+        * Mở MongoDB đã tải về và khởi chạy `mongod`.
         * Mở MCC và kết nối (Không cần config bất kì field nào).
-        * Tạo Database với tên `ZPFCaro` và một collection đầu tiên `Users` ngay trong MCC.
+        * Thông qua MCC, tạo Database với tên `ZPFCaro` và một collection đầu tiên `Users` một cách dễ dàng.
         * Tạo thêm collection thứ hai tên là `Games`.
-    * Cài đặt Redis (theo Hệ điều hạnh của máy tính).
-    * Mở hai terminal, một terminal chạy với lệnh `redis-server`, cái còn lại chạy với lệnh `redis-cli`.
-
+    * Cài đặt Redis (theo Hệ điều hành của máy tính).
+    * Mở terminal và chạy lệnh `redis-server`.
