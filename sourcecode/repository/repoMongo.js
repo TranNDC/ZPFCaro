@@ -46,10 +46,10 @@ repoMongo.getUserById = async (id) => {
 
 // Add user 
 // Function receives JSON "newUser" parameters with string structure:
-// '{"username" : "xxxxx", "password" : "xxxxx", "email" : "xxxxx", "display_name" : "xxxxx"}'
+// '{"username" : "xxxxx", "password" : "xxxxx", "email" : "xxxxx", "display_name" : "xxxxx", "avatar" : "xxxxx"}'
 repoMongo.addUser = (newUser) => {
     getAsync = promisify(collectionUsers.insertOne).bind(collectionUsers)
-    return getAsync({username: newUser.username, password: newUser.password, email: newUser.email, display_name: newUser.display_name, points: 0, avatar: "", win_num: 0, draw_num: 0, lose_num: 0}).then((res) => {
+    return getAsync({username: newUser.username, password: newUser.password, email: newUser.email, display_name: newUser.display_name, points: 0, avatar: newUser.avatar, win_num: 0, draw_num: 0, lose_num: 0}).then((res) => {
         return res
     }).catch((err) => {
         console.log(err)

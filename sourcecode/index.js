@@ -60,6 +60,7 @@ app.post('/register', cors(corsOptions), async (req, res) => {
    password = req.body.password
    email = req.body.email
    displayedName = req.body.displayedName
+
    if (! (await service.isUniqueUsername(username))) {
       res.status(400).json({ message: "This username existed, please choose another"})
       return
@@ -70,7 +71,9 @@ app.post('/register', cors(corsOptions), async (req, res) => {
       return
    }
 
-   result = await service.addNewUser(username, password, email, displayedName)
+   avatar = service.randomAvatar()
+
+   result = await service.addNewUser(username, password, email, displayedName, avatar)
    if (result == null) {
       res.status(500).json({message: "Server registered new account fail"})
       return
