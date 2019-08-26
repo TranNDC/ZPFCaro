@@ -24,6 +24,7 @@ service.generateJWT = async (data) => {
 // Parameter: STRING token
 // Result: JSON username | Error about token (wrong characters/expired)
 service.verifyJWT = async (token) => {
+    if (!token) return false;
     if (token.length == 0) return false
 
     if (await service.existTokenInBLJWT(token)) return false
@@ -402,6 +403,7 @@ service.updateGuestAndStatusGR = async (token, uuid, guest) => {
 
 // Delete game room (no token)
 service.deleteGRNoToken = async (uuid) => {
+    console.log('service',uuid);
     return (await repoRedis.deleteGR(uuid))
 }
 

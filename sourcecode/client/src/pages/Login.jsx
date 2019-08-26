@@ -6,7 +6,7 @@ import InputText from "../subcomponents/InputText";
 import { Container, Button } from "react-bootstrap";
 import { login } from "../actions/userAction";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { withRouter,Link } from "react-router-dom";
 import { getJwtFromStorage } from "../utils/storageUtil";
 
 class Login extends React.Component {
@@ -50,9 +50,9 @@ class Login extends React.Component {
             <Button type="submit" className="rect-btn">login</Button>
           </div>
           <div className="login-paddingtop">
-            <a href="#" className="login-link"><label className="login-labelStyle">Forgot password?</label></a>
-            <label className="login-paddingLink"></label>
-            <a href="#" className="login-link"><label className="login-labelStyle">Don't have account?</label></a>
+            {/* <a href="#" className="login-link"><label className="login-labelStyle">Forgot password?</label></a> */}
+            {/* <label className="login-paddingLink"></label> */}
+            <Link to='/register'><a href="#" className="login-link"><label className="login-labelStyle">Don't have account?</label></a></Link>
           </div>
         </form>
       </Container>

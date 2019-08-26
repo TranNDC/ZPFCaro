@@ -39,7 +39,8 @@ export function joinGameInfoRoomReq(id,points,password){
   }
 }
 export function convertResponseToState(rooms,userId){
-  let res = {};
+  let res = [];
+  if (rooms && rooms.length > 0)
   rooms.forEach(room => {
     if (room['is_waiting'] == 0 && room['host_id']!=userId){
       let id = room.uuid.split('-');

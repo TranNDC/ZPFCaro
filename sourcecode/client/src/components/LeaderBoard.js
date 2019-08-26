@@ -3,6 +3,8 @@ import LeaderBoardInfoRow from '../subcomponents/LeaderBoardInfoRow';
 import TableTitle from '../subcomponents/TableTitle';
 import './LeaderBoard.css';
 
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 class LeaderBoard extends React.Component {
     constructor(props) {
         super(props);  
@@ -10,19 +12,39 @@ class LeaderBoard extends React.Component {
 
     render() {
         let className = this.props.className + " lb-spacing";
-
+        let leaderBoard = [];
+        if (this.props.leaderBoard)
+            this.props.leaderBoard.forEach(userRank => {
+                leaderBoard.push(
+                    <LeaderBoardInfoRow {...userRank} className="lb-spacing" />
+                )
+            });
         return (
             <div>
                 <TableTitle text="LEADERBOARD" className={className}/>
-                <LeaderBoardInfoRow rank="1" displayedname="Trần Kiến Quốc" points="1000000" className="lb-spacing" />
-                <LeaderBoardInfoRow rank="2" displayedname="Trần Kiến Quốc" points="800000" className="lb-spacing" />
-                <LeaderBoardInfoRow rank="3" displayedname="Trần Kiến Quốc" points="754812" className="lb-spacing" />
-                <LeaderBoardInfoRow rank="4" displayedname="Trần Kiến Quốc" points="600000" className="lb-spacing" />
-                <LeaderBoardInfoRow rank="5" displayedname="Trần Kiến Quốc" points="325105" className="lb-spacing" />
-                <LeaderBoardInfoRow rank="6" displayedname="Trần Kiến Quốc" points="258124" className="lb-spacing" />
+                {this.props.leaderBoard.map((userRank)=>{
+                    return <LeaderBoardInfoRow {...userRank} className="lb-spacing" />
+                })}
+                {/* {leaderBoard} */}
             </div>
         );
     }
 }
 
-export default LeaderBoard;
+function mapStateToProps(state, index) {
+    return {
+        leaderBoard:state.leaderBoardReducer.leaderBoard
+    };
+  }
+  
+  function mapDispatchToProps(dispatch) {
+    return {
+    };
+  }
+  export default withRouter(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(LeaderBoard)
+  );
+  

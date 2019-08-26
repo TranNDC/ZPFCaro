@@ -4,7 +4,7 @@ import '../subcomponents/RectButton.css';
 import { Modal, Button } from 'react-bootstrap';
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import {leaveGame} from '../actions/gameAction'
+import {leaveGame,wantToQuitGame} from '../actions/gameAction'
 import { bindActionCreators } from 'redux';
 
 // -------------------------------
@@ -33,6 +33,7 @@ class AlertWarn extends React.Component {
     }
 
     closeModal() {
+        this.props.wantToQuitGame(true);
         this.setState({ showAWModal: false });
     }
 
@@ -102,6 +103,9 @@ function mapDispatchToProps(dispatch) {
   return {
     leaveGame(history,type) {
       return dispatch(leaveGame(history,type));
+    },
+    wantToQuitGame(isCloseModal,isLogOut) {
+      dispatch(wantToQuitGame(isCloseModal, isLogOut));
     }
   };
 }

@@ -4,6 +4,10 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.text-Capitalize{
+    text-transform: capitalize;
+}
+
 /* width */
 ::-webkit-scrollbar {
     width: 10px;

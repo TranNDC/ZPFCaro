@@ -59,7 +59,6 @@ export function joinError(message){
   }
 }
 
-
 export function joinGameRoom(userId, displayedName, roomId, betPoints, password,history) {
   let guest = joinGameGuestReq(userId,displayedName);
   let infogame = joinGameInfoRoomReq(roomId, betPoints, password);
@@ -89,21 +88,45 @@ export function joinGameRoom(userId, displayedName, roomId, betPoints, password,
   };
 }
 
+// export function loadGameRooms(history) {
+//   return function(dispatch) {
+//     return callGetGameRoomsApi()
+//       .then(result => {
+//         dispatch(loadGameRoom(result.data.listGameRoom));
+//       }).catch((err) => {
+//         clearStorage();
+//         history.push('/login')
+//       })
 
-export function loadGameRooms(history) {
-  return function(dispatch) {
-    return callGetGameRoomsApi()
-      .then(result => {
-        dispatch(loadGameRoom(result.data.listGameRoom));
-      }).catch((err) => {
-        clearStorage();
-        history.push('/login')
-      })
+//   };
+// }
 
-  };
-}
+// function loadGameRoomAction(data){
+//   let userId = store.getState().userReducer.id;
+//   return{
+//     type: LOAD_GAMEROOMS,
+//     rooms: data,
+//     userId: userId
+//   }
+// }
 
-function loadGameRoom(data){
+
+// function callGetGameRoomsApi() {
+//   var promise = new Promise(function(resolve, reject) {
+//     api
+//       .get(`/gameroom/all`)
+//       .then(res => {
+//         resolve(res);
+//       })
+//       .catch(res => {
+//         reject(res);
+//       });
+//   });
+//   return promise;
+// }
+
+
+function loadGameRoomAction(data){
   let userId = store.getState().userReducer.id;
   return{
     type: LOAD_GAMEROOMS,
@@ -112,30 +135,18 @@ function loadGameRoom(data){
   }
 }
 
-function callCreateGameRoomApi(room){
-  var promise = new Promise(function(resolve, reject) {
-    api
-      .post(`/gameroom/`,room)
-      .then(res => {
-        resolve(res);
-      })
-      .catch(res => {
-        reject(res);
-      });
-  });
-  return promise;
+export function loadGameRooms() {
+  return function(dispatch){
+    let socket = store.getState().ioReducer.socket;
+    socket.emit('client-request-info-listgameroom',getJwtFromStorage());
+  } 
 }
 
-function callGetGameRoomsApi() {
-  var promise = new Promise(function(resolve, reject) {
-    api
-      .get(`/gameroom/all`)
-      .then(res => {
-        resolve(res);
-      })
-      .catch(res => {
-        reject(res);
-      });
-  });
-  return promise;
+export function listenOnLoadGameRooms(){
+  return function(dispatch){
+    let socket = store.getState().ioReducer.socket;
+    socket.on('server-send-info-listgameroom', function(data){
+      dispatch(loadGameRoomAction(data))
+    })
+  }
 }

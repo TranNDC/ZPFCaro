@@ -8,36 +8,10 @@ import {applyMiddleware, createStore } from "redux";
 
 import {BrowserRouter as Router, Route} from "react-router-dom";
 
-import InputText from "./subcomponents/InputText";
-import LogoTitle from "./subcomponents/LogoTitle";
-import EditText from "./subcomponents/EditText";
-
-import GameCell from "./subcomponents/GameCell";
-import GameBoard from "./components/GameBoard";
-
-import Slider from "./subcomponents/Slider";
-import Message from "./subcomponents/Message";
-import TableTitle from "./subcomponents/TableTitle";
-import ChatFrame from "./components/ChatFrame";
-import GameAvatar from "./subcomponents/GameAvatar";
-import LeaderBoardInfoRow from "./subcomponents/LeaderBoardInfoRow";
-import UserAvatar from "./subcomponents/UserAvatar";
-import UserInfoRow from "./subcomponents/UserInfoRow";
-import Header from "./components/Header";
-import GameSideBar from "./components/GameSideBar";
-import LeaderBoard from "./components/LeaderBoard";
-import UserInfo from "./components/UserInfo";
 import Game from "./pages/Game";
-import RoomInfoRow from "./subcomponents/RoomInfoRow";
-import GameRooms from "./components/GameRooms";
 import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import RequestChangePassword from "./pages/RequestChangePassword";
-import CountDownBox from "./subcomponents/CountDownBox";
-import AlertWarn from "./components/AlertWarn";
-import TitleModal from "./subcomponents/TitleModal";
-import EndGameBox from "./components/EndGameBox";
 
 // -------------------------------
 // TEST INPUTTEXT

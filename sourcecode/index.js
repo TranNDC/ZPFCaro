@@ -373,14 +373,14 @@ io.on('connection', function(socket) {
    setInterval(async function() {
       // Leaderboard
       leaderboard = await service.getTop6LBNoToken()
-      if (!leaderboard) return
-      socket.broadcast.emit('server-send-info-leaderboard', leaderboard)
+      if (!leaderboard) leaderboard = [];
+      socket.emit('server-send-info-leaderboard', leaderboard)
 
       // List Game Room
       listgameroom = await service.getInfoAllGameRoomNoToken()
-      if (!listgameroom) return
-      socket.broadcast.emit('server-send-info-listgameroom', listgameroom)
-   }, 20000)
+      if (!listgameroom) listGameRoom = [];
+      socket.emit('server-send-info-listgameroom', listgameroom)
+   }, 10000)
 
    // Chat in gameroom
    socket.on('client-request-chat-in-room', function(roomid, message) {
@@ -393,6 +393,7 @@ io.on('connection', function(socket) {
       400: Wrong/Expired token
       401: Bet points isn't enough
       402: Wrong room password
+      403: Room does not exist anymore
 
       500: Create room fail
       501: Update points fail
@@ -455,7 +456,12 @@ io.on('connection', function(socket) {
       }
 
       currentRoom = await service.getInfoOneGameRoomNoToken(infogame.roomid)
-      
+
+      if (!currentRoom){
+         socket.emit('server-send-result-join-room', {statusCode: 403, message: "Room does not exist anymore"})
+         return
+      }
+
       if (infogame.password != currentRoom.password) {
          socket.emit('server-send-result-join-room', {statusCode: 402, message: "Wrong room password"})
          return
@@ -586,7 +592,7 @@ io.on('connection', function(socket) {
    // Client request out room when host is in room, no guest.
    // Parameter: roomid
    socket.on('host-out-room-not-started', async function(roomid) {
-      await service.deleteGRNoToken(roomid)
+      service.deleteGRNoToken(roomid)
       socket.emit("server-ask-client-leave-room")
    })
 
@@ -644,11 +650,13 @@ io.on('connection', function(socket) {
    })
    // Disconnection
    socket.on('disconnect', async function() {
+      console.log('disconnect ')
       if (socket.room != "") {
          roomid = socket.room
-
+         console.log(roomid);
          // Nếu phòng chỉ có mỗi host
          if (await service.findGuestIDInRoomNoToken(roomid) == false) {
+            console.log('deleteGRNoToken');
             await service.deleteGRNoToken(roomid)
          }
          // Phòng có cả 2, đang chơi
@@ -670,6 +678,7 @@ io.on('connection', function(socket) {
    // Socket for leaving game room
    // Used for ending game (have winner, loser or drawers) | receiving "server-ask-client-leave-room" | ...
    socket.on('client-request-leave-room', function(roomid) {
+      console.log('client-request-leave-room')
       socket.room = "" // Set socket session for disconnection
       leaveGR(roomid)
    })

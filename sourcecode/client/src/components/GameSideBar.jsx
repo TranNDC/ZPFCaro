@@ -15,7 +15,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 
 class GameSideBar extends React.Component {
   handleClick() {
-    this.props.wantToQuitGame();
+    this.props.wantToQuitGame(false);
   }
   
   render() {
@@ -77,8 +77,8 @@ function mapStateToProps(state, index) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    wantToQuitGame(){
-      dispatch(wantToQuitGame())
+    wantToQuitGame(isCloseModal){
+      dispatch(wantToQuitGame(isCloseModal))
     },
 }
 }

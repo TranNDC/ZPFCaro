@@ -23,7 +23,7 @@ class Header extends React.Component {
 
   logOut(e) {
     if (this.props.roomId && this.props.roomId != "") {
-      this.props.wantToQuitGame(true);
+      this.props.wantToQuitGame(false,true);
     } else {
       this.props.logout(this.props.history);
     }
@@ -65,8 +65,8 @@ function mapDispatchToProps(dispatch) {
     logout(history) {
       dispatch(logout(history));
     },
-    wantToQuitGame(isLogOut) {
-      dispatch(wantToQuitGame(isLogOut));
+    wantToQuitGame(isCloseModal,isLogOut) {
+      dispatch(wantToQuitGame(isCloseModal, isLogOut));
     }
   };
 }

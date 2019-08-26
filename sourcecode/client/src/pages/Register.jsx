@@ -4,9 +4,9 @@ import "../subcomponents/RectButton.css";
 import LogoTitle from "../subcomponents/LogoTitle";
 import InputText from "../subcomponents/InputText";
 import { Container, Button } from "react-bootstrap";
-import { register } from "../actions/userAction";
+import { register, } from "../actions/userAction";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { withRouter,Link } from "react-router-dom";
 import { getJwtFromStorage } from "../utils/storageUtil";
 
 class Register extends React.Component {
@@ -75,7 +75,7 @@ class Register extends React.Component {
             </Button>
           </div>
           <div className="register-paddingtop">
-            <a href="#" className="register-link"><label className="register-labelStyle">Back to login</label></a>
+            <Link to='/login'><a href="#" className="register-link"><label className="register-labelStyle">Back to login</label></a></Link>
           </div>
         </form>
       </Container>

@@ -11,7 +11,8 @@ import {isAuthenticated} from "../utils/storageUtil";
 import {Redirect} from "react-router-dom";
 import { loadUserInfo } from "../actions/userAction";
 import { initIo } from "../actions/ioAction";
-import { loadGameRooms, initGameRoom } from "../actions/roomAction";
+import { loadGameRooms, initGameRoom, listenOnLoadGameRooms } from "../actions/roomAction";
+import { initLeaderBoard, loadLeaderBoard, listenOnLoadLeaderBoard } from "../actions/leaderBoardAction";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import AlertWarn from '../components/AlertWarn'
@@ -23,10 +24,12 @@ class Homepage extends React.Component {
 
     async componentWillMount(){
         await this.props.loadUserInfo(this.props.history);
-        await this.props.loadGameRooms(this.props.history);
         await this.props.initIo();
-        
-        // this.props.initGameRoom();
+        await this.props.initLeaderBoard();
+        this.props.listenOnLoadGameRooms();
+        this.props.listenOnLoadLeaderBoard(); 
+        this.props.loadGameRooms();
+        this.props.loadLeaderBoard();
     } 
 
     render() {
@@ -69,7 +72,7 @@ class Homepage extends React.Component {
 function mapStateToProps(state, index) {
     return {
         user: state.userReducer,
-        error: state.roomReducer.error
+        error: state.roomReducer.error,
     };
   }
   
@@ -78,14 +81,26 @@ function mapStateToProps(state, index) {
       loadUserInfo(history) {
         return dispatch(loadUserInfo(history));
       },
-      loadGameRooms(history) {
-        return dispatch(loadGameRooms(history));
-      },
       initGameRoom() {
         return dispatch(initGameRoom());
       },
+      initLeaderBoard() {
+        return dispatch(initLeaderBoard());
+      },
       initIo(){
         return dispatch(initIo());
+      },
+      listenOnLoadGameRooms(){
+        return dispatch(listenOnLoadGameRooms());
+      },
+      loadGameRooms(){
+        return dispatch(loadGameRooms());
+      },
+      loadLeaderBoard(){
+        return dispatch(loadLeaderBoard());
+      },
+      listenOnLoadLeaderBoard(){
+        return dispatch(listenOnLoadLeaderBoard())
       }
     };
   }

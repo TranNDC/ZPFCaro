@@ -19,6 +19,7 @@ export const END_GAME = "game.END_GAME";
 export const WANT_TO_QUIT_GAME = "game.QUIT_GAME";
 export const LEAVE_GAME = "game.LEAVE_GAME";
 export const HOST_OUT_ROOM_NOT_START = 1;
+export const HOST_LOGOUT_ROOM_NOT_START = 4;
 export const OUT_ROOM_BY_EXIT = 2;
 export const OUT_ROOM_BY_LOGOUT = 3;
 
@@ -142,7 +143,12 @@ export function leaveGame(history, quitType) {
       socket.emit("host-out-room-not-started", gameState.roomId);
       dispatch({type: LEAVE_GAME})
       history.push("/");
-    } else {
+    } else if (quitType == HOST_LOGOUT_ROOM_NOT_START){
+      socket.emit("host-out-room-not-started", gameState.roomId);
+      dispatch({type: LEAVE_GAME})
+      dispatch(logout(history))
+    } 
+    else {
       let isHostWin = gameState.opponent.isHost;
       socket.emit("client-request-out-room", gameState.roomId, isHostWin);
       dispatch({type: LEAVE_GAME})
@@ -154,13 +160,19 @@ export function leaveGame(history, quitType) {
   };
 }
 
-export function wantToQuitGame(isLogOut = false) {
+export function wantToQuitGame(isCloseModal,isLogOut = false) {
+  if (isCloseModal){
+    return {
+      type: WANT_TO_QUIT_GAME,
+      alert: ''
+    }
+}
   let gameState = store.getState().gameReducer;
   if (!gameState.opponent || gameState.opponent.userId == "") {
     return {
       type: WANT_TO_QUIT_GAME,
       alert: "Are you sure to quit the game?",
-      quitType: HOST_OUT_ROOM_NOT_START
+      quitType: isLogOut ? HOST_LOGOUT_ROOM_NOT_START : HOST_OUT_ROOM_NOT_START
     };
   } else {
     return {
@@ -195,7 +207,7 @@ export function listenOnServerAskLeave(){
   return function(){
     let socket = store.getState().ioReducer.socket;
     socket.on("server-ask-client-leave-room", function() {
-      let gameState =  store.getState().gameReducer;
+    let gameState =  store.getState().gameReducer;
       socket.emit("client-request-leave-room",gameState.roomId);
     });
   }

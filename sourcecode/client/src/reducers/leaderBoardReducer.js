@@ -2,20 +2,18 @@
 import { INIT_LEADERBOARD, LOAD_LEADERBOARD } from "../actions/leaderBoardAction";
 
 import { initState,convertResponseToState } from "../utils/leaderBoardUtil";
-import {calculateWinningRate} from "../utils/gameUtil"
+import {coverResponseToSate} from "../utils/leaderBoardUtil"
 
 const initialState = initState();
+const MAX_RANK_IN_LEADERBOARD = 6;
 
 const roomReducer = (state = initialState, action) => {
     switch (action.type) {
       case INIT_LEADERBOARD:
         return state;
       case LOAD_LEADERBOARD:
-  // merge old state and new rooms
         return {
-            ...state,
-            leaderBoard: action.leaderboard
-            
+            ...coverResponseToSate(action.leaderBoard,MAX_RANK_IN_LEADERBOARD)
         }
       default:
         return state;

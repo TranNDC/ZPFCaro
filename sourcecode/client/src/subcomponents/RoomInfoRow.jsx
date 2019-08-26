@@ -52,7 +52,7 @@ class RoomInfoRow extends React.Component {
                     </Col>
                     <Col xs="7" className="rir-name">
                         <label className="rir-labelRoomName">{this.props.roomname}</label>
-                        <label className="rir-labelDisplayedName">> {this.props.displayedname}</label>
+                        <label className="rir-labelDisplayedName text-Capitalize">> {this.props.displayedname}</label>
                     </Col>
                     <Col xs="3" className="rir-points">
                         {(() => {
