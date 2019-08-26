@@ -229,12 +229,19 @@ service.isUniqueUsername = async (username) => {
     return ((result==null) ? true : false )
 }
 
+// Randomize avatar [1, 12]
+service.randomAvatar = () => {
+    // After randomizing, we will receive value in [0, 11] => We have to plus 1
+    val = Math.floor(Math.random() * Math.floor(12)) + 1
+    return ('../media/avatar/' + val + '.png')
+}
+
 // Add new user to MongoDB
-// Parameter: STRING username, password, email, displayedname
+// Parameter: STRING username, password, email, displayedname, avatar
 // Result: User | Null
-service.addNewUser = async (username, password, email, displayedname) => {
+service.addNewUser = async (username, password, email, displayedname, avatar) => {
     hashpass = await service.hashPassword(password)
-    newUser = '{"username" : "' + username + '", "password" : "' + hashpass + '", "email" : "' + email + '", "display_name" : "' + displayedname + '"}'
+    newUser = '{"username" : "' + username + '", "password" : "' + hashpass + '", "email" : "' + email + '", "display_name" : "' + displayedname + '", "avatar" : "' + avatar + '"}'
     newUser = JSON.parse(newUser);
     return (await repoMongo.addUser(newUser))
 }
