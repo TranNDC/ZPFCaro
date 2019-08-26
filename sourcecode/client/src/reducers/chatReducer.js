@@ -20,7 +20,7 @@ const chatReducer = (state = initialState, action) => {
         ]
       };
     case INIT_MESSAGES:
-      return state;
+      return {...initState()};
 
     default:
       return state;

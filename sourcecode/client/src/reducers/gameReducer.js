@@ -14,8 +14,8 @@ import {
 } from "../actions/gameAction";
 import { initState, createRandomMove } from "../utils/gameUtil";
 
-const CELL_WIDTH = 32;
-const CELL_HEIGHT = 22;
+const CELL_WIDTH = 3;
+const CELL_HEIGHT = 2;
 const COUNTDOWN_MAX = 15;
 const initialState = initState(CELL_WIDTH, CELL_HEIGHT, COUNTDOWN_MAX);
 
@@ -83,7 +83,7 @@ const gameReducer = (state = initialState, action) => {
       };
     case JOIN_GAME: // guest update when join game
       return {
-        ...initialState,
+        ...initState(CELL_WIDTH, CELL_HEIGHT, COUNTDOWN_MAX),
         roomId: action.game.uuid,
         roomName: action.game["room_name"],
         betPoints: action.game["bet_points"] + " pts",
@@ -105,7 +105,8 @@ const gameReducer = (state = initialState, action) => {
         quitType:action.quitType
       }
     case LEAVE_GAME:
-      return{
+        clearInterval(state.countDown.intervalId);
+        return{
         ...initState(CELL_WIDTH, CELL_HEIGHT, COUNTDOWN_MAX),
       }
     case END_GAME:
