@@ -23,7 +23,7 @@ const userReducer = (state = initialState, action) => {
         'loseCount':user['lose_num'],
         'drawCount':user['draw_num'],
         'ranking':user['ranking'],
-        // 'avatar':require("../media/avatar.png")'
+        'avatar': process.env.PUBLIC_URL + user.avatar
       };
     default:
       return state;

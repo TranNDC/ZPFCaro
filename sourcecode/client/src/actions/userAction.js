@@ -77,6 +77,7 @@ export function loadUserInfo(history) {
 
 
 export function loadUser(data){
+  console.log(data);
   return{
     type: LOAD_USERINFO,
     user: data

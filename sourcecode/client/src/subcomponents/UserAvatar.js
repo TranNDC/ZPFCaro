@@ -1,6 +1,7 @@
 import React from 'react';
 import './UserAvatar.css';
-
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 class UserAvatar extends React.Component {
 
     constructor(props) {
@@ -14,4 +15,20 @@ class UserAvatar extends React.Component {
     }
 }
 
-export default UserAvatar;
+
+function mapStateToProps(state, index) {
+    return {
+        avatar:state.userReducer.avatar
+    };
+  }
+  
+  function mapDispatchToProps(dispatch) {
+    return {};
+  }
+  export default withRouter(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(UserAvatar)
+  );
+  

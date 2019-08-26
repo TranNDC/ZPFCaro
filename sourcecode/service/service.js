@@ -233,7 +233,7 @@ service.isUniqueUsername = async (username) => {
 service.randomAvatar = () => {
     // After randomizing, we will receive value in [0, 11] => We have to plus 1
     val = Math.floor(Math.random() * Math.floor(12)) + 1
-    return ('../media/avatar/' + val + '.png')
+    return ('/static/' + val + '.png')
 }
 
 // Add new user to MongoDB

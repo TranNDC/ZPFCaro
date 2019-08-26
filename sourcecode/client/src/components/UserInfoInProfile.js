@@ -42,7 +42,7 @@ class UserInfo extends React.Component {
         return (
             <div className="uiip-div">
                 <div className="uiip-avatardiv">
-                    <UserAvatar avatar={this.props.avatar} />
+                    <UserAvatar  />
                 </div>
                 <div className="uiip-labeldiv">
                     {this.renderInfoRowByType(this.props.type1)}

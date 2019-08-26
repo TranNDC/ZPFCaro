@@ -10,7 +10,7 @@ export function initState() {
       'loseCount':100,
       'drawCount':1000,
       'ranking':0,
-      'avatar':require("../media/avatar.png")
+      'avatar':''
     };
     return initStateValue;
 }

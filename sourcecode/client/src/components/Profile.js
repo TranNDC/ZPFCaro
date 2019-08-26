@@ -41,7 +41,7 @@ class Profile extends React.Component {
                 <Modal show={this.state.showProfileModal} onHide={this.closeModal} className={classNameHeightmodal + " " + (this.state.showChangePassword ? "updateHeightModal" : "")}>
                     <TitleModal text="profile" className="prof-marginbot" />
                     <div className="prof-paddingbot">
-                        <UserInfoInProfile avatar={require("../media/avatar.png")} 
+                        <UserInfoInProfile
                         type1="username" 
                         username={this.props.user.username} 
                         type2="points" 
