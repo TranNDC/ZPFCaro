@@ -227,14 +227,26 @@ app.post('/user/email', cors(corsOptions), async (req, res) => {
    res.status(200).json({  message: "Update successfully"})
 })
 
-// Request: token, password
+// Request: token, currentpassword, newpassword 
 // Response: msg error or success
 app.options('/user/password', cors())
 app.post('/user/password', cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
-   password = req.body.password
+   curPassword = req.body.currentpassword
+   newPassword = req.body.newpassword
 
-   result = await service.updateUserPassword(token, password)
+   userInfo = await service.getUserInfo(token)
+   if (!userInfo) {
+      res.status(400).json({ message: "Wrong/Expired token"})
+      return
+   }
+
+   if (await service.comparePassword(curPassword, userInfo.password) == false) {
+      res.status(400).json({ message: "Current password is wrong"})
+      return
+   }
+
+   result = await service.updateUserPassword(token, newPassword)
    if (!result) {
       res.status(400).json({ message: "Wrong/Expired token"})
       return
