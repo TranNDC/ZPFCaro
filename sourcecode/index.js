@@ -234,7 +234,6 @@ app.post('/user/password', cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
    curPassword = req.body.currentpassword
    newPassword = req.body.newpassword
-
    userInfo = await service.getUserInfo(token)
    if (!userInfo) {
       res.status(400).json({ message: "Wrong/Expired token"})

@@ -52,6 +52,17 @@
     height: 30px;
 }
 
+.prof-message{
+    text-align: right;
+    float: right;
+    /* margin-right: 8px; */
+    color: rgb(32, 170, 78);
+}
+
+.prof-message.error{
+    color: rgb(245, 4, 4);
+}
+
 .prof-changepassword {
     width: 350px;
 }

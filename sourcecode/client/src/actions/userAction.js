@@ -11,8 +11,10 @@ export const LOGIN = "user.LOGIN";
 export const UPDATE_PASSWORD = "user.UPDATE_PASSWORD";
 export const UPDATE_AVATAR = "user.UPDATE_AVATAR";
 export const UPDATE_DISPLAYEDNAME = "user.UPDATE_DISPLAYEDNAME";
+export const UPDATE_EMAIL = 'user.UPDATE_EMAIL'
 export const LOGOUT = "user.LOGOUT";
 export const LOAD_USERINFO = "user.LOAD_USERINFO";
+
 
 //type: response
 export function initUser() {
@@ -73,7 +75,6 @@ export function loadUserInfo(history) {
 }
 
 export function loadUser(data){
-  console.log(data);
   return{
     type: LOAD_USERINFO,
     user: data
@@ -98,21 +99,22 @@ export function updateEmail(value){
   return function(dispatch) {
     return callEmailUpdateApi(value)
       .then(result => {
-        return result.data.message
+        dispatch({type:'UPDATE_EMAIL',value:value})
+        return {message:result.data.message,type:"success"}
       },(err) => {
-        return err.response.data.message;
+        return {message:"Email is already in use",type:"error"}
       })
 
   }
 }
 
-export function updatePassword(value){
+export function updatePassword(currentPass, newPass){
   return function(dispatch) {
-    return callPasswordUpdateApi(value)
+    return callPasswordUpdateApi(currentPass, newPass)
       .then(result => {
-        return result.data.message
+        return {message:result.data.message,type:"success"}
       },(err) => {
-        return err.response.data.message;
+        return {message:err.response.data.message,type:"error"}
       })
 
   }
@@ -122,9 +124,10 @@ export function updateDisplayedName(value){
   return function(dispatch) {
     return callUpdateDisplayedNameApi(value)
       .then(result => {
-        return result.data.message
+        dispatch({type:UPDATE_DISPLAYEDNAME,value:value})
+        return {message:result.data.message,type:"success"}
       },(err) => {
-        return err.response.data.message;
+        return {message:err.response.data.message,type:"error"}
       })
   }
 }
@@ -204,10 +207,10 @@ function callEmailUpdateApi(value) {
   return promise;
 }
 
-function callPasswordUpdateApi(value) {
+function callPasswordUpdateApi(currentPass, newPass) {
   var promise = new Promise(function(resolve, reject) {
     api
-      .post(`/user/password`,{password:value})
+      .post(`/user/password`,{currentpassword:currentPass,newpassword:newPass})
       .then(res => {
         resolve(res);
       })

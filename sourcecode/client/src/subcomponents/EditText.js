@@ -6,8 +6,18 @@ class EditText extends React.Component {
 
     constructor(props) {
       super(props);
-      this.state = { disabled: "disabled" , value: "", typePassword: "password"};
+      this.state = { 
+          disabled: "disabled",
+          value: this.props.defaultValue,
+          typePassword: "password"};
       this.doEdit = this.doEdit.bind(this);
+      this.handleClick = this.handleClick.bind(this);
+    }
+
+    componentWillReceiveProps(newProps){
+        if(newProps.toggle != this.props.toggle){
+            this.setState({ disabled: "disabled" });
+        }
     }
 
     doEdit(e, disableNewPass) {
@@ -15,8 +25,10 @@ class EditText extends React.Component {
         if (disableNewPass == 1) { 
             if (this.state.disabled == "disabled") {
                 this.setState({ disabled: "" });
+                this.setState({value: (this.props.value)?undefined:this.props.value});
             }
             else {
+                this.setState({value:this.props.defaultValue})
                 this.setState({ disabled: "disabled" });
             }  
         }
@@ -30,8 +42,8 @@ class EditText extends React.Component {
         }
     }
 
-    onChangeContent(value) {
-        this.setState({ value: value });
+    handleClick = function(e) {
+        this.props.onChangeValue(e.target.value);
     }
 
     render() {
@@ -66,14 +78,14 @@ class EditText extends React.Component {
             case "email":
                 alt = "icon-email";
                 type = "email";
-                valueInput = this.props.email
+                valueInput = this.props.defaultValue
                 pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$";
                 required = "required";
                 break;
             case "displayedname":
                 alt = "icon-displayed-name";
                 type = "text";
-                valueInput = this.props.displayedname;
+                valueInput = this.props.defaultValue;
                 pattern = ".{5,25}";
                 title = "Displayed name contains 5 to 25 characters";
                 required = "required";
@@ -89,9 +101,9 @@ class EditText extends React.Component {
                     type={type}
                     pattern={pattern}
                     title={title}
-                    value={(this.state.value != "") ? this.state.value : valueInput}
+                    value={this.state.value}
                     required={required}
-                    onChange={e => this.onChangeContent(e.target.value)}
+                    onChange={this.handleClick}
                     className="no-border-right"
                 />
                 <InputGroup.Append>

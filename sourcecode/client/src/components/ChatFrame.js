@@ -100,6 +100,7 @@ class ChatFrame extends React.Component {
               type="text"
               value={this.state.message}
               placeholder="Type a message..."
+              autocomplete="off"
               onChange={e => {
                 this.handleTextChange(e);
               }}

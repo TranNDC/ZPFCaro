@@ -184,7 +184,7 @@ service.updateUserPassword = async (token, password) => {
     verifyToken = await service.verifyJWT(token)
     if (!verifyToken) return false
     username = verifyToken.username
-    hashPass = service.hashPassword(password)
+    hashPass = await service.hashPassword(password)
     return (await repoMongo.updatePasswordOfUser(username, hashPass))
 }
 
