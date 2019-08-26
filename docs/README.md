@@ -1,4 +1,4 @@
-# ZPF CARO PROJECT
+# ZPF CARO DOCUMENT
 
 ## ĐỘI NGŨ PHÁT TRIỂN
 * Nguyễn Đỗ Cát Trân - VNG Zalopay Fresher 2019
@@ -81,9 +81,21 @@
     * server-ask-client-leave-room
     * room-has-player-out
 
-## HƯỚNG DẪN CHẠY CHƯƠNG TRÌNH
-
-
-
-
+## HƯỚNG DẪN KHỞI CHẠY (TEST) CHƯƠNG TRÌNH
+* Tải folder `sourcecode` về máy.
+* `cd` vào trong folder `sourcecode` và thực hiện lệnh `npm install`.
+* `cd` vào trong folder `sourcecode/client` và thực hiện lệnh `npm install`.
+* `cd` về lại folder `sourcecode`.
+* Khởi chạy MongoDB và Redis.
+* Thực hiện lệnh `npm run dev` để chạy chương trình.
+* ***Lưu ý:***
+    * Cài đặt MongoDB (theo Hệ điều hành của máy tính).
+    * Cài đặt MongoDB Compass Community (MCC) để dễ dàng quản lý các dữ liệu lưu trữ.
+    * Khởi chạy MongoDB theo các bước bên dưới:
+        * Mở MongoDB đã tải về `.../MongoDB/Server/<version>/bin/mongod.exe`
+        * Mở MCC và kết nối (Không cần config bất kì field nào).
+        * Tạo Database với tên `ZPFCaro` và một collection đầu tiên `Users` ngay trong MCC.
+        * Tạo thêm collection thứ hai tên là `Games`.
+    * Cài đặt Redis (theo Hệ điều hạnh của máy tính).
+    * Mở hai terminal, một terminal chạy với lệnh `redis-server`, cái còn lại chạy với lệnh `redis-cli`.
 
