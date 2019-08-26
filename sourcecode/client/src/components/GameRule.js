@@ -36,7 +36,7 @@ class GameRule extends React.Component {
                         </label>
                         <label className="gamerule-paddinglittletop gamerule-paddinglittlebot">
                             <b>Size of gameboard: </b>
-                            32 x 22 (total: 704 cells)
+                            32 x 22 (Total: 704 cells)
                         </label>
                         <label className="gamerule-paddinglittletop gamerule-paddinglittlebot">
                             <b>How to play?</b>
