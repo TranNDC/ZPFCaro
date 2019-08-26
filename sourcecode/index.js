@@ -494,6 +494,7 @@ io.on('connection', function(socket) {
 
    // Function process win/lose game
    // Parameter: roomid, isHost (host is winner or not), hasExit (has someone exists when the game does not end up or not)
+   // If someone exists when the game does not end up => That player won't receive any points for lose/draw/win
    async function processWinloseGame(roomid, isHost, hasExit) {
       currentRoom = await service.getInfoOneGameRoomNoToken(roomid)
 
