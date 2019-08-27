@@ -12,6 +12,7 @@ import Game from "./pages/Game";
 import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Error404 from "./pages/Error404";
 
 // -------------------------------
 // TEST INPUTTEXT
@@ -221,6 +222,11 @@ import Register from "./pages/Register";
 // TEST TitleModal
 // -------------------------------
 // ReactDOM.render(<TitleModal text="PROFILE" />, document.getElementById('root'));
+
+// -------------------------------
+// TEST ERROR404
+// -------------------------------
+// ReactDOM.render(<Error404 />, document.getElementById('root'));
 
 // -------------------------------
 // TEST ENDGAMEBOX
