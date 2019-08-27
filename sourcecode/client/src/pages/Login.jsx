@@ -12,7 +12,7 @@ import { getJwtFromStorage } from "../utils/storageUtil";
 class Login extends React.Component {
   constructor(props) {
     super(props);
-    if(getJwtFromStorage() && getJwtFromStorage()!="")
+    if(getJwtFromStorage() && getJwtFromStorage() !== "")
       this.props.history.push('/');
     this.state={}
     this.handleChangeUsername = this.handleChangeUsername.bind(this);

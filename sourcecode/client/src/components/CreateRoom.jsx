@@ -6,8 +6,6 @@ import { Modal, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { createGameRoom } from "../actions/roomAction";
-// import { creaRoomReq } from "../utils/roomUtil";
-import { getJwtFromStorage } from "../utils/storageUtil"
 
 import TitleModal from '../subcomponents/TitleModal';
 class CreateRoom extends React.Component {

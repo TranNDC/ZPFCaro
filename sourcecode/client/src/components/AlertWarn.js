@@ -5,7 +5,6 @@ import { Modal, Button } from 'react-bootstrap';
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import {leaveGame,wantToQuitGame} from '../actions/gameAction'
-import { bindActionCreators } from 'redux';
 
 // -------------------------------
 // TEST ALERTWARN
@@ -27,7 +26,7 @@ class AlertWarn extends React.Component {
     }
 
     componentWillReceiveProps(nprops){
-        if (nprops.isOpen != this.state.showAWModal){
+        if (nprops.isOpen !== this.state.showAWModal){
             this.setState({showAWModal:nprops.isOpen})
         }
     }
@@ -48,7 +47,7 @@ class AlertWarn extends React.Component {
     render() {
         let className = "alertwarn-heightmodal "
         let numBtn = 1
-        if (this.props.numBtn == "2") numBtn = 2
+        if (this.props.numBtn === "2") numBtn = 2
         let msg = this.props.msg
         if (msg == null || msg.length == 0) msg = "Are you sure to quit the game? You will lose!"
         if (msg.length > 34) {
@@ -73,7 +72,7 @@ class AlertWarn extends React.Component {
                     </div>
                     <div className="alertwarn-margintop">
                         {
-                            (numBtn == 1) ? 
+                            (numBtn === 1) ? 
                             (
                                 <Button className="rect-btn text-black small-width btn-for-modal" onClick={this.closeModal}>ok</Button>
                             ) : 

@@ -4,10 +4,6 @@ import UserInfoRow from "../subcomponents/UserInfoRow";
 import './UserInfoInProfile.css';
 
 class UserInfo extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     renderInfoRowByType = (type) => {
         switch (type) {
             case "username":

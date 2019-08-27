@@ -15,7 +15,7 @@ class RequestChangePassword extends React.Component {
     this.state = {
 
     }
-    if(getJwtFromStorage() && getJwtFromStorage()!="")
+    if(getJwtFromStorage() && getJwtFromStorage()!=="")
       this.props.history.push('/');
     this.handleChangeEmail = this.handleChangeEmail.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -73,13 +73,13 @@ class RequestChangePassword extends React.Component {
     let message = await this.props.forgotPassword(email, this.props.history);
     this.setState({ emailMessage: message.message });
     this.setState({ emailType: message.type });
-    if (message.type == "success") {
+    if (message.type === "success") {
       this.setState({
         emailMessage:
           "A message with a link to reset your password has been sent to your email."
       });
     }
-    if (message.type == "error") {
+    if (message.type === "error") {
       this.setState({
         emailMessage:
           "No e-mail address matches your entry. Make sure you entered the correct e-mail."

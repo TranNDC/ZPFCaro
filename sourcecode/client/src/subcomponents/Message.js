@@ -2,10 +2,6 @@ import React from 'react';
 import './Message.css';
 
 class Message extends React.Component{
-    constructor(props){
-      super(props)
-    }
-
     render() {
         let classes = "msg-message-container " + this.props.type +' '+this.props.className;
         let avatar = <img className='msg-avatar' alt={this.props.username} src={this.props.avatar}/>

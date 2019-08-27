@@ -14,7 +14,7 @@ import { getJwtFromStorage } from "../utils/storageUtil";
 class ResetPassword extends React.Component {
   constructor(props) {
     super(props);
-    if (getJwtFromStorage() && getJwtFromStorage() != "")
+    if (getJwtFromStorage() && getJwtFromStorage() !== "")
       this.props.history.push("/");
     this.props.preResetPassword(this.props.match.params.authentication,this.props.history);
     this.state = {
@@ -82,7 +82,7 @@ class ResetPassword extends React.Component {
     let message = await this.props.resetPassword(data, this.props.history);
     this.setState({ message: message.message });
     this.setState({ messType: message.type });
-    if (message.type == "success") {
+    if (message.type === "success") {
       this.setState({
         message:
           "We've updated your password successfully! Back to Login in 3s"
@@ -93,7 +93,7 @@ class ResetPassword extends React.Component {
         }, 3000
       )
     }
-    if (message.type == "error") {
+    if (message.type === "error") {
       this.setState({
         message:
           "Something went wrong. Please try again!"

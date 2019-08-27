@@ -1,29 +1,12 @@
 import Message from "../subcomponents/Message";
-import BlackButton from "../subcomponents/BlackButton";
 import React from "react";
 import { FormGroup, FormControl } from "react-bootstrap";
 import { addMyMessage } from "../actions/chatAction";
 import { connect } from "react-redux";
 import { Button } from "react-bootstrap";
 
-import io from 'socket.io-client';
-
 import "./ChatFrame.css";
 import "../subcomponents/BlackButton.css";
-
-// class ChatInput extends React.Component {
-//   render() {
-//     return (
-//       <FormGroup controlId="formBasicEmail">
-//         <FormControl
-//           className="m-0"
-//           type="text"
-//           placeholder="Type a message..."
-//         />
-//       </FormGroup>
-//     );
-//   }
-// }
 
 class ChatFrame extends React.Component {
   constructor(props) {
@@ -48,7 +31,7 @@ class ChatFrame extends React.Component {
   }
 
   handleClick() {
-    if (this.state.message.trim() == "") return;
+    if (this.state.message.trim() === "") return;
 
     this.setState({ message: "" });
 

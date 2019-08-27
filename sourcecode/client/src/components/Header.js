@@ -1,7 +1,4 @@
 import React from 'react';
-import {clearStorage} from "../utils/storageUtil";
-import {api} from "../api/api";
-
 import LogoTitle from '../subcomponents/LogoTitle';
 import './Header.css';
 import '../subcomponents/CircleButton.css';
@@ -22,7 +19,7 @@ class Header extends React.Component {
   }
 
   logOut(e) {
-    if (this.props.roomId && this.props.roomId != "") {
+    if (this.props.roomId && this.props.roomId !== "") {
       this.props.wantToQuitGame(false,true);
     } else {
       this.props.logout(this.props.history);

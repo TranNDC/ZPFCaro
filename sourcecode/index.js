@@ -416,7 +416,7 @@ app.post('/resetpassword/:token', cors(corsOptions), async (req, res) => {
 
 getAsync = require('util').promisify(server.listen).bind(server)
 getAsync(port).then(async () => {
-   console.log("App is listening on port 5000...")
+console.log("App is listening on port 5000...")
    await service.connectRedis();
    await service.connectMongoDB();
 }).then(() => {
@@ -437,7 +437,7 @@ io.on('connection', function(socket) {
 
    // Broadcast info about ListGameRoom
    // Parameter: STRING token
-   socket.on('client-request-info-listgameroom', async function(token) {
+socket.on('client-request-info-listgameroom', async function(token) {
       result = await service.getInfoAllGameRoom(token)
       if (!result) return
       socket.emit('server-send-info-listgameroom', result)

@@ -7,7 +7,6 @@ import { withRouter } from "react-router-dom";
 import AlertWarn from '../components/AlertWarn'
 import "./Game.css";
 import { connect } from "react-redux";
-import { Prompt } from 'react-router'
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { initUser } from "../actions/userAction";
@@ -37,7 +36,7 @@ class Game extends React.Component {
     this.startCountDown = this.startCountDown.bind(this);
     this.startTimer = this.startTimer.bind(this);
     this.tick = this.tick.bind(this);
-    if(!this.props.opponent || this.props.opponent == {}){
+    if(!this.props.opponent || this.props.opponent === {}){
       this.props.waittingGame(this.props.history)
     }
     else{
@@ -72,7 +71,7 @@ class Game extends React.Component {
     if (this.props.isWaiting !== nextProps.isWaiting){
       this.startGame();
     }
-    if (nextProps.result && nextProps.result != ''){
+    if (nextProps.result && nextProps.result !== ''){
       this.openEndModal(nextProps.result)
     }
   }
@@ -83,7 +82,7 @@ class Game extends React.Component {
         counterTime: this.state.counterTime-1,
         counterHidden:''
       });
-      if (this.state.counterTime == -1) {
+      if (this.state.counterTime === -1) {
         clearInterval(cdIntervalId);
         this.startTimer();
         this.setState({

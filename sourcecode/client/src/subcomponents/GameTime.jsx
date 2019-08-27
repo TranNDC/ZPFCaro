@@ -2,12 +2,6 @@ import "./GameTime.css";
 import React from "react";
 import { connect } from "react-redux";
 class GameTime extends React.Component {
-  constructor(props) {
-    super(props);
-    // this.startTimer = this.startTimer.bind(this);
-    // this.tick = this.tick.bind(this);
-  }
-
   componentDidMount() {
     // this.startTimer();
   }

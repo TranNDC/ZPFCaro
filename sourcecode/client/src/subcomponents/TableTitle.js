@@ -2,10 +2,6 @@ import React from 'react';
 import './TableTitle.css';
 
 class TableTitle extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         let className = this.props.className + " tt-title";
         return (

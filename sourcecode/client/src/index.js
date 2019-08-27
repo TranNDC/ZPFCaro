@@ -20,7 +20,6 @@ import ResetPassword from "./pages/ResetPassword";
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
 window.store = store;
-let avatar = require("./media/avatar.png");
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>

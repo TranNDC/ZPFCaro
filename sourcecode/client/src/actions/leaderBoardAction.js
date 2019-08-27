@@ -1,9 +1,6 @@
-import { api } from "../api/api";
 import {store} from "../index";
-import  { Redirect } from 'react-router-dom'
-import {creaRoomReq} from "../utils/roomUtil";
 
-import {getJwtFromStorage,clearStorage} from '../utils/storageUtil'
+import {getJwtFromStorage} from '../utils/storageUtil'
 
 export const INIT_LEADERBOARD = "leaderBoard.INIT";
 export const LOAD_LEADERBOARD = "leaderBoard.LOAD";
