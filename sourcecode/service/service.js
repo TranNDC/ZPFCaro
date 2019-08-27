@@ -6,18 +6,22 @@ let jwt = require('jsonwebtoken');
 let service = {}
 
 /* --------------------------------------------------------------
-                    REPOSITORY OF MONGODB 
+                            FUNCTIONS
    -------------------------------------------------------------- */
-// Connect to repository of MongoDB
-service.connectMongoDB = () => {
-    repoMongo.connectMongoDB()
-}
 
 // Generate JWT (Auto expires after 7 days)
 // Parameter: JSON data
 // Result: Token
 service.generateJWT = async (data) => {
     return (await jwt.sign(data, tokenKey, {expiresIn: "7d"}))
+}
+
+// Generate JWT (with expires after x minutes)
+// Parameter: JSON data, minutes
+// Result: Token
+service.generateJWTExpMinutes = async (data, minutes) => {
+    exp = minutes + 'm'
+    return (await jwt.sign(data, tokenKey, {expiresIn: exp}))
 }
 
 // Verify JWT
@@ -68,6 +72,57 @@ service.hashPassword = async (rawPass) => {
     return (await bcrypt.hash(rawPass, 12))
 }
 
+// Send email "forgotpassword" to user
+// Parameter: STRING email, username, url
+// Result: True | False
+service.sendEmail = (email, username, url) => {
+    let nodemailer = require('nodemailer');
+
+    let transporter = nodemailer.createTransport({
+        service: 'smtp.gmail.com',
+        secure: true,
+        auth: {
+          user: 'zpfcaro@gmail.com',
+          pass: 'zpfcaro2019'
+        }
+    });
+      
+    let mailOptions = {
+        from: 'zpfcaro@gmail.com',
+        to: email,
+        subject: '[ZPFCaro] Request Change Password',
+        html: 
+            <div>
+                Dear {username},
+
+                You have asked to reset your password for ZPF Caro. Please click the link below to change your password.
+
+                <a href={url}>Click to change password</a>
+                
+                This link will work for 30 minutes after this email was sent.
+
+                If you didn't ask for a new password, please ignore this email. Don't worry: your account is still secure, and no one else can access it. You can continue to log in with your existing password.
+
+                Best wishes,
+
+                Customer Support
+                ZPF Caro
+                *** This is an automatically generated email, please do not reply ***
+            </div>
+    };
+
+    transporter.sendMail(mailOptions);
+}
+
+/* --------------------------------------------------------------
+                    REPOSITORY OF MONGODB 
+   -------------------------------------------------------------- */
+
+// Connect to repository of MongoDB
+service.connectMongoDB = () => {
+    repoMongo.connectMongoDB()
+}
+
 // Check info of login
 // Parameter: STRING username, password
 // Result: Token (login succesfully) | False (Wrong username, password, error)
@@ -95,8 +150,17 @@ service.getUserInfo = async (token) => {
 }
 
 // Get user info (by id & no token)
+// Parameter: STRING id
+// Result: False | User info
 service.getUserInfoByIDNoToken = async (id) => {
     return (await repoMongo.getUserById(id))
+}
+
+// Get user info (by email & no token)
+// Parameter: STRING email
+// Result: False | User info
+service.getUserInfoByEmailNoToken = async (email) => {
+    return (await repoMongo.getUserByEmail(email))
 }
 
 // Update losenum
@@ -258,6 +322,7 @@ service.addGame = async (newGame) => {
 /* --------------------------------------------------------------
                         REPOSITORY OF REDIS 
    -------------------------------------------------------------- */
+
 // Connect to repository of MongoDB
 service.connectRedis = () => {
     repoRedis.connectRedis()

@@ -33,7 +33,7 @@ app.post('/login', cors(corsOptions), async (req, res) => {
       res.status(200).json({token: result})
    }
    else {
-      res.status(400).json({message: "Username or password is wrong"})
+      res.status(400).json({message: "Username or password is wrong" })
    }
 })
 
@@ -45,11 +45,11 @@ app.post('/logout', cors(corsOptions), async (req, res) => {
 
    result = await service.addTokenToBLJWT(token)
    if (!result) {
-      res.status(404).json({message: "Wrong token, logout fail"})
+      res.status(404).json({message: "Wrong token, logout fail" })
       return
    }
   
-    res.status(200).json({message: "Logout successfully"})
+    res.status(200).json({message: "Logout successfully" })
 })
 
 // Request: username, password, email, displayedName
@@ -62,12 +62,12 @@ app.post('/register', cors(corsOptions), async (req, res) => {
    displayedName = req.body.displayedName
 
    if (! (await service.isUniqueUsername(username))) {
-      res.status(400).json({ message: "This username existed, please choose another"})
+      res.status(400).json({ message: "This username existed, please choose another" })
       return
    }
 
    if (! (await service.isUniqueEmail(email))) {
-      res.status(400).json({message: "This email existed, please choose another"})
+      res.status(400).json({message: "This email existed, please choose another" })
       return
    }
 
@@ -75,11 +75,11 @@ app.post('/register', cors(corsOptions), async (req, res) => {
 
    result = await service.addNewUser(username, password, email, displayedName, avatar)
    if (result == null) {
-      res.status(500).json({message: "Server registered new account fail"})
+      res.status(500).json({message: "Server registered new account fail" })
       return
    }
 
-   res.status(200).json({message: "Register new account successfully"})
+   res.status(200).json({message: "Register new account successfully" })
 })
 
 // Request: token
@@ -95,7 +95,7 @@ app.get('/gameroom/all', cors(corsOptions), cors(corsOptions), async (req, res) 
    }
 
    if (listGameRoom == false){
-      res.status(400).json({message: "Wrong/Expired token"})
+      res.status(400).json({message: "Wrong/Expired token" })
       return
    }
 
@@ -111,7 +111,7 @@ app.get('/gameroom/one', cors(corsOptions), async (req, res) => {
 
    grInfo = await service.getInfoOneGameRoom(token, gid)
    if (!grInfo) {
-      res.status(400).json({ message: "Wrong/Expired token or room not found"})
+      res.status(400).json({ message: "Wrong/Expired token or room not found" })
       return
    }
 
@@ -127,11 +127,11 @@ app.post('/gameroom', cors(corsOptions), async (req, res) => {
    gameroom = req.body.gameroom
    result = await service.setGameRoom(token, gameroom)
    if (!result) {
-      res.status(400).json({ message: "Wrong/Expired token"})
+      res.status(400).json({ message: "Wrong/Expired token" })
       return
    }
 
-   res.status(200).json({ message: "Update successfully"})
+   res.status(200).json({ message: "Update successfully" })
 })
 
 // Request: token, json uuid, json guest_id
@@ -143,11 +143,11 @@ app.post('/gameroom/guest',cors(corsOptions), async (req, res) => {
 
    result = await service.updateGuestAndStatusGR(token, uuid, guest_id)
    if (!result) {
-      res.status(400).json({message: "Wrong/Expired token or room not empty"})
+      res.status(400).json({message: "Wrong/Expired token or room not empty" })
       return
    }
 
-   res.status(200).json({ message: "Update successfully"})
+   res.status(200).json({ message: "Update successfully" })
 })
 
 // Request: token
@@ -158,7 +158,7 @@ app.get('/leaderboard/top6', cors(corsOptions), async (req, res) => {
 
    leaderboard = await service.getTop6LB(token)
    if (!leaderboard) {
-      res.status(400).json({ message: "Wrong/Expired token"})
+      res.status(400).json({ message: "Wrong/Expired token" })
       return
    }
 
@@ -173,7 +173,7 @@ app.get('/leaderboard/all', cors(corsOptions), async (req, res) => {
 
    leaderboard = await service.getAllTopLB(token)
    if (!leaderboard) {
-      res.status(400).json({ message: "Wrong/Expired token"})
+      res.status(400).json({ message: "Wrong/Expired token" })
       return
    }
 
@@ -188,7 +188,7 @@ app.get('/user', cors(corsOptions), async (req, res) => {
 
    userInfo = await service.getUserInfo(token)
    if (!userInfo) {
-      res.status(400).json({ message: "Wrong/Expired token"})
+      res.status(400).json({ message: "Wrong/Expired token" })
       return
    }
 
@@ -204,11 +204,11 @@ app.post('/user/name', cors(corsOptions), async (req, res) => {
 
    result = await service.updateUserDisplayedName(token, name)
    if (!result) {
-      res.status(400).json({ message: "Wrong/Expired token"})
+      res.status(400).json({ message: "Wrong/Expired token" })
       return
    }
 
-   res.status(200).json({  message: "Update successfully"})
+   res.status(200).json({  message: "Update successfully" })
 })
 
 // Request: token, error
@@ -220,11 +220,11 @@ app.post('/user/email', cors(corsOptions), async (req, res) => {
 
    result = await service.updateUserEmail(token, email)
    if (!result) {
-      res.status(400).json({ message: "Wrong/Expired token or Existed email"})
+      res.status(400).json({ message: "Wrong/Expired token or Existed email" })
       return
    }
 
-   res.status(200).json({  message: "Update successfully"})
+   res.status(200).json({  message: "Update successfully" })
 })
 
 // Request: token, currentpassword, newpassword 
@@ -236,22 +236,22 @@ app.post('/user/password', cors(corsOptions), async (req, res) => {
    newPassword = req.body.newpassword
    userInfo = await service.getUserInfo(token)
    if (!userInfo) {
-      res.status(400).json({ message: "Wrong/Expired token"})
+      res.status(400).json({ message: "Wrong/Expired token" })
       return
    }
 
    if (await service.comparePassword(curPassword, userInfo.password) == false) {
-      res.status(400).json({ message: "Current password is wrong"})
+      res.status(400).json({ message: "Current password is wrong" })
       return
    }
 
    result = await service.updateUserPassword(token, newPassword)
    if (!result) {
-      res.status(400).json({ message: "Wrong/Expired token"})
+      res.status(400).json({ message: "Wrong/Expired token" })
       return
    }
 
-   res.status(200).json({  message: "Update successfully"})
+   res.status(200).json({  message: "Update successfully" })
 })
 
 // Request: token, avatar
@@ -263,11 +263,11 @@ app.post('/user/avatar', cors(corsOptions), async (req, res) => {
 
    result = await service.updateUserAvatar(token, avatar)
    if (!result) {
-      res.status(400).json({ message: "Wrong/Expired token"})
+      res.status(400).json({ message: "Wrong/Expired token" })
       return
    }
 
-   res.status(200).json({  message: "Update successfully"})
+   res.status(200).json({  message: "Update successfully" })
 })
 
 // Request: token, points
@@ -279,11 +279,11 @@ app.post('/user/points', cors(corsOptions), async (req, res) => {
 
    result = await service.updateUserPoints(token, points)
    if (!result) {
-      res.status(400).json({ message: "Wrong/Expired token"})
+      res.status(400).json({ message: "Wrong/Expired token" })
       return
    }
 
-   res.status(200).json({  message: "Update successfully"})
+   res.status(200).json({  message: "Update successfully" })
 })
 
 // Request: token, winnum
@@ -299,7 +299,7 @@ app.post('/user/winnum', cors(corsOptions), async (req, res) => {
       return
    }
 
-   res.status(200).json({  message: "Update successfully"})
+   res.status(200).json({  message: "Update successfully" })
 })
 
 // Request: token, drawnum
@@ -311,11 +311,11 @@ app.post('/user/drawnum', cors(corsOptions), async (req, res) => {
 
    result = await service.updateUserDrawNum(token, drawnum)
    if (!result) {
-      res.status(400).json({ message: "Wrong/Expired token"})
+      res.status(400).json({ message: "Wrong/Expired token" })
       return
    }
 
-   res.status(200).json({  message: "Update successfully"})
+   res.status(200).json({  message: "Update successfully" })
 })
 
 // Request: token, losenum
@@ -331,7 +331,7 @@ app.post('/user/losenum', cors(corsOptions), async (req, res) => {
       return
    }
 
-   res.status(200).json({  message: "Update successfully"})
+   res.status(200).json({  message: "Update successfully" })
 })
 
 // Request: token
@@ -342,11 +342,64 @@ app.get('/user/ranking', cors(corsOptions), async (req, res) => {
 
    result = await service.getMyRanking(token)
    if (!result) {
-      res.status(400).json({ errorMsg: "Wrong/Expired token"})
+      res.status(400).json({ message: "Wrong/Expired token"})
       return
    }
 
-   res.status(200).json({  ranking: result})
+   res.status(200).json({  ranking: result })
+})
+
+// Request: Email
+// Response: Fail | Success
+app.options('/resetpassword', cors())
+app.post('/resetpassword', cors(corsOptions), async (req, res) => {
+   email = req.body.email
+
+   userInfo = await service.getUserInfoByEmailNoToken(email)
+   if (!userInfo) {
+      res.status(400).json({ message: "Email does not exist"})
+      return
+   }
+
+   username = '{"username" : "' + userInfo.username + '"}'
+   username = JSON.parse(username)
+   token = await service.generateJWTExpMinutes(username, 30)
+   url = 'http://localhost:3000/resetpassword/' + token
+
+   await service.sendEmail(email, userInfo.username, url)
+
+   res.status(200).json({  message: "Request change password has sent, please check your Email!" })
+})
+
+// Request: token with URL(/resetpassword/<token>)
+// Response: Fail | username
+app.options('/resetpassword/:token', cors())
+app.get('/resetpassword/:token', cors(corsOptions), async (req, res) => {
+   jwt = req.params.token
+
+   checkJWT = await service.verifyJWT(jwt)
+   if (!checkJWT) {
+      res.status(400).json({ message: "Page does not exist anymore" })
+      return
+   }
+
+   res.status(200).json({ username: checkJWT })
+})
+
+// Request: token (header), STRING newpassword
+// Response: Fail | Success
+app.options('/resetpassword/update', cors())
+app.post('/resetpassword/update', cors(corsOptions), async (req, res) => {
+   token = req.headers.authorization
+   newpass = req.body.newpass
+
+   result = await service.updateUserPassword(token, newpass)
+   if (!result) {
+      res.status(400).json({ message: "Wrong/Expired token"})
+      return
+   }
+
+   res.status(200).json({  message: "Update new password successfully" })
 })
 
 server.listen(port, () => {
