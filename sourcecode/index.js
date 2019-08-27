@@ -437,7 +437,7 @@ io.on('connection', function(socket) {
 
    // Broadcast info about ListGameRoom
    // Parameter: STRING token
-socket.on('client-request-info-listgameroom', async function(token) {
+   socket.on('client-request-info-listgameroom', async function(token) {
       result = await service.getInfoAllGameRoom(token)
       if (!result) return
       socket.emit('server-send-info-listgameroom', result)
@@ -453,14 +453,17 @@ socket.on('client-request-info-listgameroom', async function(token) {
    
    // Set interval for broadcast info Leaderboard & ListGameRoom
    setInterval(async function() {
+      console.log("10s")
       // Leaderboard
       leaderboard = await service.getTop6LBNoToken()
       if (!leaderboard) leaderboard = [];
+      console.log(leaderboard)
       socket.emit('server-send-info-leaderboard', leaderboard)
 
       // List Game Room
       listgameroom = await service.getInfoAllGameRoomNoToken()
       if (!listgameroom) listGameRoom = [];
+      console.log(listgameroom)
       socket.emit('server-send-info-listgameroom', listgameroom)
    }, 10000)
 

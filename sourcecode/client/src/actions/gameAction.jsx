@@ -1,3 +1,4 @@
+import io from "socket.io-client"
 import { store } from "../index";
 import { calculateResult, createNewRandomMove } from "../utils/gameUtil";
 import { logout } from "./userAction";

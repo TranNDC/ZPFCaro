@@ -1,3 +1,4 @@
+import io from "socket.io-client";
 import {store} from "../index";
 import {joinGameGuestReq, creaRoomReq, joinGameInfoRoomReq} from "../utils/roomUtil";
 import {getJwtFromStorage,clearStorage} from '../utils/storageUtil'
@@ -124,6 +125,8 @@ export function joinGameRoom(userId, displayedName, roomId, betPoints, password,
 
 
 function loadGameRoomAction(data){
+  console.log("(------------------------)")
+  console.log(data)
   let userId = store.getState().userReducer.id;
   return{
     type: LOAD_GAMEROOMS,
