@@ -41,6 +41,15 @@ repoRedis.isMemberBLJWT = (jwt) => {
 // ------------------------------------------------
 const keyLB = "Leaderboard"
 
+// Check REDIS Leaderboard is empty or not
+// Result: True | False
+repoRedis.isEmptyLeaderboard = () => {
+    getAsync = promisify(client.keys).bind(client)
+    return getAsync(keyLB).then((res) => {
+        return ((res==null) ? true : false);
+    })
+}
+
 // Add user to Leaderboard
 // Parameter: STRING username, INT points
 repoRedis.setFieldLB = (username, points) => {

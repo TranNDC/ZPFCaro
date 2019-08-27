@@ -351,6 +351,21 @@ service.addTokenToBLJWT = async (token) => {
     return (await repoRedis.setBLJWT(token, expires))
 }
 
+// Check REDIS Leaderboard is empty or not
+// Result: True | False
+service.isEmptyLB() = async () => {
+    return (await repoRedis.isEmptyLeaderboard())
+}
+
+// Load all ranking (leaderboard) from MongoDB to Redis when Leaderboard in Redis is empty
+service.loadLBInRedis = async () => {
+    if (!await service.isEmptyLB()) return
+    arrayUser = await repoMongo.getAllUsers()
+    arrayUser.forEach(async element => {
+        await service.updatePointsLB(element.username, element.points)
+    });
+}
+
 // Add/Update points into leaderboard
 // Parameter: STRING username, INT points
 service.updatePointsLB = (username, points) => {
