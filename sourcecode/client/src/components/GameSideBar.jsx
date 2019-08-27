@@ -59,9 +59,11 @@ class GameSideBar extends React.Component {
 
           </Row>
         </Container>
+        {this.props.opponent && 
         <div className="gsb-chat-container">
           <ChatFrame opponent={this.props.opponent} />
         </div>
+        }
       </Container>
     );
   }

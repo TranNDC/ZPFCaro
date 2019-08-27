@@ -30,7 +30,7 @@ class Game extends React.Component {
     //   game: { result: "", stateEGB: false }
     // };
     this.state = {
-      counterTime: 6, counterGo: (!this.props.opponent||this.props.opponent.isHost==false)?"FIRST":"GO", counterHidden: "hidden",
+      counterTime: 6, counterGo: "GO", counterHidden: "hidden",
       game: { result: "", stateEGB: false }
     };
     this.startCountDown = this.startCountDown.bind(this);
