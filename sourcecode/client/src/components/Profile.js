@@ -1,15 +1,19 @@
-import React from 'react';
-import './Profile.css';
-import '../subcomponents/RectButton.css';
-import '../subcomponents/CircleButton.css';
+import React from "react";
+import "./Profile.css";
+import "../subcomponents/RectButton.css";
+import "../subcomponents/CircleButton.css";
 import TitleModal from "../subcomponents/TitleModal";
-import EditText from '../subcomponents/EditText';
-import UserInfoInProfile from './UserInfoInProfile';
-import { Modal, Button } from 'react-bootstrap';
+import EditText from "../subcomponents/EditText";
+import UserInfoInProfile from "./UserInfoInProfile";
+import { Modal, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
-import {updateDisplayedName,updatePassword,updateEmail} from '../actions/userAction'
+import {
+  updateDisplayedName,
+  updatePassword,
+  updateEmail
+} from "../actions/userAction";
 
 class Profile extends React.Component {
   constructor(props) {
@@ -37,8 +41,12 @@ class Profile extends React.Component {
   }
 
   closeModal() {
-    
-    this.setState({ showProfileModal: false, displayedNameMessage:'',emailMessage:'',passwordMessage:''});
+    this.setState({
+      showProfileModal: false,
+      displayedNameMessage: "",
+      emailMessage: "",
+      passwordMessage: ""
+    });
   }
 
   openModal() {
@@ -53,8 +61,10 @@ class Profile extends React.Component {
     let classNameHeightmodal = "prof-heightmodal";
     let classNameEmailMess =
       "prof-label prof-message " + this.state.emailMessageType;
-    let classNameDisplayedNameMess = "prof-label prof-message " + this.state.displayedNameMessageType;
-    let classPasswordMess = "prof-label prof-message " + this.state.passwordType;
+    let classNameDisplayedNameMess =
+      "prof-label prof-message " + this.state.displayedNameMessageType;
+    let classPasswordMess =
+      "prof-label prof-message " + this.state.passwordType;
 
     return (
       <>
@@ -73,8 +83,8 @@ class Profile extends React.Component {
             (this.state.showChangePassword ? "updateHeightModal" : "")
           }
         >
+          <TitleModal text="profile" className="prof-marginbot" />
           <form onSubmit={this.handleSubmit}>
-            <TitleModal text="profile" className="prof-marginbot" />
             <div className="prof-paddingbot">
               <UserInfoInProfile
                 type1="username"
@@ -132,7 +142,9 @@ class Profile extends React.Component {
                 className="prof-btnlabel"
               >
                 <label className="prof-label">Change Password</label>
-                <label className={classPasswordMess}>{this.state.passwordMessage}</label>
+                <label className={classPasswordMess}>
+                  {this.state.passwordMessage}
+                </label>
               </a>
               {this.state.showChangePassword && (
                 <>
@@ -179,7 +191,6 @@ class Profile extends React.Component {
       this.state.displayedName &&
       this.state.displayedName != this.props.user.displayedName
     ) {
-    
       let message = await this.props.updateDisplayedName(
         this.state.displayedName
       );
@@ -199,19 +210,18 @@ class Profile extends React.Component {
       }
     }
 
-
     if (this.state.currentPassword && this.state.newPassword) {
-        if (this.state.currentPassword == this.state.newPassword) {
-          this.setState({ passwordMessage: "New password must be different" });
-          this.setState({ passwordType: "error" });
-        } else {
-          let message = await this.props.updatePassword(
-            this.state.currentPassword,
-            this.state.newPassword
-          );
-          this.setState({ passwordMessage: message.message });
-          this.setState({ passwordType: message.type });
-        }
+      if (this.state.currentPassword == this.state.newPassword) {
+        this.setState({ passwordMessage: "New password must be different" });
+        this.setState({ passwordType: "error" });
+      } else {
+        let message = await this.props.updatePassword(
+          this.state.currentPassword,
+          this.state.newPassword
+        );
+        this.setState({ passwordMessage: message.message });
+        this.setState({ passwordType: message.type });
+      }
     }
     //     let message = await this.props.updateEmail(this.state.email);
     //     this.setState({ emailMessage: message.message });
@@ -239,33 +249,29 @@ class Profile extends React.Component {
   }
 }
 
-
-
-
 function mapStateToProps(state, index) {
-    return {
-        user: state.userReducer
-    };
-  }
-  
-  function mapDispatchToProps(dispatch) {
-    return {
-        updateEmail(value){
-            return dispatch(updateEmail(value))
-        },
-        updateDisplayedName(value){
-            return dispatch(updateDisplayedName(value))
-        },
-        updatePassword(oldPass,newPass){
-            return dispatch(updatePassword(oldPass,newPass))
-        },
-    };
-  }
-  
-  export default withRouter(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps
-    )(Profile)
-  );
-  
+  return {
+    user: state.userReducer
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    updateEmail(value) {
+      return dispatch(updateEmail(value));
+    },
+    updateDisplayedName(value) {
+      return dispatch(updateDisplayedName(value));
+    },
+    updatePassword(oldPass, newPass) {
+      return dispatch(updatePassword(oldPass, newPass));
+    }
+  };
+}
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Profile)
+);

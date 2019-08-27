@@ -387,7 +387,7 @@ app.get('/resetpassword/:token', cors(corsOptions), async (req, res) => {
       res.status(400).json({ message: "Token is used and expired" })
       return  
    }
-
+   console.log('xxxxxx')
    res.status(200).json(checkJWT)
 })
 
