@@ -1,5 +1,7 @@
 import React from "react";
 import "./Login.css";
+import "./RequestChangePassword.css";
+import "./ResetPassword.css";
 import "../subcomponents/RectButton.css";
 import LogoTitle from "../subcomponents/LogoTitle";
 import InputText from "../subcomponents/InputText";
@@ -8,37 +10,42 @@ import { resetPassword, preResetPassword } from "../actions/userAction";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { getJwtFromStorage } from "../utils/storageUtil";
-import { connect } from "react-redux";
-import { withRouter,Link } from "react-router-dom";
 
 class ResetPassword extends React.Component {
-  async constructor(props) {
+  constructor(props) {
     super(props);
     if (getJwtFromStorage() && getJwtFromStorage() != "")
       this.props.history.push("/");
-
-    await this.props.preResetPassword(this.props.match.params.authentication);
-    this.state = {};
-    this.handleChangeConfirmedpassword = this.handleChangeConfirmedpassword.bind(
+    this.props.preResetPassword(this.props.match.params.authentication,this.props.history);
+    this.state = {
+      emailType:''
+    };
+    this.handleChangeConfirmedPassword = this.handleChangeConfirmedPassword.bind(
       this
     );
     this.handleChangePassword = this.handleChangePassword.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.clearInputState = this.clearInputState.bind(this);
   }
 
   render() {
-    let messageClassName = "rspass-message "+this.state.messType;
+    let messageClassName = "rcp-label "+this.state.messType;
     let className =
       this.props.className + " login-container animated bounceInLeft slow";
 
     return (
       <Container fluid={true} className={className}>
-        <form onSubmit={this.handleSubmit} className="login-modal">
+        <form onSubmit={this.handleSubmit} className="resetpass-modal">
           <div className="login-marginbot login-margintop">
             <LogoTitle text="ZPF Caro" />
           </div>
-          <div className={messageClassName}>{this.state.message}</div>
+          <div className="rcp-labeldiv">
+              <label className={messageClassName}>
+                {this.state.message
+                  ? this.state.message
+                  : "Enter new password"}
+              </label>
+          </div>
+          {/* <div className={messageClassName}>{this.state.message}</div> */}
           <div className="login-marginbot">
             <InputText
               onChangeValue={this.handleChangePassword}
@@ -71,15 +78,20 @@ class ResetPassword extends React.Component {
       authentication: this.props.match.params.authentication,
       password: coppyState.password
     };
+    this.setState({password:"",confirmedPassword:""})
     let message = await this.props.resetPassword(data, this.props.history);
-    this.setState({ error: errorMessage });
     this.setState({ message: message.message });
     this.setState({ messType: message.type });
     if (message.type == "success") {
       this.setState({
         message:
-          "A message with username and a link to reset your password has been sent to your email."
+          "We've updated your password successfully! Back to Login in 3s"
       });
+      setTimeout(
+        ()=>{
+          this.props.history.push('/login')
+        }, 3000
+      )
     }
     if (message.type == "error") {
       this.setState({
@@ -93,7 +105,7 @@ class ResetPassword extends React.Component {
     this.setState({ password: value });
   }
 
-  handleChangeConfirmedpassword(value) {
+  handleChangeConfirmedPassword(value) {
     this.setState({ confirmedPassword: value });
   }
 }

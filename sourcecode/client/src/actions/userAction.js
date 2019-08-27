@@ -166,7 +166,7 @@ export function resetPassword(data,history){
       setTimeout(
         ()=>{
           history.push('/login')
-        }, 5000
+        }, 3000
       )
       return {message:err.response.data.message,type:"error"}
     })

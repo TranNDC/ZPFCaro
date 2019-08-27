@@ -50,3 +50,18 @@
 .active .gameava-pattern{
     color: rgba(249, 141, 15, 0.5)
 }
+
+/* .gameava-game-avatar-container.not-available .gameava-pattern{
+    position: absolute;
+    bottom: -37px;
+    right: 0px;
+    font-family: 'Allerta Stencil', sans-serif;
+    color: rgba(110, 110, 110, 0.5);
+    font-size: 128px;
+    vertical-align: bottom;
+}
+
+.gameava-game-avatar-container.not-available{
+    background: rgba(110, 110, 110, 1);
+
+} */

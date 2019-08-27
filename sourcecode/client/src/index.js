@@ -6,17 +6,37 @@ import rootReducer from "./reducers/rootReducer";
 import { Provider } from "react-redux";
 import {applyMiddleware, createStore } from "redux";
 
-import {BrowserRouter as Router, Route} from "react-router-dom";
+import {Switch, BrowserRouter, Route} from "react-router-dom";
 
 import Game from "./pages/Game";
 import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-<<<<<<< HEAD
-import ResetPassword from "./pages/ResetPassword";
-=======
 import Error404 from "./pages/Error404";
->>>>>>> f300417767f6a1eededcb18c00370c932610bb7d
+import RequestChangePassword from "./pages/RequestChangePassword";
+import ResetPassword from "./pages/ResetPassword";
+
+
+
+export const store = createStore(rootReducer, applyMiddleware(thunk));
+window.store = store;
+let avatar = require("./media/avatar.png");
+ReactDOM.render(
+  <Provider store={store}>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/register" component={Register} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/" component={Homepage} />
+        <Route exact path="/game" component={Game} />
+        <Route exact path="/resetpassword/:authentication" component={ResetPassword} />
+        <Route exact path="/forgotpassword/" component={RequestChangePassword} />
+        <Route component={Error404} />
+      </Switch>
+    </BrowserRouter>
+  </Provider>,
+  document.getElementById("root")
+);
 
 // -------------------------------
 // TEST INPUTTEXT
@@ -244,20 +264,3 @@ import Error404 from "./pages/Error404";
 */
 // ReactDOM.render(<EndGameBox stateEGB="true" headingEndGame="YOU WIN"  titleEndGame="Congratulations, you won the game!" subTitleEndGame="Do you want to play new game?" isContinue={true} />, document.getElementById('root'));
 // ReactDOM.render(<EndGameBox stateEGB="true" headingEndGame="YOU LOSE"  titleEndGame="Don't be sad, try harder!" subTitleEndGame="Low points, cann't play new game!" isContinue={false} />, document.getElementById('root'));
-
-export const store = createStore(rootReducer, applyMiddleware(thunk));
-window.store = store;
-let avatar = require("./media/avatar.png");
-ReactDOM.render(
-  <Provider store={store}>
-    <Router>
-      <Route exact path="/register" component={Register} />
-      <Route exact path="/login" component={Login} />
-      <Route exact path="/" component={Homepage} />
-      <Route exact path="/game" component={Game} />
-      <Route exact path="/user/resetpassword/:authentication" component={ForgotPassword} />
-      <Route exact path="/forgotpassword/" component={ResetPassword} />
-    </Router>
-  </Provider>,
-  document.getElementById("root")
-);

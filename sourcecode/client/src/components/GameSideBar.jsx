@@ -54,12 +54,10 @@ class GameSideBar extends React.Component {
           <Row className="d-flex justify-content-center">
             <Col className="gsb-game-ava-container p-0 left" sx={6}>
               <GameAvatar type={ hostActive && "active"} avatar={hostAvartar} pattern="x" />
-              {/* <GameAvatar type="active" avatar={hostAva} pattern="x" /> */}
             </Col>
             
             <Col className="gsb-game-ava-container p-0 right" sx={6}>
-              <GameAvatar  type={ guestActive && "active"} avatar={guestAvartar} pattern="o" />
-              {/* <GameAvatar type="active" avatar={guestAva} pattern="x" /> */}
+              <GameAvatar className={!this.props.opponent &&"not-available"} type={ guestActive && "active"} avatar={guestAvartar} pattern="o" />
             </Col>
 
           </Row>

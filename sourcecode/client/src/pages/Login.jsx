@@ -50,8 +50,8 @@ class Login extends React.Component {
             <Button type="submit" className="rect-btn">login</Button>
           </div>
           <div className="login-paddingtop">
-            {/* <a href="#" className="login-link"><label className="login-labelStyle">Forgot password?</label></a> */}
-            {/* <label className="login-paddingLink"></label> */}
+            <Link to="/forgotpassword"><a href="#" className="login-link"><label className="login-labelStyle">Forgot password?</label></a></Link>
+            <label className="login-paddingLink"></label>
             <Link to='/register'><a href="#" className="login-link"><label className="login-labelStyle">Don't have account?</label></a></Link>
           </div>
         </form>
