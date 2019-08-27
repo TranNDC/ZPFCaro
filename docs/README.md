@@ -34,6 +34,7 @@
     * Lấy thông tin ranking của tất cả: /leaderboard/all
     * Lấy thông tin của mình thông qua token: /user
     * Lấy ranking của mình thông qua token: /user/ranking
+    * Truy xuất đường dẫn thay đổi password: /resetpassword/`<token>`
 * **Phương thức POST:**
     * Đăng nhập: /login
     * Đăng xuất: /logout
@@ -48,6 +49,8 @@
     * Cập nhật số liệu thắng: /user/winnum
     * Cập nhật số liệu hòa: /user/drawnum
     * Cập nhật số liệu thua: /user/losenum
+    * Yêu cầu thay đổi password: /resetpassword
+    * Cập nhật password mới: /resetpassword/update
 
 ## SOCKETIO APIs
 * **Status Code:**
