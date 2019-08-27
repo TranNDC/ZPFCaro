@@ -123,8 +123,8 @@ service.sendEmail = (email, username, url) => {
    -------------------------------------------------------------- */
 
 // Connect to repository of MongoDB
-service.connectMongoDB = () => {
-    repoMongo.connectMongoDB()
+service.connectMongoDB = async () => {
+    await repoMongo.connectMongoDB()
 }
 
 // Check info of login
@@ -349,6 +349,21 @@ service.addTokenToBLJWT = async (token) => {
     if (expires == null) return false
 
     return (await repoRedis.setBLJWT(token, expires))
+}
+
+// Check REDIS Leaderboard is empty or not
+// Result: True | False
+service.isEmptyLB = async () => {
+    return (await repoRedis.isEmptyLeaderboard())
+}
+
+// Load all ranking (leaderboard) from MongoDB to Redis when Leaderboard in Redis is empty
+service.loadLBInRedis = async () => {
+    if (!await service.isEmptyLB()) return
+    arrayUser = await repoMongo.getAllUsers()
+    arrayUser.forEach(async element => {
+        await service.updatePointsLB(element.username, element.points)
+    });
 }
 
 // Add/Update points into leaderboard

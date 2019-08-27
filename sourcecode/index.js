@@ -79,6 +79,8 @@ app.post('/register', cors(corsOptions), async (req, res) => {
       return
    }
 
+   await service.updatePointsLB(username, 0)
+
    res.status(200).json({message: "Register new account successfully" })
 })
 
@@ -412,10 +414,13 @@ app.post('/resetpassword/:token', cors(corsOptions), async (req, res) => {
    res.status(200).json({  message: "Update new password successfully" })
 })
 
-server.listen(port, () => {
+getAsync = require('util').promisify(server.listen).bind(server)
+getAsync(port).then(async () => {
    console.log("App is listening on port 5000...")
-   service.connectRedis();
-   service.connectMongoDB();
+   await service.connectRedis();
+   await service.connectMongoDB();
+}).then(() => {
+   service.loadLBInRedis()
 })
 
 

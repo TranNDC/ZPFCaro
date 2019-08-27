@@ -6,8 +6,8 @@ let repoRedis = {}
 // Reference: https://github.com/NodeRedis/node_redis
 
 // Connect to Redis
-repoRedis.connectRedis = () => {
-    client.on('connect', function() {
+repoRedis.connectRedis = async () => {
+    await client.on('connect', function() {
         console.log('Redis connected');
     });
 }
@@ -40,6 +40,15 @@ repoRedis.isMemberBLJWT = (jwt) => {
 // Leaderboard - Sorted Set => Shortname: LB
 // ------------------------------------------------
 const keyLB = "Leaderboard"
+
+// Check REDIS Leaderboard is empty or not
+// Result: True | False
+repoRedis.isEmptyLeaderboard = () => {
+    getAsync = promisify(client.keys).bind(client)
+    return getAsync(keyLB).then((res) => {
+        return ((res.length==0) ? true : false);
+    })
+}
 
 // Add user to Leaderboard
 // Parameter: STRING username, INT points
