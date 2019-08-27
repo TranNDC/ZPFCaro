@@ -398,13 +398,13 @@ app.post('/resetpassword/update', cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
    newpass = req.body.newpass
 
-   result = await service.updateUserPassword(token, newpass)
+   result = await service.addTokenToBLJWT(token)
    if (!result) {
       res.status(400).json({ message: "Wrong/Expired token"})
       return
    }
-
-   result = await service.addTokenToBLJWT(token)
+   
+   result = await service.updateUserPassword(token, newpass)
    if (!result) {
       res.status(400).json({ message: "Wrong/Expired token"})
       return
