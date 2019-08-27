@@ -383,6 +383,11 @@ app.get('/resetpassword/:token', cors(corsOptions), async (req, res) => {
       return
    }
 
+   if (await service.existTokenInBLJWT(jwt)) {
+      res.status(400).json({ message: "Token is used and expired" })
+      return  
+   }
+
    res.status(200).json(checkJWT)
 })
 
@@ -394,6 +399,12 @@ app.post('/resetpassword/update', cors(corsOptions), async (req, res) => {
    newpass = req.body.newpass
 
    result = await service.updateUserPassword(token, newpass)
+   if (!result) {
+      res.status(400).json({ message: "Wrong/Expired token"})
+      return
+   }
+
+   result = await service.addTokenToBLJWT(token)
    if (!result) {
       res.status(400).json({ message: "Wrong/Expired token"})
       return
