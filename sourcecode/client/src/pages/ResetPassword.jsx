@@ -4,16 +4,20 @@ import "../subcomponents/RectButton.css";
 import LogoTitle from "../subcomponents/LogoTitle";
 import InputText from "../subcomponents/InputText";
 import { Container, Button } from "react-bootstrap";
-import { login } from "../actions/userAction";
+import { resetPassword, preResetPassword } from "../actions/userAction";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { getJwtFromStorage } from "../utils/storageUtil";
+import { connect } from "react-redux";
+import { withRouter,Link } from "react-router-dom";
 
 class ResetPassword extends React.Component {
-  constructor(props) {
+  async constructor(props) {
     super(props);
     if (getJwtFromStorage() && getJwtFromStorage() != "")
       this.props.history.push("/");
+
+    await this.props.preResetPassword(this.props.match.params.authentication);
     this.state = {};
     this.handleChangeConfirmedpassword = this.handleChangeConfirmedpassword.bind(
       this
@@ -24,6 +28,7 @@ class ResetPassword extends React.Component {
   }
 
   render() {
+    let messageClassName = "rspass-message "+this.state.messType;
     let className =
       this.props.className + " login-container animated bounceInLeft slow";
 
@@ -33,7 +38,7 @@ class ResetPassword extends React.Component {
           <div className="login-marginbot login-margintop">
             <LogoTitle text="ZPF Caro" />
           </div>
-          <div className="login-error-message">{this.state.error}</div>
+          <div className={messageClassName}>{this.state.message}</div>
           <div className="login-marginbot">
             <InputText
               onChangeValue={this.handleChangePassword}
@@ -66,9 +71,22 @@ class ResetPassword extends React.Component {
       authentication: this.props.match.params.authentication,
       password: coppyState.password
     };
-    let errorMessage = await this.props.ResetPassword(data, this.props.history);
+    let message = await this.props.resetPassword(data, this.props.history);
     this.setState({ error: errorMessage });
-    this.clearInputState();
+    this.setState({ message: message.message });
+    this.setState({ messType: message.type });
+    if (message.type == "success") {
+      this.setState({
+        message:
+          "A message with username and a link to reset your password has been sent to your email."
+      });
+    }
+    if (message.type == "error") {
+      this.setState({
+        message:
+          "Something went wrong. Please try again!"
+      });
+    }
   }
 
   handleChangePassword(value) {
@@ -86,8 +104,11 @@ function mapStateToProps(state, index) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    resetPassword(data) {
-      return dispatch(resetPassword(data));
+    preResetPassword(authenticate,history) {
+      return dispatch(preResetPassword(authenticate,history));
+    },
+    resetPassword(data,history) {
+      return dispatch(resetPassword(data,history));
     }
   };
 }

@@ -12,7 +12,11 @@ import Game from "./pages/Game";
 import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+<<<<<<< HEAD
 import ResetPassword from "./pages/ResetPassword";
+=======
+import Error404 from "./pages/Error404";
+>>>>>>> f300417767f6a1eededcb18c00370c932610bb7d
 
 // -------------------------------
 // TEST INPUTTEXT
@@ -222,6 +226,11 @@ import ResetPassword from "./pages/ResetPassword";
 // TEST TitleModal
 // -------------------------------
 // ReactDOM.render(<TitleModal text="PROFILE" />, document.getElementById('root'));
+
+// -------------------------------
+// TEST ERROR404
+// -------------------------------
+// ReactDOM.render(<Error404 />, document.getElementById('root'));
 
 // -------------------------------
 // TEST ENDGAMEBOX

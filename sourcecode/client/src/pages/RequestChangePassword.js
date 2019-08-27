@@ -4,10 +4,14 @@ import '../subcomponents/RectButton.css';
 import LogoTitle from "../subcomponents/LogoTitle";
 import InputText from "../subcomponents/InputText";
 import { Container, Button } from 'react-bootstrap';
-
+import {forgotPassword} from '../actions/userAction'
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 class RequestChangePassword extends React.Component {
   constructor(props) {
     super(props);
+    if(getJwtFromStorage() && getJwtFromStorage()!="")
+      this.props.history.push('/');
   }
 
   render() {

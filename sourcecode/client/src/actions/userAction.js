@@ -14,6 +14,9 @@ export const UPDATE_DISPLAYEDNAME = "user.UPDATE_DISPLAYEDNAME";
 export const UPDATE_EMAIL = 'user.UPDATE_EMAIL'
 export const LOGOUT = "user.LOGOUT";
 export const LOAD_USERINFO = "user.LOAD_USERINFO";
+export const RESET_PASSWORD = "user.LOAD_USERINFO";
+export const PRE_RESET_PASSWORD = "user.LOAD_USERINFO";
+export const FORGOT_PASSWORD = "user.LOAD_USERINFO";
 
 
 //type: response
@@ -58,7 +61,6 @@ export function login(user,history) {
         console.log(err)
         return err.response.data.message;
       })
-
   }
 }
 
@@ -132,6 +134,88 @@ export function updateDisplayedName(value){
   }
 }
 
+export function forgotPassword(email){
+  return function(dispatch) {
+    return callForGotPasswordApi(email)
+    .then(result => {
+      return {message:result.data.message,type:"success"}
+    },(err) => {
+      return {message:err.response.data.message,type:"error"}
+    })
+  }
+}
+
+export function preResetPassword(authenticate,history){
+  return function(dispatch) {
+    return callPreResetPasswordApi(authenticate)
+    .then(result => {
+      return true;
+    },(err) => {
+      history.push('/404')
+      return false;
+    })
+  }
+}
+
+export function resetPassword(data,history){
+  return function(dispatch) {
+    return callResetPasswordApi(data.authentication, data.password)
+    .then(result => {
+      return {message:result.data.message,type:"success"}
+    },(err) => {
+      setTimeout(
+        ()=>{
+          history.push('/login')
+        }, 5000
+      )
+      return {message:err.response.data.message,type:"error"}
+    })
+  }
+}
+
+function callPreResetPasswordApi(authenticate){
+  var promise = new Promise(function(resolve, reject) {
+    api
+      .get(`/resetpassword/${authenticate}`)
+      .then(res => {
+        resolve(res);
+      })
+      .catch(res => {
+        reject(res);
+      });
+  });
+  return promise;
+}
+
+
+function callResetPasswordApi(authenticate,password){
+  var promise = new Promise(function(resolve, reject) {
+    api
+      .get(`/resetpassword/${authenticate}`,{newpassword:password})
+      .then(res => {
+        resolve(res);
+      })
+      .catch(res => {
+        reject(res);
+      });
+  });
+  return promise;
+}
+
+function callForGotPasswordApi(email){
+  var promise = new Promise(function(resolve, reject) {
+    api
+      .post(`/resetpassword/`, email)
+      .then(res => {
+        resolve(res);
+      })
+      .catch(res => {
+        reject(res);
+      });
+  });
+  return promise;
+}
+
 function callLoginApi(user) {
   var promise = new Promise(function(resolve, reject) {
     api
@@ -163,7 +247,6 @@ function callGetUserInfoApi() {
   });
   return promise;
 }
-
 
 function callGetUserRankApi() {
   var promise = new Promise(function(resolve, reject) {

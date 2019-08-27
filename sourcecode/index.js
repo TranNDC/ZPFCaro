@@ -349,7 +349,7 @@ app.get('/user/ranking', cors(corsOptions), async (req, res) => {
    res.status(200).json({  ranking: result })
 })
 
-// Request: Email
+// Request: email:<email>
 // Response: Fail | Success
 app.options('/resetpassword', cors())
 app.post('/resetpassword', cors(corsOptions), async (req, res) => {
@@ -386,12 +386,13 @@ app.get('/resetpassword/:token', cors(corsOptions), async (req, res) => {
    res.status(200).json(checkJWT)
 })
 
-// Request: token (header), STRING newpassword
+// Request: token (header), newpassword: <new pass>
 // Response: Fail | Success
 app.options('/resetpassword/update', cors())
 app.post('/resetpassword/update', cors(corsOptions), async (req, res) => {
+   
    token = req.headers.authorization
-   newpass = req.body.newpass
+   newpass = req.body.newpassword
 
    result = await service.updateUserPassword(token, newpass)
    if (!result) {
