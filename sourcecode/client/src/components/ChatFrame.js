@@ -62,7 +62,7 @@ class ChatFrame extends React.Component {
     return (
       <div className="cfr-chat-frame">
         <div className="cfr-display-frame">
-          <div className="cfr-title">{this.props.opponent.displayedName}</div>
+          <div className="cfr-title">{this.props.opponent?this.props.opponent.displayedName:'Waiting...'}</div>
           <div className="cfr-message-frame">
             {this.props.messages.map(message => {
               return (
