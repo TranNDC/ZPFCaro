@@ -344,7 +344,7 @@ service.existTokenInBLJWT = async (token) => {
 // Result: True | False
 service.addTokenToBLJWT = async (token) => {
     if (await service.existTokenInBLJWT(token)) return false
-    
+
     expires = await service.getRemainExpTimeOfJWT(token)
     if (expires == null) return false
 
@@ -479,7 +479,6 @@ service.updateGuestAndStatusGR = async (token, uuid, guest) => {
 
 // Delete game room (no token)
 service.deleteGRNoToken = async (uuid) => {
-    console.log('service',uuid);
     return (await repoRedis.deleteGR(uuid))
 }
 

@@ -163,11 +163,7 @@ export function resetPassword(data,history){
     .then(result => {
       return {message:result.data.message,type:"success"}
     },(err) => {
-      setTimeout(
-        ()=>{
-          history.push('/login')
-        }, 3000
-      )
+     
       return {message:err.response.data.message,type:"error"}
     })
   }
