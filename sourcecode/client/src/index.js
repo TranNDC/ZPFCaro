@@ -12,6 +12,7 @@ import Game from "./pages/Game";
 import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ResetPassword from "./pages/ResetPassword";
 
 // -------------------------------
 // TEST INPUTTEXT
@@ -245,6 +246,8 @@ ReactDOM.render(
       <Route exact path="/login" component={Login} />
       <Route exact path="/" component={Homepage} />
       <Route exact path="/game" component={Game} />
+      <Route exact path="/user/resetpassword/:authentication" component={ForgotPassword} />
+      <Route exact path="/forgotpassword/" component={ResetPassword} />
     </Router>
   </Provider>,
   document.getElementById("root")
