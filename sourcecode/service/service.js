@@ -79,7 +79,8 @@ service.sendEmail = (email, username, url) => {
     let nodemailer = require('nodemailer');
 
     let transporter = nodemailer.createTransport({
-        service: 'smtp.gmail.com',
+        service: 'gmail',
+        port: 465,
         secure: true,
         auth: {
           user: 'zpfcaro@gmail.com',
@@ -91,27 +92,30 @@ service.sendEmail = (email, username, url) => {
         from: 'zpfcaro@gmail.com',
         to: email,
         subject: '[ZPFCaro] Request Change Password',
-        html: 
-            <div>
-                Dear {username},
-
-                You have asked to reset your password for ZPF Caro. Please click the link below to change your password.
-
-                <a href={url}>Click to change password</a>
-                
-                This link will work for 30 minutes after this email was sent.
-
-                If you didn't ask for a new password, please ignore this email. Don't worry: your account is still secure, and no one else can access it. You can continue to log in with your existing password.
-
-                Best wishes,
-
-                Customer Support
-                ZPF Caro
-                *** This is an automatically generated email, please do not reply ***
-            </div>
+        html: "<html>\
+                    <div>\
+                        <div>Dear " + username + ",<br><br></div>\
+                        \
+                        <div>You have asked to reset your password for ZPF Caro. Please click the link below to change your password.<br><br></div>\
+                        \
+                        <div><a href=\"" + url + "\">Click to change password</a><br><br></div>\
+                        \
+                        <div>This link will work for 30 minutes after this email was sent.<br><br></div>\
+                        \
+                        <div>If you didn't ask for a new password, please ignore this email. Don't worry: your account is still secure, and no one else can access it. You can continue to log in with your existing password.<br><br></div>\
+                        \
+                        <div>Best wishes,<br><br></div>\
+                        \
+                        <div>Customer Support</div>\
+                        <div>ZPF Caro</div>\
+                        <div>*** This is an automatically generated email, please do not reply ***</div>\
+                    </div>\
+                </html>"
     };
 
-    transporter.sendMail(mailOptions);
+    transporter.sendMail(mailOptions, function(err, info) {
+        if (err) console.log(err)
+    });
 }
 
 /* --------------------------------------------------------------
