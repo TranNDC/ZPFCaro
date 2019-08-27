@@ -392,10 +392,9 @@ app.get('/resetpassword/:token', cors(corsOptions), async (req, res) => {
 
 // Request: token (header), newpassword: <new pass>
 // Response: Fail | Success
-app.options('/resetpassword/update', cors())
-app.post('/resetpassword/update', cors(corsOptions), async (req, res) => {
-   
-   token = req.headers.authorization
+app.options('/resetpassword/:token', cors())
+app.post('/resetpassword/:token', cors(corsOptions), async (req, res) => {
+   token  = req.params.token
    newpass = req.body.newpassword
 
    result = await service.updateUserPassword(token, newpass)
@@ -748,13 +747,10 @@ io.on('connection', function(socket) {
    })
    // Disconnection
    socket.on('disconnect', async function() {
-      console.log('disconnect ')
       if (socket.room != "") {
          roomid = socket.room
-         console.log(roomid);
          // Nếu phòng chỉ có mỗi host
          if (await service.findGuestIDInRoomNoToken(roomid) == false) {
-            console.log('deleteGRNoToken');
             await service.deleteGRNoToken(roomid)
          }
          // Phòng có cả 2, đang chơi

@@ -161,9 +161,10 @@ export function resetPassword(data,history){
   return function(dispatch) {
     return callResetPasswordApi(data.authentication, data.password)
     .then(result => {
+      console.log(result);
       return {message:result.data.message,type:"success"}
     },(err) => {
-     
+      console.log(err)
       return {message:err.response.data.message,type:"error"}
     })
   }
@@ -187,7 +188,7 @@ function callPreResetPasswordApi(authenticate){
 function callResetPasswordApi(authenticate,password){
   var promise = new Promise(function(resolve, reject) {
     api
-      .get(`/resetpassword/${authenticate}`,{newpassword:password})
+      .post(`/resetpassword/${authenticate}`,{newpassword:password})
       .then(res => {
         resolve(res);
       })
