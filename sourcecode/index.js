@@ -414,11 +414,13 @@ app.post('/resetpassword/:token', cors(corsOptions), async (req, res) => {
    res.status(200).json({  message: "Update new password successfully" })
 })
 
-server.listen(port, async () => {
+getAsync = require('util').promisify(server.listen).bind(server)
+getAsync(port).then(async () => {
    console.log("App is listening on port 5000...")
    await service.connectRedis();
    await service.connectMongoDB();
-   await service.loadLBInRedis()
+}).then(() => {
+   service.loadLBInRedis()
 })
 
 

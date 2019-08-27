@@ -7,8 +7,8 @@ let collectionUsers
 let collectionGames
 
 // Connect to MongoDB & get database with name "ZPFCaro"
-repoMongo.connectMongoDB = () => {
-    mongo.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
+repoMongo.connectMongoDB = async () => {
+    await mongo.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
     .then((client) => {
         let myDB = client.db('ZPFCaro')
         collectionUsers = myDB.collection('Users')

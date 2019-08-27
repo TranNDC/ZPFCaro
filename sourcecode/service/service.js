@@ -123,8 +123,8 @@ service.sendEmail = (email, username, url) => {
    -------------------------------------------------------------- */
 
 // Connect to repository of MongoDB
-service.connectMongoDB = () => {
-    repoMongo.connectMongoDB()
+service.connectMongoDB = async () => {
+    await repoMongo.connectMongoDB()
 }
 
 // Check info of login
@@ -353,7 +353,7 @@ service.addTokenToBLJWT = async (token) => {
 
 // Check REDIS Leaderboard is empty or not
 // Result: True | False
-service.isEmptyLB() = async () => {
+service.isEmptyLB = async () => {
     return (await repoRedis.isEmptyLeaderboard())
 }
 

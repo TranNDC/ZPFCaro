@@ -6,8 +6,8 @@ let repoRedis = {}
 // Reference: https://github.com/NodeRedis/node_redis
 
 // Connect to Redis
-repoRedis.connectRedis = () => {
-    client.on('connect', function() {
+repoRedis.connectRedis = async () => {
+    await client.on('connect', function() {
         console.log('Redis connected');
     });
 }
@@ -46,7 +46,7 @@ const keyLB = "Leaderboard"
 repoRedis.isEmptyLeaderboard = () => {
     getAsync = promisify(client.keys).bind(client)
     return getAsync(keyLB).then((res) => {
-        return ((res==null) ? true : false);
+        return ((res.length==0) ? true : false);
     })
 }
 
