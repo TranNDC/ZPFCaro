@@ -335,7 +335,7 @@ app.post('/user/losenum', cors(corsOptions), async (req, res) => {
 })
 
 // Request: token
-// Response: JSON(username, ranking)\
+// Response: JSON(username, ranking)
 app.options('/user/ranking', cors())
 app.get('/user/ranking', cors(corsOptions), async (req, res) => {
    token = req.headers.authorization
@@ -372,7 +372,7 @@ app.post('/resetpassword', cors(corsOptions), async (req, res) => {
 })
 
 // Request: token with URL(/resetpassword/<token>)
-// Response: Fail | username
+// Response: Fail | username (JSON)
 app.options('/resetpassword/:token', cors())
 app.get('/resetpassword/:token', cors(corsOptions), async (req, res) => {
    jwt = req.params.token
@@ -383,7 +383,7 @@ app.get('/resetpassword/:token', cors(corsOptions), async (req, res) => {
       return
    }
 
-   res.status(200).json({ username: checkJWT })
+   res.status(200).json(checkJWT)
 })
 
 // Request: token (header), STRING newpassword
