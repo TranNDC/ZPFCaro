@@ -1,5 +1,6 @@
 import {INIT_IO} from '../actions/ioAction'
 import io from 'socket.io-client';
+import {initState} from "../utils/ioUtils"
 
 const ioReducer = (state = {}, action) => {
     switch (action.type) {

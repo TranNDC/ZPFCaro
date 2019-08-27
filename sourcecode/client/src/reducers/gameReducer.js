@@ -4,6 +4,7 @@ import {
   COUNTDOWN_START,
   COUNTDOWN_CLEAR,
   COUNTDOWN_RESET,
+  CREATE_RANDOM_MOVE,
   LOAD_GAME,
   JOIN_GAME,
   UPDATE_GAME,
@@ -11,7 +12,7 @@ import {
   WANT_TO_QUIT_GAME,
   LEAVE_GAME
 } from "../actions/gameAction";
-import { initState } from "../utils/gameUtil";
+import { initState, createRandomMove } from "../utils/gameUtil";
 
 const CELL_WIDTH = 32;
 const CELL_HEIGHT = 22;

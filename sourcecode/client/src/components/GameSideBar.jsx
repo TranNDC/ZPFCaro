@@ -1,6 +1,8 @@
 import ChatFrame from "./ChatFrame";
 import GameAvatar from "../subcomponents/GameAvatar";
+import Message from "../subcomponents/Message";
 import GameTime from "../subcomponents/GameTime";
+import BlackButton from "../subcomponents/BlackButton";
 import BetPoints from "../subcomponents/BetPoints";
 import { connect } from "react-redux";
 
@@ -17,6 +19,7 @@ class GameSideBar extends React.Component {
   }
   
   render() {
+    let avatar = this.props.avatar;
     let isHost = (this.props.opponent)?!this.props.opponent.isHost:false;
     let hostAvartar = this.props.user.avatar;
     let guestAvartar = "";

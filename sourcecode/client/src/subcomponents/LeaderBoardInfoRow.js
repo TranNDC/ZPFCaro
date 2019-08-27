@@ -1,7 +1,13 @@
 import React from 'react';
 import './LeaderBoardInfoRow.css';
+import { Row, Col } from 'react-bootstrap';
 
 class LeaderBoardInfoRow extends React.Component {
+
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         let imgicon, alt, points, className;
         points = Number(this.props.points).toLocaleString('en');

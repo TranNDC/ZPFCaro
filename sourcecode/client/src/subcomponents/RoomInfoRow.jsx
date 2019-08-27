@@ -37,11 +37,11 @@ class RoomInfoRow extends React.Component {
         let betpts = Number(this.props.betpoints).toLocaleString('en');
 
         let heightModal = "rir-heightmodal"
-        if (this.props.betpoints !== 0 && this.props.password !== null) heightModal += " rir-biggestHeightModal"
+        if (this.props.betpoints != 0 && this.props.password != null) heightModal += " rir-biggestHeightModal"
         else {
-            if (this.props.betpoints !== 0) heightModal += " rir-pointsHeightModal"
+            if (this.props.betpoints != 0) heightModal += " rir-pointsHeightModal"
             else
-                if (this.props.password.length !== 0) heightModal += " rir-passHeightModal"
+                if (this.props.password.length != 0) heightModal += " rir-passHeightModal"
         }
 
         return (
@@ -56,7 +56,7 @@ class RoomInfoRow extends React.Component {
                     </Col>
                     <Col xs="3" className="rir-points">
                         {(() => {
-                            if (this.props.betpoints !== 0)  {
+                            if (this.props.betpoints != 0)  {
                                 return (
                                     <div className="rir-pointsDiv">
                                         <img src={require("../media/rupee.png")} alt="bet-points-icon" className="rir-imgRupee"></img>
@@ -68,9 +68,9 @@ class RoomInfoRow extends React.Component {
                     </Col>
                     <Col xs="1" className="rir-password">
                         {(() => {
-                            if (this.props.password !== null && this.props.password !== '') {
+                            if (this.props.password != null && this.props.password != '') {
                                 return (
-                                    <img src={require("../media/icon-room-password.png")} alt="Icon Room Password" className="rir-imgPassword"></img>
+                                    <img src={require("../media/icon-room-password.png")} className="rir-imgPassword"></img>
                                 );
                             }
                         }) ()}
@@ -87,7 +87,7 @@ class RoomInfoRow extends React.Component {
                             <label className="rir-label">{this.props.displayedname}</label>
                         </div>
                         {(() => {
-                            if (this.props.betpoints !== 0)  {
+                            if (this.props.betpoints != 0)  {
                                 return (
                                     <div><label className="rir-labelPoints">{betpts} pts</label></div>
                                 );
@@ -95,7 +95,7 @@ class RoomInfoRow extends React.Component {
                         }) ()}
                     </div>
                     {(() => {
-                        if (this.props.password !== "" && this.props.password !== null) {
+                        if (this.props.password != "" && this.props.password != null) {
                             return (
                                 <div className="rir-marginbot">
                                     <InputText 

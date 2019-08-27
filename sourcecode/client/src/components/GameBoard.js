@@ -2,9 +2,19 @@ import React from 'react';
 import './GameBoard.css';
 import {connect} from "react-redux";
 import GameRow from './GameRow'
+import BetPoints from '../subcomponents/BetPoints';
 
 class GameBoard extends React.Component {
-    render() {
+    constructor(props){
+        super(props)
+    }
+
+    // componentWillMount(){
+    //     this.props.initBoard();
+    // }
+
+    render(){
+// console.log(this.props.gameBoard)
         let classes = 'gb-game-board '+ this.props.className + ' ' + this.props.pattern;
 
         let rows = [];

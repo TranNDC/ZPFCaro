@@ -1,15 +1,19 @@
 .set-heightmodal .modal-content {
     width: 450px !important;
-    height: 270px !important;
+    height: 290px !important;
     border-radius: 10px !important;
     border: none;
     align-items: center;
 }
 
 .set-marginbot {
-    margin-bottom: 30px !important;
+    margin-bottom: 30px;
 }
 
 .set-littemarginbot {
     margin-bottom: 15px;
+}
+
+.set-paddingtop {
+    padding-top: 10px;
 }

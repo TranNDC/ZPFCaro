@@ -1,4 +1,5 @@
-import io from "socket.io-client"
+import io from "socket.io-client";
+
 import { store } from "../index";
 import { calculateResult, createNewRandomMove } from "../utils/gameUtil";
 import { logout } from "./userAction";
@@ -41,7 +42,7 @@ export function placeMyPattern(x, y) {
   socket.emit("client-request-mark-pattern", turn, gameStatus, infoGame);
   return function(dispatch) {
     dispatch(placePattern(x, y, gameStatus, gameState.gamePattern, false));
-    if (gameStatus !== "") {
+    if (gameStatus != "") {
       dispatch(endGame(gameStatus));
     }
   };
@@ -52,18 +53,18 @@ export function listenOpponentTurn() {
   return function(dispatch) {
     let socket = store.getState().ioReducer.socket;
     socket.on("server-send-data-game", function(turn, data) {
-      if (data.statusCode === 200) {
+      if (data.statusCode == 200) {
         if (turn)
           dispatch(
             placePattern(
               turn.x,
               turn.y,
               data.mesage,
-              gameState.gamePattern === "x" ? "o" : "x",
+              gameState.gamePattern == "x" ? "o" : "x",
               true
             )
           );
-        if (data.message !== "") {
+        if (data.message != "") {
           dispatch(endGame(data.message));
         }
       }
@@ -118,7 +119,7 @@ export function waittingGame(history) {
       return;
     }
     socket.on("server-send-result-join-room", function(res) {
-      if (res.statusCode === 200) {
+      if (res.statusCode == 200) {
         dispatch(updateGame(res.data));
       } else {
         history.push("/");
@@ -148,16 +149,16 @@ export function leaveGame(history, quitType) {
   return function(dispatch) {
     let gameState = store.getState().gameReducer;
     let socket = store.getState().ioReducer.socket;
-    if (quitType === OUT_ROOM_BY_LOGOUT) {
+    if (quitType == OUT_ROOM_BY_LOGOUT) {
       let isHostWin = gameState.opponent.isHost;
       socket.emit("client-request-out-room", gameState.roomId, isHostWin);
       dispatch({ type: LEAVE_GAME });
       dispatch(logout(history));
-    } else if (quitType === HOST_OUT_ROOM_NOT_START) {
+    } else if (quitType == HOST_OUT_ROOM_NOT_START) {
       socket.emit("host-out-room-not-started", gameState.roomId);
       dispatch({ type: LEAVE_GAME });
       history.push("/");
-    } else if (quitType === HOST_LOGOUT_ROOM_NOT_START) {
+    } else if (quitType == HOST_LOGOUT_ROOM_NOT_START) {
       socket.emit("host-out-room-not-started", gameState.roomId);
       dispatch({ type: LEAVE_GAME });
       dispatch(logout(history));
@@ -182,7 +183,7 @@ export function wantToQuitGame(isCloseModal, isLogOut = false) {
     };
   }
   let gameState = store.getState().gameReducer;
-  if (!gameState.opponent || gameState.opponent.userId === "") {
+  if (!gameState.opponent || gameState.opponent.userId == "") {
     return {
       type: WANT_TO_QUIT_GAME,
       alert: "Are you sure to quit the game?",
@@ -230,7 +231,7 @@ export function listenOnOpponentLeaveGame() {
   return function(dispatch) {
     let socket = store.getState().ioReducer.socket;
     socket.on("room-has-player-out", function(res) {
-      if (res.statusCode === 200) {
+      if (res.statusCode == 200) {
         let gameState = store.getState().gameReducer;
         let isHostWin = !gameState.opponent.isHost;
         socket.emit("client-request-being-winner", gameState.roomId, isHostWin);

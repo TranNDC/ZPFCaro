@@ -13,5 +13,5 @@ export function clearStorage() {
 
 export function isAuthenticated() {
   var jwt = getJwtFromStorage();
-  return jwt !== "" && jwt !== null;
+  return jwt != "" && jwt != null;
 }

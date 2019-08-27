@@ -7,6 +7,11 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
 class GameRooms extends React.Component {
+  constructor(props) {
+    super(props);
+    // await initGameRoom();
+}
+
   render() {
     const listGameRoom = [];
 
@@ -22,7 +27,7 @@ class GameRooms extends React.Component {
         <TableTitle text="GAME ROOM" className="gr-spacing-bottom" />
         <Row className="gr-row">
           {listGameRoom.map(ele => {
-            if (ele.isPlaying === 0) {
+            if (ele.isPlaying == 0) {
               return (
                 <RoomInfoRow
                 fullId={ele.fullId}
@@ -35,7 +40,6 @@ class GameRooms extends React.Component {
                 />
               );
             }
-            return null
           })}
         </Row>
       </div>

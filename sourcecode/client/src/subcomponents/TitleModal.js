@@ -2,6 +2,11 @@ import React from 'react';
 import './TitleModal.css';
 
 class TitleModal extends React.Component {
+
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         let className = "titlemodal-whitebackground " + this.props.className
         let text = this.props.text

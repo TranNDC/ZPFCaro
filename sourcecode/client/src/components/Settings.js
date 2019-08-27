@@ -32,7 +32,7 @@ class Settings extends React.Component {
                     <TitleModal text="settings" className="set-marginbot" />
                     <Slider type="Sounds" className="set-littemarginbot"/>
                     <Slider type="Music" className="set-marginbot"/>
-                    <div>
+                    <div className="set-paddingtop">
                         <Button className="rect-btn text-black small-width btn-for-modal background-gray" onClick={this.closeModal}>back</Button>
                     </div>
                 </Modal>

@@ -15,15 +15,15 @@ class EditText extends React.Component {
     }
 
     componentWillReceiveProps(newProps){
-        if(newProps.toggle !== this.props.toggle){
+        if(newProps.toggle != this.props.toggle){
             this.setState({ disabled: "disabled" });
         }
     }
 
     doEdit(e, disableNewPass) {
         e.preventDefault();
-        if (disableNewPass === 1) { 
-            if (this.state.disabled === "disabled") {
+        if (disableNewPass == 1) { 
+            if (this.state.disabled == "disabled") {
                 this.setState({ disabled: "" });
                 this.setState({value: (this.props.value)?undefined:this.props.value});
             }
@@ -33,7 +33,7 @@ class EditText extends React.Component {
             }  
         }
         else { // disableNewPass == 2 : Convert Type password to Type text and vice versa (ngược lại).
-            if (this.state.typePassword === "password") {
+            if (this.state.typePassword == "password") {
                 this.setState({ typePassword: "text" });
             }
             else {
@@ -47,9 +47,9 @@ class EditText extends React.Component {
     }
 
     render() {
-        let icon, alt, placeholder, type, pattern, title, required, disableNewPass;
+        let icon, alt, placeholder, type, pattern, title, required, valueInput, disableNewPass;
 
-        if (this.props.type === "newpassword" || this.props.type === "password") {
+        if (this.props.type == "newpassword" || this.props.type == "password") {
             icon = require("../media/icon-seen.png");
             disableNewPass = 2; //false => never disable this input type
         }
@@ -78,12 +78,14 @@ class EditText extends React.Component {
             case "email":
                 alt = "icon-email";
                 type = "email";
+                valueInput = this.props.defaultValue
                 pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$";
                 required = "required";
                 break;
             case "displayedname":
                 alt = "icon-displayed-name";
                 type = "text";
+                valueInput = this.props.defaultValue;
                 pattern = ".{5,25}";
                 title = "Displayed name contains 5 to 25 characters";
                 required = "required";
@@ -94,7 +96,7 @@ class EditText extends React.Component {
 
         return (
             <InputGroup className="input-text">
-                <FormControl disabled={(this.state.disabled!=="") && (disableNewPass===1)}
+                <FormControl disabled={(this.state.disabled!="") && (disableNewPass==1)}
                     placeholder={placeholder}
                     type={type}
                     pattern={pattern}

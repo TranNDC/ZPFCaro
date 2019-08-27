@@ -1,7 +1,7 @@
 
 import { INIT_LEADERBOARD, LOAD_LEADERBOARD } from "../actions/leaderBoardAction";
 
-import { initState } from "../utils/leaderBoardUtil";
+import { initState,convertResponseToState } from "../utils/leaderBoardUtil";
 import {coverResponseToSate} from "../utils/leaderBoardUtil"
 
 const initialState = initState();

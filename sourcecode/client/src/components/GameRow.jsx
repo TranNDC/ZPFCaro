@@ -10,13 +10,19 @@ class GameRow extends React.Component {
     this.handlePlacePattern = this.handlePlacePattern.bind(this)
   }
   handlePlacePattern(x, y) {
-    if(!this.props.isBlock && this.props.gameBoard[y][x].pattern===''){
+    if(!this.props.isBlock && this.props.gameBoard[y][x].pattern==''){
       console.log(this.props.gameBoard[y][x].pattern);
       this.props.placeMyPattern(x, y);
     }
   }
 
   render() {
+    let classes =
+      "gc-game-cell d-flex justify-content-center align-content-center " +
+      this.props.className +
+      " " +
+      this.props.pattern;
+
     let cells = [];
 
     for (let i = 0; i < this.props.size; i++) {

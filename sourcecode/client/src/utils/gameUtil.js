@@ -30,7 +30,7 @@ export function initState(width, height, coutDownValue) {
 
 export function calculateWinningRate(win,lose,draw){
   let rate = win/(win+lose+draw)*100;
-  return (win+lose+draw === 0)?0:Math.round(rate*100)/100;
+  return (win+lose+draw == 0)?0:Math.round(rate*100)/100;
 }
 
 function directionResult(gameBoard, x, y, dx, dy, pattern) {
@@ -41,12 +41,12 @@ function directionResult(gameBoard, x, y, dx, dy, pattern) {
   for (let i = 1; i <= 5; i++) {
     let x1 = x + i * dx;
     let y1 = y + i * dy;
-    if (gameBoard[y1] === undefined || gameBoard[y1][x1] === undefined) {
+    if (gameBoard[y1] == undefined || gameBoard[y1][x1] == undefined) {
       blockR = true;
       break;
-    } else if (gameBoard[y1][x1].pattern === pattern) {
+    } else if (gameBoard[y1][x1].pattern == pattern) {
       countR += 1;
-    } else if (gameBoard[y1][x1].pattern !== "") {
+    } else if (gameBoard[y1][x1].pattern != "") {
       blockR = true;
       break;
     } else break;
@@ -55,19 +55,19 @@ function directionResult(gameBoard, x, y, dx, dy, pattern) {
   for (let i = 1; i <= 5; i++) {
     let x1 = x - i * dx;
     let y1 = y - i * dy;
-    if (gameBoard[y1] === undefined || gameBoard[y1][x1] === undefined) {
+    if (gameBoard[y1] == undefined || gameBoard[y1][x1] == undefined) {
       blockL = true;
       break;
-    } else if (gameBoard[y1][x1].pattern === pattern) {
+    } else if (gameBoard[y1][x1].pattern == pattern) {
       countL += 1;
-    } else if (gameBoard[y1][x1].pattern !== "") {
+    } else if (gameBoard[y1][x1].pattern != "") {
       blockL = true;
       break;
     } else break;
   }
 
 
-  if (countL + countR + 1 === 5 && (!blockL || !blockR)) {
+  if (countL + countR + 1 == 5 && (!blockL || !blockR)) {
     return true;
   }
 
@@ -106,10 +106,10 @@ export function createNewRandomMove(width, height, gameBoard) {
   do {
     randomMove.x = Math.floor(Math.random() * width);
     randomMove.y = Math.floor(Math.random() * height);
-  } while (gameBoard[randomMove.y][randomMove.x].pattern !== "");
+  } while (gameBoard[randomMove.y][randomMove.x].pattern != "");
   return randomMove;
 }
 
 export function calculateResult(gameBoard, x, y, pattern, emptyCellNum) {
-  return emptyCellNum - 1 === 0 ? "draw" : calculateRes(gameBoard, x, y, pattern);
+  return emptyCellNum - 1 == 0 ? "draw" : calculateRes(gameBoard, x, y, pattern);
 }

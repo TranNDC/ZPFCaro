@@ -10,7 +10,7 @@ export function coverResponseToSate(leaderBoard,maxRank){
   if (!leaderBoard) return res;
   
   for (let rank = 0; rank < leaderBoard.length; rank++) {
-    if(rank === maxRank) break;
+    if(rank == maxRank) break;
     let userRank = leaderBoard[rank];
     res[rank] =  {
       rank:rank+1,

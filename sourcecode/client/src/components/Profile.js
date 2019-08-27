@@ -189,30 +189,30 @@ class Profile extends React.Component {
     e.preventDefault();
     if (
       this.state.displayedName &&
-      this.state.displayedName !== this.props.user.displayedName
+      this.state.displayedName != this.props.user.displayedName
     ) {
       let message = await this.props.updateDisplayedName(
         this.state.displayedName
       );
       this.setState({ displayedNameMessage: message.message });
       this.setState({ displayedNameMessageType: message.type });
-      if (message.type === "success") {
+      if (message.type == "success") {
         this.setState({ toggleDisplayedName: !this.state.toggleDisplayedName });
       }
     }
 
-    if (this.state.email && this.state.email !== this.props.email) {
+    if (this.state.email && this.state.email != this.props.email) {
       let message = await this.props.updateEmail(this.state.email);
       this.setState({ emailMessage: message.message });
       this.setState({ emailMessageType: message.type });
-      if (message.type === "success") {
+      if (message.type == "success") {
         this.setState({ toggleEmail: !this.state.toggleEmail });
       }
     }
 
     if (this.state.currentPassword && this.state.newPassword) {
-      if (this.state.currentPassword === this.state.newPassword) {
-        this.setState({ passwordMessage: "New pass mustn't overlap" });
+      if (this.state.currentPassword == this.state.newPassword) {
+        this.setState({ passwordMessage: "New password must be different" });
         this.setState({ passwordType: "error" });
       } else {
         let message = await this.props.updatePassword(
