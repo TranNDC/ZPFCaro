@@ -344,7 +344,7 @@ service.existTokenInBLJWT = async (token) => {
 // Result: True | False
 service.addTokenToBLJWT = async (token) => {
     if (await service.existTokenInBLJWT(token)) return false
-    
+
     expires = await service.getRemainExpTimeOfJWT(token)
     if (expires == null) return false
 
