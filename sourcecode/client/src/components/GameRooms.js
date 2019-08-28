@@ -23,7 +23,7 @@ class GameRooms extends React.Component {
         <TableTitle text="GAME ROOM" className="gr-spacing-bottom" />
         <Row className="gr-row">
           {listGameRoom.map(ele => {
-            if (ele.isPlaying === 0) {
+            if (ele.isPlaying == 0) {
               return (
                 <RoomInfoRow
                 fullId={ele.fullId}
