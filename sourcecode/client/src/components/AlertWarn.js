@@ -48,9 +48,8 @@ class AlertWarn extends React.Component {
         let className = "alertwarn-heightmodal "
         let numBtn = 1
         if (this.props.numBtn == "2") numBtn = 2
-        let msg = this.props.msg
-        if (msg == null || msg.length === 0) msg = "Are you sure to quit the game? You will lose!"
-        if (msg.length > 34) {
+        let msg = this.props.msg    // "Are you sure to quit the game? You will lose!"
+        if (msg != undefined && msg != null & msg.length > 34) {
             className += "alertwarn-biggerheightmodal"
         }
 

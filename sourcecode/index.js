@@ -460,7 +460,7 @@ io.on('connection', function(socket) {
 
       // List Game Room
       listgameroom = await service.getInfoAllGameRoomNoToken()
-      if (!listgameroom) listGameRoom = [];
+      if (!listgameroom) listgameroom = [];
       socket.emit('server-send-info-listgameroom', listgameroom)
    }, 5000)
 
@@ -586,7 +586,9 @@ io.on('connection', function(socket) {
       currentRoom = await service.getInfoOneGameRoomNoToken(roomid)
 
       hostInfo = await service.getUserInfoByIDNoToken(currentRoom.host_id)
+      if (hostInfo == null) return
       guestInfo = await service.getUserInfoByIDNoToken(currentRoom.guest_id)
+      if (guestInfo == null) return
 
       let statusGame, hostNewPoints, guestNewPoints
 
@@ -693,6 +695,12 @@ io.on('connection', function(socket) {
    // Client request out room when host is in room, no guest.
    // Parameter: roomid
    socket.on('host-out-room-not-started', async function(roomid) {
+      // Give back to host bet_points
+      currentRoom = await service.getInfoOneGameRoomNoToken(roomid)
+      hostInfo = await service.getUserInfoByIDNoToken(currentRoom.host_id)
+      await service.updateUserPointsByIDNoToken(currentRoom.host_id, hostInfo.points + currentRoom.bet_points)
+
+      // Delete room
       service.deleteGRNoToken(roomid)
       socket.emit("server-ask-client-leave-room")
    })
@@ -750,15 +758,22 @@ io.on('connection', function(socket) {
       leaveGR(roomid)
       socket.room = ""
    })
+
    // Disconnection
    socket.on('disconnect', async function() {
       if (socket.room != "") {
          roomid = socket.room
-         // Nếu phòng chỉ có mỗi host
+         // Only host in room
          if (await service.findGuestIDInRoomNoToken(roomid) == false) {
+            // Give back to host bet_points
+            currentRoom = await service.getInfoOneGameRoomNoToken(roomid)
+            hostInfo = await service.getUserInfoByIDNoToken(currentRoom.host_id)
+            await service.updateUserPointsByIDNoToken(currentRoom.host_id, hostInfo.points + currentRoom.bet_points)
+
+            // Delete room
             await service.deleteGRNoToken(roomid)
          }
-         // Phòng có cả 2, đang chơi
+         // Host & guest are in room and playing game
          else {
             data = {"statusCode": 200, "message": "win"}
             socket.to(roomid).emit('room-has-player-out', data)

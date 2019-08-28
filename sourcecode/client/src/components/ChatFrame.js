@@ -5,6 +5,8 @@ import { addMyMessage } from "../actions/chatAction";
 import { connect } from "react-redux";
 import { Button } from "react-bootstrap";
 
+import io from 'socket.io-client';
+
 import "./ChatFrame.css";
 import "../subcomponents/BlackButton.css";
 

@@ -83,8 +83,8 @@ class InputText extends React.Component {
           alt = "icon-room";
           type = "text";
           placeholder = "Room Name";
-          pattern = "^[a-zA-Z0-9]([ ._!]|[a-zA-Z0-9]){1,28}([._?~!<>;:]|[a-zA-Z0-9])$";
-          title = "Room name contains at least 3 characters and must start with letters";
+          pattern = "^[^' '](*){1,28}([^' '])$";
+          title = "At least 3 characters and beginning and end of the name cannot be spacing";
           required = "required";
           break;
       default:
