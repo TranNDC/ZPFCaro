@@ -669,6 +669,7 @@ io.on('connection', function(socket) {
             socket.to(infogame.roomid).emit("server-send-data-game", turn, data)
             break;
          case "win":
+            console.log("BBBB")
             //false: noone exits when the game does not end up
             await processWinloseGame(infogame.roomid, infogame.isHost, false)
             data = {"statusCode": 200, "message": "lose"}
