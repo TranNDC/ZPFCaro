@@ -6,9 +6,6 @@ import './LeaderBoard.css';
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 class LeaderBoard extends React.Component {
-    constructor(props) {
-        super(props);  
-    }
 
     render() {
         let className = this.props.className + " lb-spacing";

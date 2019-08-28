@@ -2,21 +2,11 @@ import React from 'react';
 import './GameBoard.css';
 import {connect} from "react-redux";
 import GameRow from './GameRow'
-import BetPoints from '../subcomponents/BetPoints';
 
 class GameBoard extends React.Component {
-    constructor(props){
-        super(props)
-    }
-
-    // componentWillMount(){
-    //     this.props.initBoard();
-    // }
 
     render(){
-// console.log(this.props.gameBoard)
         let classes = 'gb-game-board '+ this.props.className + ' ' + this.props.pattern;
-
         let rows = [];
 
         for (let i = 0; i < this.props.height; i++) {
@@ -40,18 +30,6 @@ function mapStateToProps(state) {
     }   
   }
   
-//   function mapDispatchToProps(dispatch) {
-//     return {
-//         // placePattern(x,y,pattern) {
-//         //     dispatch(placePattern(x,y,pattern))
-//         // },
-//         initBoard(){
-//             dispatch(initBoard())
-//         }
-//     }
-//   }
-  
-
 export default connect(
     mapStateToProps,
     null

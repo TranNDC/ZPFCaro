@@ -6,7 +6,6 @@ import {
 } from "../actions/roomAction";
 
 import { initState, convertResponseToState } from "../utils/roomUtil";
-import { calculateWinningRate } from "../utils/gameUtil";
 
 const initialState = initState();
 

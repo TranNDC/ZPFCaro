@@ -1,5 +1,3 @@
-import io from "socket.io-client";
-
 import { store } from "../index";
 import { calculateResult, createNewRandomMove } from "../utils/gameUtil";
 import { logout } from "./userAction";
@@ -53,14 +51,14 @@ export function listenOpponentTurn() {
   return function(dispatch) {
     let socket = store.getState().ioReducer.socket;
     socket.on("server-send-data-game", function(turn, data) {
-      if (data.statusCode == 200) {
+      if (data.statusCode === 200) {
         if (turn)
           dispatch(
             placePattern(
               turn.x,
               turn.y,
               data.mesage,
-              gameState.gamePattern == "x" ? "o" : "x",
+              gameState.gamePattern === "x" ? "o" : "x",
               true
             )
           );
@@ -129,8 +127,6 @@ export function waittingGame(history) {
 }
 
 export function joinGame(currentGame) {
-  //update opponent, pattern  o
-  console.log(currentGame)
   return {
     type: JOIN_GAME,
     game: currentGame,

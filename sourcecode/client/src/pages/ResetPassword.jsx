@@ -45,7 +45,6 @@ class ResetPassword extends React.Component {
                   : "Enter new password"}
               </label>
           </div>
-          {/* <div className={messageClassName}>{this.state.message}</div> */}
           <div className="login-marginbot">
             <InputText
               onChangeValue={this.handleChangePassword}

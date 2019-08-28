@@ -18,10 +18,6 @@ import { withRouter } from "react-router-dom";
 import AlertWarn from '../components/AlertWarn'
 
 class Homepage extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     async componentWillMount(){
         await this.props.loadUserInfo(this.props.history);
         await this.props.initIo();

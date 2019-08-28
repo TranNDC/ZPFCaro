@@ -88,47 +88,7 @@ export function joinGameRoom(userId, displayedName, roomId, betPoints, password,
   };
 }
 
-// export function loadGameRooms(history) {
-//   return function(dispatch) {
-//     return callGetGameRoomsApi()
-//       .then(result => {
-//         dispatch(loadGameRoom(result.data.listGameRoom));
-//       }).catch((err) => {
-//         clearStorage();
-//         history.push('/login')
-//       })
-
-//   };
-// }
-
-// function loadGameRoomAction(data){
-//   let userId = store.getState().userReducer.id;
-//   return{
-//     type: LOAD_GAMEROOMS,
-//     rooms: data,
-//     userId: userId
-//   }
-// }
-
-
-// function callGetGameRoomsApi() {
-//   var promise = new Promise(function(resolve, reject) {
-//     api
-//       .get(`/gameroom/all`)
-//       .then(res => {
-//         resolve(res);
-//       })
-//       .catch(res => {
-//         reject(res);
-//       });
-//   });
-//   return promise;
-// }
-
-
 function loadGameRoomAction(data){
-  console.log("(------------------------)")
-  console.log(data)
   let userId = store.getState().userReducer.id;
   return{
     type: LOAD_GAMEROOMS,

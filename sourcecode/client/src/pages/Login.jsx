@@ -62,7 +62,6 @@ class Login extends React.Component {
   clearInputState() {
     this.setState({
       password: "",
-      // displayedName: ""
     });
   }
 

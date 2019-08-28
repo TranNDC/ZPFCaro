@@ -56,6 +56,8 @@ class EndGameBox extends React.Component {
                 isContinue = false;
                 // subTitleEndGame= 'Do you want to play new game?'
                 break;
+            default:
+              break;
         }
 
         return (

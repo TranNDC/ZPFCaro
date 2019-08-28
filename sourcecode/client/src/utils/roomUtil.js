@@ -1,4 +1,3 @@
-import {store} from "../index";
 
 export function initState() {
     let initStateValue = {

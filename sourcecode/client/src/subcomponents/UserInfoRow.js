@@ -3,10 +3,6 @@ import './UserInfoRow.css';
 
 class UserInfoRow extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         let text, value, textwins, textdraws, textloses, valuewins, valuedraws, valueloses, className;
         className = this.props.className + " uir-labeldiv";
@@ -43,7 +39,7 @@ class UserInfoRow extends React.Component {
             default: break;
         }
 
-        if (this.props.type != "windrawlose") {
+        if (this.props.type !== "windrawlose") {
             return (
                 <div className={className}>
                     <label className="uir-label"><b>{text}</b> {value}</label>

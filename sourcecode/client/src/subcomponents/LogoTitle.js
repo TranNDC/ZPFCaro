@@ -3,10 +3,6 @@ import './LogoTitle.css';
 
 class LogoTitle extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <div className="lt-logotitle">

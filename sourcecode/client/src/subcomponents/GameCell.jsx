@@ -4,9 +4,6 @@ import "./GameCell.css";
 import React from "react";
 
 class GameCell extends React.Component {
-    constructor(props){
-        super(props)
-    }
 
     componentWillUpdate(nextProps, nextState){
         if (nextProps.pattern != '')

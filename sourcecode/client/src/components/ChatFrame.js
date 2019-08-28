@@ -1,5 +1,4 @@
 import Message from "../subcomponents/Message";
-import BlackButton from "../subcomponents/BlackButton";
 import React from "react";
 import { FormGroup, FormControl } from "react-bootstrap";
 import { addMyMessage } from "../actions/chatAction";
@@ -11,19 +10,6 @@ import io from 'socket.io-client';
 import "./ChatFrame.css";
 import "../subcomponents/BlackButton.css";
 
-// class ChatInput extends React.Component {
-//   render() {
-//     return (
-//       <FormGroup controlId="formBasicEmail">
-//         <FormControl
-//           className="m-0"
-//           type="text"
-//           placeholder="Type a message..."
-//         />
-//       </FormGroup>
-//     );
-//   }
-// }
 
 class ChatFrame extends React.Component {
   constructor(props) {
@@ -61,25 +47,14 @@ class ChatFrame extends React.Component {
     var code = event.keyCode || event.which;
     if (code === 13) {
       this.handleClick();
-      //Do stuff in here
     }
   }
-
-  //socket on recieve message
-  // {   
-  //   this.props.addMessage(
-  //     message.message,
-  //     message.avatar,
-  //     message.displayedName,
-  //     "recieve"
-  //   );
-  // }
 
   render() {
     return (
       <div className="cfr-chat-frame">
         <div className="cfr-display-frame">
-          <div className="cfr-title">{this.props.opponent.displayedName}</div>
+          <div className="cfr-title">{this.props.opponent?this.props.opponent.displayedName:'Waiting...'}</div>
           <div className="cfr-message-frame">
             {this.props.messages.map(message => {
               return (
