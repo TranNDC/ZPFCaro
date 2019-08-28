@@ -44,7 +44,7 @@ function directionResult(gameBoard, x, y, dx, dy, pattern) {
     if (gameBoard[y1] == undefined || gameBoard[y1][x1] == undefined) {
       blockR = true;
       break;
-    } else if (gameBoard[y1][x1].pattern == pattern) {
+    } else if (gameBoard[y1][x1].pattern === pattern) {
       countR += 1;
     } else if (gameBoard[y1][x1].pattern != "") {
       blockR = true;
@@ -58,7 +58,7 @@ function directionResult(gameBoard, x, y, dx, dy, pattern) {
     if (gameBoard[y1] == undefined || gameBoard[y1][x1] == undefined) {
       blockL = true;
       break;
-    } else if (gameBoard[y1][x1].pattern == pattern) {
+    } else if (gameBoard[y1][x1].pattern === pattern) {
       countL += 1;
     } else if (gameBoard[y1][x1].pattern != "") {
       blockL = true;
@@ -67,7 +67,7 @@ function directionResult(gameBoard, x, y, dx, dy, pattern) {
   }
 
 
-  if (countL + countR + 1 == 5 && (!blockL || !blockR)) {
+  if (countL + countR + 1 === 5 && (!blockL || !blockR)) {
     return true;
   }
 
@@ -111,5 +111,5 @@ export function createNewRandomMove(width, height, gameBoard) {
 }
 
 export function calculateResult(gameBoard, x, y, pattern, emptyCellNum) {
-  return emptyCellNum - 1 == 0 ? "draw" : calculateRes(gameBoard, x, y, pattern);
+  return emptyCellNum - 1 === 0 ? "draw" : calculateRes(gameBoard, x, y, pattern);
 }

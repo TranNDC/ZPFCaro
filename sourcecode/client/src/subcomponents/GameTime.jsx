@@ -2,30 +2,6 @@ import "./GameTime.css";
 import React from "react";
 import { connect } from "react-redux";
 class GameTime extends React.Component {
-  constructor(props) {
-    super(props);
-    // this.startTimer = this.startTimer.bind(this);
-    // this.tick = this.tick.bind(this);
-  }
-
-  componentDidMount() {
-    // this.startTimer();
-  }
-
-  // async tick() {
-  //   this.props.countDownTick();
-  //   if (this.props.value <= 0) {
-  //     this.props.createRandomMove();
-  //     await this.props.countDownClear();
-  //     this.startTimer();
-  //   }
-  // }
-
-  // startTimer() {
-  //   let intervalId = setInterval(this.tick, 1000); 
-  //   this.props.countDownStart(intervalId);
-  // }
-
   render() {
     let classes = "gt-game-time " + this.props.className;
     return <div className={classes}>{this.props.value}</div>;

@@ -51,17 +51,24 @@
     color: rgba(249, 141, 15, 0.5)
 }
 
-/* .gameava-game-avatar-container.not-available .gameava-pattern{
+.gameava-game-avatar-container.not-available .gameava-pattern{
     position: absolute;
     bottom: -37px;
     right: 0px;
     font-family: 'Allerta Stencil', sans-serif;
-    color: rgba(110, 110, 110, 0.5);
     font-size: 128px;
     vertical-align: bottom;
+    color: #81818133
+
 }
 
 .gameava-game-avatar-container.not-available{
-    background: rgba(110, 110, 110, 1);
+    background: rgba(56, 56, 56, 0);
 
-} */
+}
+
+.not-available .gameava-overlay{
+    border: 8px solid #55555536;
+    background: #72727221;
+
+}

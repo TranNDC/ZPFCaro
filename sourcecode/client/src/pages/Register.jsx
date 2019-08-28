@@ -86,7 +86,6 @@ class Register extends React.Component {
       password: "",
       confirmedPassword: "",
       email: "",
-      // displayedName: ""
     });
   }
 
@@ -96,13 +95,11 @@ class Register extends React.Component {
     let user = {
       username: coppyState.username,
       password: coppyState.password,
-      // confirmedPassword: coppyState.username,
       email: coppyState.email,
       displayedName: coppyState.displayedName
     };
     let errorMessage = await this.props.register(user, this.props.history);
     this.setState({error:errorMessage})
-    // console.log(errorMessage);;
     this.clearInputState();
   }
 
@@ -130,8 +127,6 @@ class Register extends React.Component {
 
 function mapStateToProps(state, index) {
   return {
-    //   messages: state.chatReducer.messages,
-    //   user: state.userReducer
   };
 }
 

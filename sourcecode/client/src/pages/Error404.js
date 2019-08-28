@@ -5,9 +5,6 @@ import { Container, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 class Error404 extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         let className = this.props.className + " error404-container animated zoomIn";

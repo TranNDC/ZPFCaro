@@ -4,10 +4,6 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 class UserAvatar extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <img className="ua-avatar" src={this.props.avatar} alt="profile avatar"/>

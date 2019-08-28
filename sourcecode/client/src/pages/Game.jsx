@@ -7,7 +7,6 @@ import { withRouter } from "react-router-dom";
 import AlertWarn from '../components/AlertWarn'
 import "./Game.css";
 import { connect } from "react-redux";
-import { Prompt } from 'react-router'
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { initUser } from "../actions/userAction";
@@ -26,12 +25,8 @@ import { initMessages,listenOpponentChat } from "../actions/chatAction";
 class Game extends React.Component {
   constructor(props) {
     super(props);
-    // this.state = {
-    //   counter: { time: 5, go: "GO", hidden: "hidden" },
-    //   game: { result: "", stateEGB: false }
-    // };
     this.state = {
-      counterTime: 6, counterGo: "GO", counterHidden: "hidden",
+      counterTime: 6, counterGo: (!this.props.opponent||this.props.opponent.isHost==false)?"FIRST":"GO", counterHidden: "hidden",
       game: { result: "", stateEGB: false }
     };
     this.startCountDown = this.startCountDown.bind(this);
@@ -49,8 +44,6 @@ class Game extends React.Component {
   componentWillMount() {
     this.props.initUser();
     this.props.initMessages();
-    // this.startCountDown();
-    // this.openEndModal('win')
   }
 
   componentDidMount() {
@@ -137,7 +130,6 @@ class Game extends React.Component {
 
     return (
       <Container fluid={true} className={className}>
-      {/* <Prompt when={!this.canReload} message="Are you sure you want to leave? You will lose this match!"/> */}
         <CountDownBox
           time={this.state.counterTime}
           go={this.state.counterGo}

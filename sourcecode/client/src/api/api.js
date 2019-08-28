@@ -18,13 +18,4 @@ export const api = {
     jwt = (jwt == null)?'':jwt;
     return instance.post(`${url}`, req, {headers: {authorization: jwt}});
   },
-//   put: (url, req) => {
-//     return instance.put(`${url}`, req);
-//   },
-//   patch: (url, req) => {
-//     return instance.patch(`${url}`, req);
-//   },
-//   delete: (url) => {
-//     return instance.delete(`${url}`);
-//   }
 }

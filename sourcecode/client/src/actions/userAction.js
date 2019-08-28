@@ -1,6 +1,4 @@
 import { api } from "../api/api";
-import {store} from "../index";
-import  { Redirect } from 'react-router-dom'
 import {setJwtToStorage,clearStorage} from "../utils/storageUtil";
 
 

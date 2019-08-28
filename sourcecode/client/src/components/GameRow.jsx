@@ -17,12 +17,6 @@ class GameRow extends React.Component {
   }
 
   render() {
-    let classes =
-      "gc-game-cell d-flex justify-content-center align-content-center " +
-      this.props.className +
-      " " +
-      this.props.pattern;
-
     let cells = [];
 
     for (let i = 0; i < this.props.size; i++) {
