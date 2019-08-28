@@ -453,17 +453,14 @@ io.on('connection', function(socket) {
    
    // Set interval for broadcast info Leaderboard & ListGameRoom
    setInterval(async function() {
-      console.log("10s")
       // Leaderboard
       leaderboard = await service.getTop6LBNoToken()
       if (!leaderboard) leaderboard = [];
-      console.log(leaderboard)
       socket.emit('server-send-info-leaderboard', leaderboard)
 
       // List Game Room
       listgameroom = await service.getInfoAllGameRoomNoToken()
       if (!listgameroom) listGameRoom = [];
-      console.log(listgameroom)
       socket.emit('server-send-info-listgameroom', listgameroom)
    }, 10000)
 
@@ -589,7 +586,9 @@ io.on('connection', function(socket) {
       currentRoom = await service.getInfoOneGameRoomNoToken(roomid)
 
       hostInfo = await service.getUserInfoByIDNoToken(currentRoom.host_id)
+      if (hostInfo == null) return
       guestInfo = await service.getUserInfoByIDNoToken(currentRoom.guest_id)
+      if (guestInfo == null) return
 
       let statusGame, hostNewPoints, guestNewPoints
 

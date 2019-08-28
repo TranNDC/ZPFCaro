@@ -5,7 +5,6 @@ import { FormGroup, FormControl } from "react-bootstrap";
 import { addMyMessage } from "../actions/chatAction";
 import { connect } from "react-redux";
 import { Button } from "react-bootstrap";
-import io from 'socket.io-client';
 
 import io from 'socket.io-client';
 
