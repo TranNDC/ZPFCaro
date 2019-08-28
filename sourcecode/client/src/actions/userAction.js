@@ -63,6 +63,7 @@ export function login(user,history) {
 }
 
 export function loadUserInfo(history) {
+  console.log('LOAD USER')
   return function(dispatch) {
     return callGetUserInfoApi()
       .then(result => {

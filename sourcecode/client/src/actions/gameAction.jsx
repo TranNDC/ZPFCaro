@@ -1,6 +1,6 @@
 import { store } from "../index";
 import { calculateResult, createNewRandomMove } from "../utils/gameUtil";
-import { logout } from "./userAction";
+import { logout,loadUserInfo } from "./userAction";
 import { initMessages } from "./chatAction";
 
 export const PLACE_PATTERN = "game.PLACE_PATTERN";
@@ -142,6 +142,7 @@ export function endGame(result) {
 }
 
 export function leaveGame(history, quitType) {
+  console.log('LEAVE GAME')
   return function(dispatch) {
     let gameState = store.getState().gameReducer;
     let socket = store.getState().ioReducer.socket;
@@ -152,15 +153,20 @@ export function leaveGame(history, quitType) {
       dispatch(logout(history));
     } else if (quitType == HOST_OUT_ROOM_NOT_START) {
       socket.emit("host-out-room-not-started", gameState.roomId);
+      // dispatch(loadUserInfo(history));
       dispatch({ type: LEAVE_GAME });
       history.push("/");
     } else if (quitType == HOST_LOGOUT_ROOM_NOT_START) {
       socket.emit("host-out-room-not-started", gameState.roomId);
       dispatch({ type: LEAVE_GAME });
       dispatch(logout(history));
-    } else {
+    } else  if (quitType == OUT_ROOM_BY_EXIT) {
       let isHostWin = gameState.opponent.isHost;
       socket.emit("client-request-out-room", gameState.roomId, isHostWin);
+    dispatch({ type: LEAVE_GAME });
+      history.push("/");
+    }
+    else{
       dispatch({ type: LEAVE_GAME });
       history.push("/");
     }

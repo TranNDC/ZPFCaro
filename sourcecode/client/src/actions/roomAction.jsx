@@ -1,10 +1,7 @@
-import { api } from "../api/api";
 import {store} from "../index";
-import  { Redirect } from 'react-router-dom'
 import {joinGameGuestReq, creaRoomReq, joinGameInfoRoomReq} from "../utils/roomUtil";
 import {getJwtFromStorage,clearStorage} from '../utils/storageUtil'
 import {loadGame,joinGame} from './gameAction'
-import io from "socket.io-client"
 export const INIT_GAMEROOM = "room.INIT_GAMEROOM";
 export const LOAD_GAMEROOMS = "room.LOAD_GAMEROOMS";
 export const CREATE_GAMEROOM = "room.CREATE_GAMEROOM";
