@@ -57,7 +57,7 @@ class Homepage extends React.Component {
                         loses={this.props.user.loseCount} />
                         <LeaderBoard className="hp-margintop"/>
                         <CreateRoom/>
-                        <Button className="hp-rectbtn rect-btn">play with npc</Button>
+                        <Button className="hp-rectbtn rect-btn disable" disabled>play with npc</Button>
                     </Col>
                 </Row>
             </Container>

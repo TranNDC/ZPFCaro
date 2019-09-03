@@ -40,7 +40,7 @@ class Header extends React.Component {
             <Profile />
             <GameRule />
             <Aboutus />
-            <Settings />
+            {/* <Settings /> */}
             <Button
               onClick={this.logOut}
               className="h-icon circleButton fa fa-sign-out"

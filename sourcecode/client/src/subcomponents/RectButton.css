@@ -2,7 +2,7 @@
     width: 350px;
     height: 60px;
     color: white;
-    background-color: #F98D0F;
+    background-color: #F98D0F !important;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     border: none;
     font-size: 24px;
@@ -37,6 +37,18 @@
 .rect-btn.background-gray:focus {
     background-color: rgb(204, 204, 204) !important;
     outline-color: rgba(229, 229, 229, 0.747) !important;
+}
+
+.rect-btn.disable{
+    cursor: not-allowed;
+    background-color: #F98D0F !important;
+    opacity: 1;
+    outline: #F98D0F;
+}
+
+.rect-btn.disable:hover{
+    cursor: not-allowed;
+    opacity: 1;
 }
 
 .btn-for-modal {
