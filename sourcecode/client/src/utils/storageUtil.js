@@ -1,14 +1,14 @@
 export function setJwtToStorage(jwt) {
-  sessionStorage.setItem("jwt", jwt);
+  localStorage.setItem("jwt", jwt);
 }
 
 export function getJwtFromStorage() {
-  var data = sessionStorage.getItem("jwt");
+  var data = localStorage.getItem("jwt");
   return data;
 }
 
 export function clearStorage() {
-  sessionStorage.clear();
+  localStorage.clear();
 }
 
 export function isAuthenticated() {
