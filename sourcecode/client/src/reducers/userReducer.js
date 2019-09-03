@@ -30,12 +30,12 @@ const userReducer = (state = initialState, action) => {
         avatar: process.env.PUBLIC_URL + user.avatar
       };
     case UPDATE_EMAIL:
+      console.log("update email")
       return {
         ...state,
         email: action.value
       };
     case UPDATE_DISPLAYEDNAME:
-      console.log('UPDATE');
       return {
         ...state,
         displayedName: action.value

@@ -63,7 +63,6 @@ export function login(user,history) {
 }
 
 export function loadUserInfo(history) {
-  console.log('LOAD USER')
   return function(dispatch) {
     return callGetUserInfoApi()
       .then(result => {
@@ -100,7 +99,7 @@ export function updateEmail(value){
   return function(dispatch) {
     return callEmailUpdateApi(value)
       .then(result => {
-        dispatch({type:'UPDATE_EMAIL',value:value})
+        dispatch({type:UPDATE_EMAIL,value:value})
         return {message:result.data.message,type:"success"}
       },(err) => {
         return {message:"Email is already in use",type:"error"}

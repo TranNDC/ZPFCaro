@@ -200,8 +200,7 @@ class Profile extends React.Component {
         this.setState({ toggleDisplayedName: !this.state.toggleDisplayedName });
       }
     }
-
-    if (this.state.email && this.state.email !== this.props.email) {
+    if (this.state.email && this.state.email !== this.props.user.email) {
       let message = await this.props.updateEmail(this.state.email);
       this.setState({ emailMessage: message.message });
       this.setState({ emailMessageType: message.type });
