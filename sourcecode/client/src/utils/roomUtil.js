@@ -41,7 +41,7 @@ export function convertResponseToState(rooms,userId){
   let res = [];
   if (rooms && rooms.length > 0)
   rooms.forEach(room => {
-    if (room['is_waiting'] == 0 && room['host_id']!=userId){
+    if (room && room['is_waiting'] == 0 && room['host_id']!=userId){
       let id = room.uuid.split('-');
       res[room.uuid] =  {
         id: 'R-'+id[3],

@@ -462,7 +462,7 @@ io.on('connection', function(socket) {
       listgameroom = await service.getInfoAllGameRoomNoToken()
       if (!listgameroom) listgameroom = [];
       socket.emit('server-send-info-listgameroom', listgameroom)
-   }, 5000)
+   }, 10000)
 
    // Chat in gameroom
    socket.on('client-request-chat-in-room', function(roomid, message) {

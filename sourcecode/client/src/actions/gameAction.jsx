@@ -142,7 +142,6 @@ export function endGame(result) {
 }
 
 export function leaveGame(history, quitType) {
-  console.log('LEAVE GAME')
   return function(dispatch) {
     let gameState = store.getState().gameReducer;
     let socket = store.getState().ioReducer.socket;
@@ -220,12 +219,15 @@ export function countDownClear() {
 }
 
 export function listenOnServerAskLeave() {
-  return function() {
+  return function () {
     let socket = store.getState().ioReducer.socket;
-    socket.on("server-ask-client-leave-room", function() {
-      let gameState = store.getState().gameReducer;
-      socket.emit("client-request-leave-room", gameState.roomId);
-    });
+    if (socket){
+      socket.on("server-ask-client-leave-room", function () {
+        let gameState = store.getState().gameReducer;
+        socket.emit("client-request-leave-room", gameState.roomId);
+      });
+    }
+
   };
 }
 

@@ -38,7 +38,6 @@ class Game extends React.Component {
     else{
       this.startGame();
     }
-
   }
 
   componentWillMount() {
@@ -47,6 +46,7 @@ class Game extends React.Component {
   }
 
   componentDidMount() {
+    this.props.listenOnServerAskLeave();
     window.addEventListener('beforeunload', this.handleLeavePage);
   }
 
@@ -93,7 +93,6 @@ class Game extends React.Component {
     this.startCountDown();
     this.props.listenOpponentTurn();
     this.props.listenOpponentChat();
-    this.props.listenOnServerAskLeave();
     this.props.listenOnOpponentLeaveGame();
   }
 

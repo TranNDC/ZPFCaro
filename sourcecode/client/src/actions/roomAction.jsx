@@ -86,12 +86,15 @@ export function joinGameRoom(userId, displayedName, roomId, betPoints, password,
 }
 
 function loadGameRoomAction(data){
-  let userId = store.getState().userReducer.id;
-  return{
-    type: LOAD_GAMEROOMS,
-    rooms: data,
-    userId: userId
+  if (store.getState().gameReducer.roomId == ""){
+    let userId = store.getState().userReducer.id;
+    return{
+      type: LOAD_GAMEROOMS,
+      rooms: data,
+      userId: userId
+    }
   }
+  else return{type: LOAD_GAMEROOMS}
 }
 
 export function loadGameRooms() {
